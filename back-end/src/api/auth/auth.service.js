@@ -6,7 +6,7 @@ import config from "../../configs/config.js";
 async function login(email, password) {
     const user = await usersRepository.findOneByEmail(email);
 
-    if (!user) throw new HttpError({ message: `invalid email or password` }, 404);
+    if (!user) throw new HttpError({ message: `invalid email or password` }, 401);
 
     // include this line in production, also remove docker volume from app-server.
     // const isVerified = await utils.verifyPassword(password, user.password);
