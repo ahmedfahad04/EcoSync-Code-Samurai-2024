@@ -1,10 +1,28 @@
 "use strict";
 
-import { Sequelize } from "sequelize";
+import { Sequelize, Op, DataTypes } from "sequelize";
 import { config } from "./config.js";
 
 const sequelize = new Sequelize(config.mysql.database_url, {
     logging: false,
+});
+
+import User from "../models/User.js";
+import Role from "../models/Role.js";
+import UserRole from "../models/UserRole.js";
+
+const options = { sequelize, DataTypes, Sequelize, Op };
+
+const models = {
+    User: User(options),
+    Role: Role(options),
+    UserRole: UserRole(options),
+};
+
+Object.entries(models).forEach(([name, model]) => {
+    if (model.associate) {
+        model.associate(models);
+    }
 });
 
 export function initializeMySqlConnection() {
@@ -38,4 +56,4 @@ async function dropAllTable() {
 // dropAllTable();
 // initializeMySqlConnection();
 
-export { sequelize };
+export { Op, Sequelize, sequelize, models };

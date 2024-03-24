@@ -16,6 +16,10 @@ export default (options) => {
                 isIn: [["admin", "user"]],
             },
         },
+        description: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        }
     });
 
     Role.associate = (models) => {
