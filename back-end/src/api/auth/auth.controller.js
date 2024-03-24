@@ -4,7 +4,7 @@ import authService from "./auth.service.js";
 async function login(req, res) {
     const loginDto = req.body;
 
-    const { accessToken } = await authService.login(loginDto.email, loginDto.password);
+    const { accessToken, user } = await authService.login(loginDto.email, loginDto.password);
 
     res.cookie(config.cookie.accessToken, accessToken, {
         httpOnly: true,
@@ -12,17 +12,15 @@ async function login(req, res) {
         signed: true,
     });
 
-    // set refresh token for long time??
-
     res.json({
         message: "logged in successfully",
         token: accessToken,
+        user,
     });
 }
 
 async function logout(req, res) {
     res.clearCookie(config.cookie.accessToken);
-    res.clearCookie(config.cookie.refreshToken);
     res.json({ message: "logged out successfully" });
 }
 
