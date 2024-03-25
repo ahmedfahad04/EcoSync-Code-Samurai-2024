@@ -1,5 +1,5 @@
 import ActionButton from "@/components/ActionButton";
-import { TooltipPosition } from "@/constants/Global";
+import { ROLETYPE, TooltipPosition } from "@/constants/Global";
 import { IActionButtonDropdownOption, ICheckboxData } from "@/models/Common";
 import Checkbox from "@/ui/Checkbox";
 import { formattedDate } from "@/utils/formatDate";
@@ -38,11 +38,11 @@ const TableRow: React.FC<TableRowProps> = ({
 }: TableRowProps) => {
   const getRoleColor = (role: string | undefined): string => {
     switch (role) {
-      case "Admin":
+      case ROLETYPE.ROLE1:
         return "bg-red-100 text-red-800";
-      case "STS Manager":
+      case ROLETYPE.ROLE2:
         return "bg-green-100 text-green-800";
-      case "Landfil Manager":
+      case ROLETYPE.ROLE3:
         return "bg-purple-100 text-purple-800";
       default:
         return "bg-yellow-100 text-yellow-800"; // Default color
@@ -71,7 +71,11 @@ const TableRow: React.FC<TableRowProps> = ({
       </td>
       <td className={`pr-2 break-words text-left ${customTableDataClass}`}>
         <div className="flex">
-          <span className={`rounded-full px-3 py-1 ${getRoleColor(role)}`}>
+          <span
+            className={`rounded-full px-3 py-1 font-light ${getRoleColor(
+              role
+            )}`}
+          >
             {role}
           </span>
         </div>
@@ -85,7 +89,6 @@ const TableRow: React.FC<TableRowProps> = ({
       <td className={`pr-2 ${customTableDataClass}`}>
         <div className="flex ">{formattedDate(createDate.toString())}</div>
       </td>
-
       <td className={customTableDataClass}>
         <div className="flex items-center justify-center">
           <ActionButton id={id} options={options} />

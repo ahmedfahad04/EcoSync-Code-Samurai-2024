@@ -43,11 +43,11 @@ const ActionButton: React.FC<ActionButtonProps> = ({
       </button>
 
       {isDropdownOpen && (
-        <div className="absolute right-1/3 top-0 z-10 w-32 overflow-hidden rounded-md bg-white shadow-action-menu">
+        <div className="absolute right-2/3 top-0 z-10 w-32 overflow-hidden rounded-md bg-slate-200 shadow-action-menu">
           {options.map((option, index) => (
             <div
               key={index}
-              className="flex cursor-pointer items-center gap-4 p-3 text-royal-indigo transition-all hover:bg-royal-indigo/10"
+              className="flex cursor-pointer items-center gap-4 p-3 text-royal-indigo transition-all hover:bg-slate-300"
               onClick={() => option.onClickOption(id)}
             >
               <span>{option.icon}</span>

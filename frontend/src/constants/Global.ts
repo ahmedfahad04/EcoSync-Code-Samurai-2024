@@ -26,3 +26,9 @@ export enum TooltipPosition {
   RIGHT = 'right',
   LEFT = 'left',
 }
+
+export enum ROLETYPE {
+  ROLE1 = 'Admin',
+  ROLE2 = 'STS Manager',
+  ROLE3 = 'Landfil Manager'
+}
