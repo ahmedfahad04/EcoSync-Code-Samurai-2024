@@ -1,20 +1,20 @@
 import { models } from "../../configs/mysql.js";
 
-async function create(user) {
-    const role = await models.Role.findOne({
-        where: { role_name: user.roles[0] },
-        raw: true,
-    });
-
-    let createdUser = await models.User.create(user);
-    createdUser = createdUser.dataValues;
-    await models.UserRole.create({ user_id: createdUser.user_id, role_id: role.role_id });
-
-    createdUser.roles = user.roles;
-    return createdUser;
+async function createOneUser(user) {
+    const createdUser = await models.User.create(user);
+    return createdUser.toJSON();
 }
 
-async function findOneById(user_id) {
+async function updateOneUser(user_id, updatedUser) {
+    await models.User.update(updatedUser, { where: { user_id } });
+}
+
+async function findOneUserById(user_id) {
+    const user = await models.User.findByPk(user_id);
+    return user ? user.toJSON() : null;
+}
+
+async function findOneUserByIdWithRoles(user_id) {
     const user = await models.User.findByPk(user_id, {
         include: {
             model: models.Role,
@@ -24,16 +24,17 @@ async function findOneById(user_id) {
             },
         },
     });
-
-    if (!user) return null;
-
-    const rawUser = user.dataValues;
-    rawUser.roles = user.roles.map((role) => role.role_name);
-
-    return rawUser;
+    return user ? user.toJSON() : null;
 }
 
-async function findOneByEmail(email) {
+async function findOneUserByEmail(email) {
+    const user = await models.User.findOne({
+        where: { email: email },
+    });
+    return user ? user.toJSON() : null;
+}
+
+async function findOneUserByEmailWithRoles(email) {
     const user = await models.User.findOne({
         where: { email: email },
         include: {
@@ -44,16 +45,10 @@ async function findOneByEmail(email) {
             },
         },
     });
-
-    if (!user) return null;
-
-    const rawUser = user.dataValues;
-    rawUser.roles = user.roles.map((role) => role.role_name);
-
-    return rawUser;
+    return user ? user.toJSON() : null;
 }
 
-async function isExistByEmail(email) {
+async function isUserExistByEmail(email) {
     const user = await models.User.findOne({
         where: { email: email },
         raw: true,
@@ -61,4 +56,12 @@ async function isExistByEmail(email) {
     return user ? true : false;
 }
 
-export default { create, findOneById, findOneByEmail, isExistByEmail };
+export default {
+    createOneUser,
+    updateOneUser,
+    findOneUserById,
+    findOneUserByIdWithRoles,
+    findOneUserByEmail,
+    findOneUserByEmailWithRoles,
+    isUserExistByEmail,
+};

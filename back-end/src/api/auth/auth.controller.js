@@ -1,5 +1,13 @@
-import config from "../../configs/config.js";
+import { config } from "../../configs/config.js";
 import authService from "./auth.service.js";
+
+async function signup(req, res) {
+    const signUpDto = req.body;
+
+    const user = await authService.signup(signUpDto);
+
+    res.status(201).json(user);
+}
 
 async function login(req, res) {
     const loginDto = req.body;
@@ -12,11 +20,7 @@ async function login(req, res) {
         signed: true,
     });
 
-    res.json({
-        message: "logged in successfully",
-        token: accessToken,
-        user,
-    });
+    res.json({ accessToken, user });
 }
 
 async function logout(req, res) {
@@ -24,12 +28,17 @@ async function logout(req, res) {
     res.json({ message: "logged out successfully" });
 }
 
-async function signup(req, res) {
-    const signUpDto = req.body;
+async function initiateResetPassword(req, res) {
+    const { email } = req.body;
 
-    const { user } = await authService.signup(signUpDto);
-
-    res.status(201).json(user);
+    await authService.initiateResetPassword(email);
+    res.json({ message: "An OTP is send to your email. Check mailbox." });
 }
 
-export default { login, logout, signup };
+async function confirmResetPassword(req, res) {
+    const dto = req.body;
+    await authService.confirmResetPassword(dto.email, dto.otp, dto.password);
+    res.json({ message: "Password changed successfully" });
+}
+
+export default { login, logout, signup, initiateResetPassword, confirmResetPassword };
