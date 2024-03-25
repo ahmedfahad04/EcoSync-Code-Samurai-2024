@@ -16,10 +16,14 @@ export default (options) => {
                 key: "vehicle_id",
             },
         },
+        waste_volume: {
+            type: DataTypes.FLOAT,
+            allowNull: false,
+        },
         createdAt: {
             type: DataTypes.DATE,
             allowNull: false,
-            defaultValue: DataTypes.NOW
+            defaultValue: DataTypes.NOW,
         },
     });
 

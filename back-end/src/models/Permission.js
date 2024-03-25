@@ -26,7 +26,7 @@ export default (options) => {
 
     Permission.associate = (models) => {};
 
-    return Role;
+    return Permission;
 };
 
 export const permissions = [

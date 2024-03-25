@@ -11,6 +11,16 @@ const sequelize = new Sequelize(config.mysql.database_url, {
 import User from "../models/User.js";
 import Role from "../models/Role.js";
 import UserRole from "../models/UserRole.js";
+import Permission from "../models/Permission.js";
+import RolePermission from "../models/RolePermission.js";
+
+import STS from "../models/STS.js";
+import Landfill from "../models/Landfill.js";
+import Vehicle from "../models/Vehicle.js";
+import STSDepartureEntry from "../models/STSDepartureEntry.js";
+import TruckDumpingEntry from "../models/TruckDumpingEntry.js";
+
+import Bill from "../models/Bill.js";
 
 const options = { sequelize, DataTypes, Sequelize, Op };
 
@@ -18,6 +28,16 @@ const models = {
     User: User(options),
     Role: Role(options),
     UserRole: UserRole(options),
+    Permission: Permission(options),
+    RolePermission: RolePermission(options),
+
+    STS: STS(options),
+    Landfill: Landfill(options),
+    Vehicle: Vehicle(options),
+    STSDepartureEntry: STSDepartureEntry(options),
+    TruckDumpingEntry: TruckDumpingEntry(options),
+
+    Bill: Bill(options),
 };
 
 Object.entries(models).forEach(([name, model]) => {
