@@ -5,6 +5,7 @@ import { config } from "./config.js";
 
 const sequelize = new Sequelize(config.mysql.database_url, {
     logging: false,
+    timestamps: false,
 });
 
 import User from "../models/User.js";

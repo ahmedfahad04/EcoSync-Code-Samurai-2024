@@ -1,5 +1,11 @@
 "use strict";
 
+export const RoleTypes = {
+    systemAdmin: "System Admin",
+    stsManager: "STS Manager",
+    landfillManager: "Landfill Manager",
+};
+
 export default (options) => {
     const { sequelize, DataTypes, Sequelize } = options;
     const Role = sequelize.define("roles", {
@@ -13,13 +19,13 @@ export default (options) => {
             allowNull: false,
             unique: true,
             validate: {
-                isIn: [["admin", "user"]],
+                isIn: [Object.values(RoleTypes)],
             },
         },
         description: {
             type: DataTypes.STRING,
             allowNull: true,
-        }
+        },
     });
 
     Role.associate = (models) => {
