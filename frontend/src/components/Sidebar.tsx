@@ -1,8 +1,8 @@
-import { EllipsisVerticalIcon } from "@heroicons/react/16/solid";
 import { ChevronLeft, LayoutDashboard, Truck, Users } from "lucide-react";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import logo from "../../public/ecosync-logo.png";
+import { AccountMenu } from "./AccountMenu";
 
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
@@ -99,10 +99,11 @@ const Sidebar = () => {
               <span className="text-xs text-gray-600">Sys Admin</span>
             </div>
             <div>
-              <EllipsisVerticalIcon
+              <AccountMenu />
+              {/* <EllipsisVerticalIcon
                 width={20}
                 className="cursor-pointer hover:text-slate-500"
-              />
+              /> */}
             </div>
           </div>
         </div>
