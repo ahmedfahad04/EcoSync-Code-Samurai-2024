@@ -1,21 +1,8 @@
 import { motion } from "framer-motion";
-import { SyntheticEvent, useRef } from "react";
+import { useRef } from "react";
 
 const Home = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-
-  const applySmoothScrolling = (
-    event: SyntheticEvent<HTMLAnchorElement, MouseEvent>
-  ) => {
-    event.preventDefault();
-    const anchor = document.querySelector("#blogs");
-    if (anchor) {
-      anchor.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }
-  };
 
   const handleScroll = () => {
     if (containerRef.current) {
@@ -54,9 +41,8 @@ const Home = () => {
               (DNCC)
             </p>
             <a
-              href="#blogs"
+              href="/dashboard"
               className="bg-secondary hover:bg-primary hover:text-green-950 hover:font-bold text-white font-bold py-2 px-6 inline-block transition duration-300 rounded-full"
-              onClick={(event) => applySmoothScrolling(event)}
             >
               Get Started
             </a>
