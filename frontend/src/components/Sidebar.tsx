@@ -100,10 +100,6 @@ const Sidebar = () => {
             </div>
             <div>
               <AccountMenu />
-              {/* <EllipsisVerticalIcon
-                width={20}
-                className="cursor-pointer hover:text-slate-500"
-              /> */}
             </div>
           </div>
         </div>
