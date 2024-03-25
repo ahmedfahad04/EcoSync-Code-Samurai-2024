@@ -5,9 +5,12 @@ async function createOneUser(user) {
     return createdUser.toJSON();
 }
 
+async function updateOneUser(user_id, updatedUser) {
+    await models.User.update(updatedUser, { where: { user_id } });
+}
+
 async function findOneUserById(user_id) {
     const user = await models.User.findByPk(user_id);
-
     return user ? user.toJSON() : null;
 }
 
@@ -21,7 +24,13 @@ async function findOneUserByIdWithRoles(user_id) {
             },
         },
     });
+    return user ? user.toJSON() : null;
+}
 
+async function findOneUserByEmail(email) {
+    const user = await models.User.findOne({
+        where: { email: email },
+    });
     return user ? user.toJSON() : null;
 }
 
@@ -36,7 +45,6 @@ async function findOneUserByEmailWithRoles(email) {
             },
         },
     });
-
     return user ? user.toJSON() : null;
 }
 
@@ -48,4 +56,12 @@ async function isUserExistByEmail(email) {
     return user ? true : false;
 }
 
-export default { createOneUser, findOneUserById, findOneUserByIdWithRoles, findOneUserByEmailWithRoles, isUserExistByEmail };
+export default {
+    createOneUser,
+    updateOneUser,
+    findOneUserById,
+    findOneUserByIdWithRoles,
+    findOneUserByEmail,
+    findOneUserByEmailWithRoles,
+    isUserExistByEmail,
+};

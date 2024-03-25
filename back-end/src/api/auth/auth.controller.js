@@ -28,4 +28,17 @@ async function logout(req, res) {
     res.json({ message: "logged out successfully" });
 }
 
-export default { login, logout, signup };
+async function initiateResetPassword(req, res) {
+    const { email } = req.body;
+
+    await authService.initiateResetPassword(email);
+    res.json({ message: "An OTP is send to your email. Check mailbox." });
+}
+
+async function confirmResetPassword(req, res) {
+    const dto = req.body;
+    await authService.confirmResetPassword(dto.email, dto.otp, dto.password);
+    res.json({ message: "Password changed successfully" });
+}
+
+export default { login, logout, signup, initiateResetPassword, confirmResetPassword };

@@ -2,6 +2,7 @@ import { HttpError } from "../../utils/HttpError.js";
 import usersRepository from "../users/users.repository.js";
 import utils from "../../utils/utils.js";
 import { config } from "../../configs/config.js";
+import { nodeCache } from "../../configs/nodeCache.js";
 
 async function signup(signUpDto) {
     const exists = await usersRepository.isUserExistByEmail(signUpDto.email);
@@ -37,4 +38,26 @@ async function login(email, password) {
     return { accessToken, user: userToReturn };
 }
 
-export default { signup, login };
+async function initiateResetPassword(email) {
+    const isExist = await usersRepository.isUserExistByEmail(email);
+    if (!isExist) throw new HttpError({ email: "email address does not exist" }, 404);
+
+    const otp = utils.generateOTP();
+    nodeCache.set(email, otp, 180);
+
+    // send email with otp
+}
+
+async function confirmResetPassword(email, otp, password) {
+    const user = await usersRepository.findOneUserByEmail(email);
+    if (!user) throw new HttpError({ email: "email does not exist" }, 404);
+
+    if (nodeCache.get(email) != otp) throw new HttpError({ otp: "invalid otp" }, 400);
+
+    const hashedPassword = await utils.hashPassword(password);
+    await usersRepository.updateOneUser(user.user_id, { password: hashedPassword });
+
+    nodeCache.del(email);
+}
+
+export default { signup, login, initiateResetPassword, confirmResetPassword };
