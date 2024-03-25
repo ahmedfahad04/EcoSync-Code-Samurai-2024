@@ -23,7 +23,7 @@ app.use("/api/auth", authRoutes);
 app.use(notFoundHandler);
 app.use(globalErrorHandler);
 
-app.listen(config.port, () => {
+app.listen(config.api_server_port, () => {
     console.log(`API Server listening on port ${config.api_server_port}...`);
     initializeMySqlConnection();
 });

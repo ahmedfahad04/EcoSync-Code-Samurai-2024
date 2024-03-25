@@ -4,12 +4,12 @@ import utils from "../../utils/utils.js";
 import { config } from "../../configs/config.js";
 
 async function signup(signUpDto) {
-    const exists = await usersRepository.isExistByEmail(signUpDto.email);
+    const exists = await usersRepository.isUserExistByEmail(signUpDto.email);
     if (exists) throw new HttpError({ email: "email address already exists" }, 409);
 
     signUpDto.password = await utils.hashPassword(signUpDto.password);
 
-    const user = await usersRepository.create(signUpDto);
+    let user = await usersRepository.createOneUser(signUpDto);
 
     delete user.password;
 
@@ -17,7 +17,7 @@ async function signup(signUpDto) {
 }
 
 async function login(email, password) {
-    const user = await usersRepository.findOneByEmail(email);
+    const user = await usersRepository.findOneUserByEmailWithRoles(email);
 
     if (!user) throw new HttpError({ message: `invalid email or password` }, 401);
 
@@ -26,15 +26,15 @@ async function login(email, password) {
 
     const accessToken = utils.generateJwtToken(
         {
-            user_id: user.user_id,
-            name: user.name,
-            email: user.email,
-            roles: user.roles,
+            sub: user.user_id,
         },
         config.jwt.accessTokenExpiry
     );
 
-    return { accessToken };
+    let userToReturn = user;
+    delete userToReturn.password;
+
+    return { accessToken, user: userToReturn };
 }
 
-export default { login, signup };
+export default { signup, login };

@@ -20,11 +20,7 @@ async function login(req, res) {
         signed: true,
     });
 
-    res.json({
-        message: "logged in successfully",
-        token: accessToken,
-        user,
-    });
+    res.json({ accessToken, user });
 }
 
 async function logout(req, res) {

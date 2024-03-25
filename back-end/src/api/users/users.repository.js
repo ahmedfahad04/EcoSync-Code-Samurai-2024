@@ -1,20 +1,17 @@
 import { models } from "../../configs/mysql.js";
 
 async function createOneUser(user) {
-    const role = await models.Role.findOne({
-        where: { role_name: user.roles[0] },
-        raw: true,
-    });
-
-    let createdUser = await models.User.create(user);
-    createdUser = createdUser.dataValues;
-    await models.UserRole.create({ user_id: createdUser.user_id, role_id: role.role_id });
-
-    createdUser.roles = user.roles;
-    return createdUser;
+    const createdUser = await models.User.create(user);
+    return createdUser.toJSON();
 }
 
 async function findOneUserById(user_id) {
+    const user = await models.User.findByPk(user_id);
+
+    return user ? user.toJSON() : null;
+}
+
+async function findOneUserByIdWithRoles(user_id) {
     const user = await models.User.findByPk(user_id, {
         include: {
             model: models.Role,
@@ -25,15 +22,10 @@ async function findOneUserById(user_id) {
         },
     });
 
-    if (!user) return null;
-
-    const rawUser = user.dataValues;
-    rawUser.roles = user.roles.map((role) => role.role_name);
-
-    return rawUser;
+    return user ? user.toJSON() : null;
 }
 
-async function findOneUserByEmail(email) {
+async function findOneUserByEmailWithRoles(email) {
     const user = await models.User.findOne({
         where: { email: email },
         include: {
@@ -45,12 +37,7 @@ async function findOneUserByEmail(email) {
         },
     });
 
-    if (!user) return null;
-
-    const rawUser = user.dataValues;
-    rawUser.roles = user.roles.map((role) => role.role_name);
-
-    return rawUser;
+    return user ? user.toJSON() : null;
 }
 
 async function isUserExistByEmail(email) {
@@ -61,4 +48,4 @@ async function isUserExistByEmail(email) {
     return user ? true : false;
 }
 
-export default { createOneUser, findOneUserById, findOneUserByEmail, isUserExistByEmail };
+export default { createOneUser, findOneUserById, findOneUserByIdWithRoles, findOneUserByEmailWithRoles, isUserExistByEmail };
