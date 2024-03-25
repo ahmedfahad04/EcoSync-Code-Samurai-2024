@@ -2,14 +2,14 @@ import AvatarWithDescription from "@/components/AvatarWithDescription";
 
 export const createAvatar = (
   avatar: string,
-  name: string,
-  designation: string
+  name: string
+  // designation: string
 ) => {
   return (
     <AvatarWithDescription
       avatar={avatar}
       title={name}
-      subTitle={designation}
+      // subTitle={designation}
     />
   );
 };

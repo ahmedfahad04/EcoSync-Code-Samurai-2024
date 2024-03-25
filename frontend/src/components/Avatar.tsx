@@ -26,7 +26,11 @@ const Avatar: React.FC<AvatarProps> = ({
       }`}
     >
       {image.length > 0 ? (
-        <img src={image} alt={alt} className={`text-xs ${imgCustomClass}`} />
+        <img
+          src={image}
+          alt={alt}
+          className={`text-xs rounded-full ${imgCustomClass}`}
+        />
       ) : (
         <span className={`font-bold text-deep-blue ${nameCustomClass}`}>
           {getInitials(fullName)}

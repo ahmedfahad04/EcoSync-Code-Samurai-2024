@@ -7,10 +7,9 @@ import {
 
 import Table from "@/components/Table/Table";
 import TableRow from "@/components/Table/TableRow";
-import { TooltipPosition } from "@/constants/Global";
 import { IUsers } from "@/models/Users";
 import { createAvatar } from "@/utils/CreateAvatart";
-import avatar from "../../public/avatar.jpeg";
+import avatar from "../../public/avatar.png";
 
 interface ContactTableProps {
   id: string;
@@ -57,7 +56,7 @@ const ContactTable = ({
     <Table
       id={id}
       headerData={["User", "Role", "Email", "Phone", "Create Date"]}
-      columnWidth={["28%", "20%", "17%", "20%", "15%"]}
+      columnWidth={["28%", "15%", "25%", "18%", "15%"]}
       checkBox={!!users.length}
       customTableClass="contact-table w-full no-scrollbar"
       isChecked={!!users.length && checkedRow.size === users.length}
@@ -76,14 +75,11 @@ const ContactTable = ({
               observerRef={users.length == index + 1 ? lastRowRef : null}
               checkBox={true}
               isChecked={checkedRow.has(user.userId)}
-              nameAndDesignation={createAvatar(avatar, user.name, user.role)}
+              name={createAvatar(avatar, user.name)}
+              role={user.role}
               email={user.email}
               phoneNumber={user.phone}
-              tooltipPosition={
-                index === users.length - 1
-                  ? TooltipPosition.TOP
-                  : TooltipPosition.BOTTOM
-              }
+              createDate={user.createdAt}
               options={options}
               onChangeCheckbox={handleChangeRowCheckbox}
             />

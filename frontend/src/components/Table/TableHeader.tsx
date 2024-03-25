@@ -25,8 +25,9 @@ const TableHeader: React.FC<TableHeaderProps> = ({
   onChangeCheckbox = () => null,
 }: TableHeaderProps) => {
   return (
-    <thead className="sticky top-[78px] z-10 bg-grayish-blue text-xs font-medium text-dark-blue-gray border-2 border-blue-600 h-16">
+    <thead className="sticky top-[78px] z-10 bg-grayish-blue text-xs font-medium text-dark-blue-gray bg-slate-100 h-16">
       <tr>
+        {/* show checkbox */}
         {!!checkBox && (
           <th className={`px-3 py-3.5 ${customTableHeaderClass}`}>
             <Checkbox
@@ -39,10 +40,14 @@ const TableHeader: React.FC<TableHeaderProps> = ({
           </th>
         )}
 
+        {/* table headers */}
+
         {headerData.map((item, index) => (
           <th
             key={item}
-            className={`whitespace-normal break-words py-3 pr-2 text-left ${
+            className={`whitespace-normal break-words py-3 pr-2 ${
+              index === 0 && "pl-2"
+            } text-left text-lg  ${
               !checkBox && index === 0 && "pl-3"
             } ${customTableHeaderClass}`}
             style={{ width: columnWidth[index] }}
@@ -51,6 +56,7 @@ const TableHeader: React.FC<TableHeaderProps> = ({
           </th>
         ))}
 
+        {/* delete action */}
         <th className={customTableHeaderClass}>
           <div
             className={`flex w-20 justify-evenly ${

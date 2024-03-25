@@ -3,7 +3,7 @@ import Avatar from "@/components/Avatar";
 interface AvatarDescriptionProps {
   avatar: string;
   title: string;
-  subTitle: string;
+  subTitle?: string;
   customParentClass?: string;
   customTitleClass?: string;
   customSubTitleClass?: string;
@@ -26,6 +26,8 @@ const AvatarWithDescription: React.FC<AvatarDescriptionProps> = ({
           divCustomClass={
             avatar.length ? "w-12 h-11 items-end" : "w-11 h-11 items-center"
           }
+          circle={true}
+          imgCustomClass={"border-2 border-gray-200"}
         />
       </div>
 
