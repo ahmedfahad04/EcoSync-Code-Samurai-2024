@@ -31,7 +31,7 @@ const InputField: React.FC<InputFieldProps> = ({
       <div className="relative">
         <input
           id={id}
-          className={`w-full rounded-lg px-4 py-2.5 text-black text-base border-2 border-blue-800 placeholder:text-gray-300 placeholder:text-base focus:border-primary ${customInputClass}`}
+          className={`w-full rounded-lg px-4 py-2.5 text-black text-base border-2 border-[#9095A1FF] placeholder:text-gray-300 placeholder:text-base focus:border-primary ${customInputClass}`}
           type={isPasswordVisible ? "text" : "password"}
           placeholder={placeholder}
           onChange={onChange}
@@ -59,7 +59,7 @@ const InputField: React.FC<InputFieldProps> = ({
     <div className="w-full flex justify-center items-center">
       <input
         id={id}
-        className={`w-full rounded-lg px-4 py-2.5 text-black text-base border-2 border-blue-800 placeholder:text-gray-300 placeholder:text-base focus:border-primary ${customInputClass}`}
+        className={`w-[550px] h-9 rounded-[4px] px-4 py-2.5 text-black text-base border-2 border-[#9095A1FF] placeholder:text-gray-300 placeholder:text-base focus:border-primary ${customInputClass}`}
         type={type}
         placeholder={placeholder}
         onChange={onChange}

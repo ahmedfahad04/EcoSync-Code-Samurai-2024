@@ -16,13 +16,13 @@ const Sidebar = () => {
   return (
     <div
       className={` ${
-        open ? "w-70" : "w-20"
-      } bg-dark-purple h-screen p-5 pt-8 relative ease-in-out duration-300 bg-[#F8F9FA] flex flex-col justify-between`}
+        open ? "w-72" : "w-20"
+      } bg-dark-purple h-screen border-2 border-r-gray-100 p-5 pt-8 relative ease-in-out duration-300 bg-[#F8F9FA] flex flex-col justify-between`}
     >
       <div>
         {/* expand icon */}
         <button
-          className={`absolute cursor-pointer -right-3 top-11 w-7 border-dark-purple
+          className={`absolute cursor-pointer -right-4 top-11 w-7 border-dark-purple
               border-2 rounded-full
            ${!open && "rotate-180 top-[38px] -right-"}`}
           onClick={() => setOpen(!open)}
