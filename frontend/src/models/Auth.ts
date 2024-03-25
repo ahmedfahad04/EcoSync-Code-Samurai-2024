@@ -1,9 +1,9 @@
-import { UserProps } from "./Users";
+import { IUsers } from "./Users";
 
 export interface ISignUpRequest {
     name: string;
-    userName: string;
     email: string;
+    phoneNumber: string;
     password: string;
 }
 
@@ -13,8 +13,8 @@ export interface ISignInRequest {
 }
 
 export interface AuthContextType {
-    user: UserProps | null;
-    setUser: (user: UserProps | null) => void;
+    user: IUsers | null;
+    setUser: (user: IUsers | null) => void;
     logout: () => void;
     isLoading: boolean;
 }

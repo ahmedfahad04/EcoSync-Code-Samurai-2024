@@ -3,21 +3,21 @@ import { FC, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
-import { NavLink } from "react-router-dom";
 import * as yup from "yup";
 
 import { API_END_POINTS } from "@/constants/Service";
 import { ISignUpRequest } from "@/models/Auth";
 import Button from "@/ui/Button";
-import { LeftArrow } from "@/ui/Icons";
 import InputField from "@/ui/InputField";
 import { httpClient } from "@/utils/httpClient";
+import { NavLink } from "react-router-dom";
 import { PuffLoader } from "react-spinners";
+import logo from "../../../public/ecosync-logo.png";
 
 const schema = yup.object().shape({
   name: yup.string().required("Name is required"),
-  userName: yup.string().required("User Name is required"),
   email: yup.string().email().required("Email is required"),
+  phoneNumber: yup.string().required("Phone Number is required"),
   password: yup
     .string()
     .min(8)
@@ -37,7 +37,7 @@ const schema = yup.object().shape({
     .required("Password is required"),
 });
 
-type FieldKeys = "name" | "userName" | "email" | "password";
+type FieldKeys = "name" | "email" | "phoneNumber" | "password";
 
 const SignUpForm: FC = () => {
   const navigate = useNavigate();
@@ -51,8 +51,8 @@ const SignUpForm: FC = () => {
     resolver: yupResolver(schema),
     defaultValues: {
       name: "",
-      userName: "",
       email: "",
+      phoneNumber: "",
       password: "",
     },
   });
@@ -66,8 +66,8 @@ const SignUpForm: FC = () => {
           `${API_END_POINTS.REGISTER}`,
           {
             name: data.name,
-            userName: data.userName,
             email: data.email,
+            phoneNumber: data.phoneNumber, //! need to change according to api var name
             password: data.password,
             role: 1,
           },
@@ -97,14 +97,12 @@ const SignUpForm: FC = () => {
     <div className="text-white">
       <div className="py-8 2xl:py-12">
         {/* message top */}
-        <div className="mr-16 2xl:mr-28 ml-16 2xl:ml-28 flex flex-row mt-10 justify-between ">
-          <NavLink to="/">
-            <p className="flex ">
-              <LeftArrow width={26} className="mr-1 mt-1/2" />
-              <span className="font-normal text-base">Back to Home Page</span>
-            </p>
+        <div className="mr-16 2xl:mr-28 ml-16 2xl:ml-28 flex flex-row mt-10 justify-center text-black ">
+          <NavLink to="/" className="flex flex-row justify-center items-center">
+            <img src={logo} width={70} />
+            <p className="font-bold">EcoSync</p>
           </NavLink>
-          <p className="text-sm">
+          {/* <p className="text-sm">
             Have an account?&nbsp;
             <span
               className="text-primary text-sm font-medium cursor-pointer"
@@ -112,67 +110,19 @@ const SignUpForm: FC = () => {
             >
               Sign in!
             </span>
-          </p>
+          </p> */}
         </div>
 
         {/* headline */}
-        <div className="mt-6 2xl:mt-16 flex flex-col justify-center items-center">
-          <h2 className="text-2xl text-white font-semibold">
-            Get Started With <span className="text-primary">BlogBit</span>
+        <div className="mt-4 2xl:mt-16 flex flex-col justify-center items-center">
+          <h2 className="text-2xl text-black font-semibold text-center">
+            Create
+            <p>
+              <span className="text-[#14923EFF] font-bold">EcoSync</span>{" "}
+              Account
+            </p>
           </h2>
-          <h3 className="mt-2 text-slate-100 text-sm">
-            Getting Started is easy
-          </h3>
-
-          {/* Google & Facebook Buttons */}
-          {/* <div className="mt-10 flex flex-row justify-center items-center gap-3">
-            <Button
-              buttonVariant="secondary"
-              customClass="flex justify-center item-center py-2 px-6 text-black text-xs font-medium border-vibrant-green !rounded-md"
-              icon={{
-                iconFile: <GoogleIcon />,
-                iconCustomClass: "w-[26px] h-[26px]",
-              }}
-            >
-              Google
-            </Button>
-            <Button
-              buttonVariant="secondary"
-              customClass="flex justify-center item-center py-2 px-6 text-black text-xs font-medium !rounded-md"
-              icon={{
-                iconFile: <FacebookIcon />,
-                iconCustomClass: "w-[26px] h-[26px]",
-              }}
-            >
-              Facebook
-            </Button>
-          </div> */}
         </div>
-
-        {/* divider */}
-        {/* <div className="flex justify-center items-center mt-4 text-xs">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="130"
-            height="1"
-            viewBox="0 0 130 1"
-            fill="none"
-          >
-            <path d="M0 0.5H130" stroke="#DBDBDB" />
-          </svg>
-          <span className="px-3 text-xs font-normal text-black">
-            Or continue with
-          </span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="130"
-            height="1"
-            viewBox="0 0 130 1"
-            fill="none"
-          >
-            <path d="M0 0.5H130" stroke="#DBDBDB" />
-          </svg>
-        </div> */}
 
         {/* Signup Form */}
         <div className="flex flex-col justify-center items-center mt-10">
@@ -182,12 +132,16 @@ const SignUpForm: FC = () => {
           >
             {[
               { name: "name", key: "name", placeholder: "Name" },
-              { name: "userName", key: "userName", placeholder: "UserName" },
               { name: "Email", key: "email", placeholder: "Email" },
+              {
+                name: "phoneNumber",
+                key: "phoneNumber",
+                placeholder: "Phone Number",
+              },
               {
                 name: "Password",
                 key: "password",
-                placeholder: "New password",
+                placeholder: "Password",
               },
             ].map((field) => (
               <div key={field.key}>
@@ -208,6 +162,8 @@ const SignUpForm: FC = () => {
                       id={value}
                       name={field.name}
                       placeholder={field.placeholder}
+                      label={true}
+                      customInputClass="bg-[#F3F4F6] border-none active:border-none h-12 rounded-md"
                     />
                   )}
                 />
@@ -221,24 +177,33 @@ const SignUpForm: FC = () => {
 
             {isLoading ? (
               <Button
-                buttonVariant="primary"
                 buttonType="submit"
-                customClass="flex justify-center item-center font-semibold text-base h-14 mt-5 hover:bg-secondary text-white"
+                customClass="flex justify-center item-center font-semibold text-base h-14 mt-5 text-white hover:bg-secondary bg-primary"
                 disabled={true}
               >
                 <PuffLoader size={25} color="white" />
               </Button>
             ) : (
               <Button
-                buttonVariant="primary"
                 buttonType="submit"
-                customClass="flex justify-center item-center font-semibold text-base h-14 mt-5 hover:bg-secondary"
+                customClass="flex justify-center item-center font-semibold text-base h-14 mt-5 hover:bg-secondary bg-primary"
               >
-                Create Account
+                Sign Up
               </Button>
             )}
           </form>
         </div>
+
+        {/* bottom section */}
+        <p className="text-sm  text-black mt-16 flex justify-center items-center">
+          Already Have an account?&nbsp;
+          <span
+            className="text-primary text-sm font-medium cursor-pointer"
+            onClick={onClickSignIn}
+          >
+            Sign in!
+          </span>
+        </p>
       </div>
     </div>
   );

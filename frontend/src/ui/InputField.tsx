@@ -8,6 +8,7 @@ interface InputFieldProps {
   id: string;
   name: string;
   value: string;
+  label?: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -18,6 +19,7 @@ const InputField: React.FC<InputFieldProps> = ({
   id,
   name,
   value,
+  label = false,
   onChange,
 }: InputFieldProps) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
@@ -29,9 +31,16 @@ const InputField: React.FC<InputFieldProps> = ({
   if (type === "password") {
     return (
       <div className="relative">
+        {/* Label for input field */}
+        {label && (
+          <label htmlFor={id} className="text-black text-md">
+            {placeholder}
+          </label>
+        )}
+
         <input
           id={id}
-          className={`w-full rounded-lg px-4 py-2.5 text-black text-base border-2 border-[#9095A1FF] placeholder:text-gray-300 placeholder:text-base focus:border-primary ${customInputClass}`}
+          className={`w-full h-12 mt-1 rounded-lg px-4 py-2.5 text-black text-base border-2 border-[#9095A1FF] placeholder:text-gray-400 placeholder:text-base focus:border-0 placeholder:font-light ${customInputClass}`}
           type={isPasswordVisible ? "text" : "password"}
           placeholder={placeholder}
           onChange={onChange}
@@ -42,12 +51,12 @@ const InputField: React.FC<InputFieldProps> = ({
         {/* Icon for toggling password visibility */}
         {isPasswordVisible ? (
           <ShowPasswordIcon
-            className="absolute top-1/2 right-4 transform -translate-y-1/2"
+            className="absolute top-2/3 right-4 transform -translate-y-1/2"
             onClick={togglePasswordVisibility}
           />
         ) : (
           <HidePasswordIcon
-            className="absolute top-1/2 right-4 transform -translate-y-1/2"
+            className="absolute top-2/3 right-4 transform -translate-y-1/2"
             onClick={togglePasswordVisibility}
           />
         )}
@@ -56,10 +65,17 @@ const InputField: React.FC<InputFieldProps> = ({
   }
 
   return (
-    <div className="w-full flex justify-center items-center">
+    <div className="w-full flex flex-col justify-center items-center">
+      {/* Label for input field */}
+      {label && (
+        <label htmlFor={id} className="text-black w-full mb-1 text-md">
+          {placeholder}
+        </label>
+      )}
+
       <input
         id={id}
-        className={`w-[550px] h-9 rounded-[4px] px-4 py-2.5 text-black text-base border-2 border-[#9095A1FF] placeholder:text-gray-300 placeholder:text-base focus:border-primary ${customInputClass}`}
+        className={`w-full h-12 rounded-lg px-4 py-2.5 text-black text-base border-2 border-[#9095A1FF] placeholder:text-gray-400 placeholder:text-base focus:border-0 placeholder:font-light ${customInputClass}`}
         type={type}
         placeholder={placeholder}
         onChange={onChange}
