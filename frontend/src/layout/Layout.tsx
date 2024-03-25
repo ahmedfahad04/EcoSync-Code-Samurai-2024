@@ -1,5 +1,4 @@
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
+import Sidebar from "@/components/Sidebar";
 import React from "react";
 
 interface LayoutProps {
@@ -12,10 +11,9 @@ const Layout: React.FC<LayoutProps> = ({
   customStyle,
 }: LayoutProps) => {
   return (
-    <div className={`flex flex-col min-h-screen ${customStyle}`}>
-      <Navbar />
-      <main className="flex-1 bg-[#1D2225] ">{children}</main>
-      <Footer />
+    <div className={`flex ${customStyle}`}>
+      <Sidebar />
+      {children}
     </div>
   );
 };

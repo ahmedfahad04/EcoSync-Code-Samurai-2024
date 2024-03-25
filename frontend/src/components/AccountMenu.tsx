@@ -1,31 +1,21 @@
-import { BlogProps } from "@/models/Blog";
-import { TrashIcon } from "@/ui/Icons";
 import { EllipsisVerticalIcon, PencilIcon } from "@heroicons/react/16/solid";
-import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import { LogOut } from "lucide-react";
 import * as React from "react";
-import DeleteBlog from "./Modals/DeleteBlog";
-import UpdateBlog from "./Modals/UpdateBlog";
 
-interface MenuProps {
-  blog: BlogProps;
-}
-
-export const BlogCardOptionMenu: React.FC<MenuProps> = ({ blog }) => {
+export const AccountMenu: React.FC = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const [showUpdateModal, setShowUpdateModal] = React.useState(false);
-  const [showDeleteModal, setShowDeleteModal] = React.useState(false);
 
   const handleEdit = () => {
     setAnchorEl(null); // Close the menu
-    setShowUpdateModal(true); // Open the update modal
+    // setShowUpdateModal(true); // Open the update modal
   };
 
   const handleDelete = () => {
     setAnchorEl(null); // Close the menu
-    setShowDeleteModal(true); // Open the delete modal
+    // setShowDeleteModal(true); // Open the delete modal
   };
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -38,7 +28,7 @@ export const BlogCardOptionMenu: React.FC<MenuProps> = ({ blog }) => {
 
   return (
     <div>
-      <Button
+      <button
         id="basic-button"
         aria-controls={open ? "basic-menu" : undefined}
         aria-haspopup="true"
@@ -48,10 +38,11 @@ export const BlogCardOptionMenu: React.FC<MenuProps> = ({ blog }) => {
         <EllipsisVerticalIcon
           width={20}
           height={20}
-          className="cursor-pointer"
+          className="cursor-pointer hover:text-slate-500 text-black"
           color="white"
         />
-      </Button>
+      </button>
+      
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}
@@ -60,26 +51,56 @@ export const BlogCardOptionMenu: React.FC<MenuProps> = ({ blog }) => {
         MenuListProps={{
           "aria-labelledby": "basic-button",
         }}
-        className="mt-2"
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            overflow: "visible",
+            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+            mt: 1.5,
+            "& .MuiAvatar-root": {
+              width: 32,
+              height: 32,
+              ml: -0.5,
+              mr: 1,
+            },
+            "&::before": {
+              content: '""',
+              display: "block",
+              position: "absolute",
+              bottom: 0, // Changed top to bottom
+              right: 14,
+              width: 10,
+              height: 10,
+              bgcolor: "background.paper",
+              transform: "translateY(50%) rotate(45deg)", // Adjusted transform
+              zIndex: 0,
+            },
+          },
+        }}
+        className="relative -mt-24 -ml-44 cursor-pointer"
       >
+        {/* Menu content */}
+
         <MenuItem
           onClick={handleEdit}
           className="w-full text-sm text-black flex items-center"
         >
           <PencilIcon className="mr-2 text-black" width={20} />
-          Edit
+          Edit Profile
         </MenuItem>
+
+        <hr className="mx-2" />
 
         <MenuItem
           onClick={handleDelete}
-          className="w-full text-sm text-black flex items-center"
+          className="w-52 text-sm text-black flex items-center"
         >
-          <TrashIcon className="mr-2 text-black" width={20} />
-          Delete
+          <LogOut className="mr-2  rotate-180 text-red-500" width={20} />
+          <p className="text-red-500">Logout</p>
         </MenuItem>
       </Menu>
 
-      {showUpdateModal && (
+      {/* {showUpdateModal && (
         <UpdateBlog blog={blog} onClose={() => setShowUpdateModal(false)} />
       )}
 
@@ -88,7 +109,7 @@ export const BlogCardOptionMenu: React.FC<MenuProps> = ({ blog }) => {
           blogId={blog.postId}
           onClose={() => setShowDeleteModal(false)}
         />
-      )}
+      )} */}
     </div>
   );
 };

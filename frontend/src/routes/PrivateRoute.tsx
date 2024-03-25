@@ -1,9 +1,8 @@
 import Spinner from "@/components/Spinner";
-import { useAuth } from "@/context/AuthContext";
 import { Outlet } from "react-router-dom";
 
 const PrivateRoute = () => {
-  const { user } = useAuth();
+  let user = "hello";
 
   return <>{user ? <Outlet /> : <Spinner path={"/auth/signin"} />}</>;
 };
