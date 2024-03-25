@@ -1,6 +1,6 @@
 import { models } from "../../configs/mysql.js";
 
-async function create(user) {
+async function createOneUser(user) {
     const role = await models.Role.findOne({
         where: { role_name: user.roles[0] },
         raw: true,
@@ -14,7 +14,7 @@ async function create(user) {
     return createdUser;
 }
 
-async function findOneById(user_id) {
+async function findOneUserById(user_id) {
     const user = await models.User.findByPk(user_id, {
         include: {
             model: models.Role,
@@ -33,7 +33,7 @@ async function findOneById(user_id) {
     return rawUser;
 }
 
-async function findOneByEmail(email) {
+async function findOneUserByEmail(email) {
     const user = await models.User.findOne({
         where: { email: email },
         include: {
@@ -53,7 +53,7 @@ async function findOneByEmail(email) {
     return rawUser;
 }
 
-async function isExistByEmail(email) {
+async function isUserExistByEmail(email) {
     const user = await models.User.findOne({
         where: { email: email },
         raw: true,
@@ -61,4 +61,4 @@ async function isExistByEmail(email) {
     return user ? true : false;
 }
 
-export default { create, findOneById, findOneByEmail, isExistByEmail };
+export default { createOneUser, findOneUserById, findOneUserByEmail, isUserExistByEmail };

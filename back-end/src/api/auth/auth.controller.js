@@ -1,5 +1,13 @@
-import config from "../../configs/config.js";
+import { config } from "../../configs/config.js";
 import authService from "./auth.service.js";
+
+async function signup(req, res) {
+    const signUpDto = req.body;
+
+    const user = await authService.signup(signUpDto);
+
+    res.status(201).json(user);
+}
 
 async function login(req, res) {
     const loginDto = req.body;
@@ -22,14 +30,6 @@ async function login(req, res) {
 async function logout(req, res) {
     res.clearCookie(config.cookie.accessToken);
     res.json({ message: "logged out successfully" });
-}
-
-async function signup(req, res) {
-    const signUpDto = req.body;
-
-    const { user } = await authService.signup(signUpDto);
-
-    res.status(201).json(user);
 }
 
 export default { login, logout, signup };
