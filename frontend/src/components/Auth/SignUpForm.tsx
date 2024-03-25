@@ -114,7 +114,7 @@ const SignUpForm: FC = () => {
         </div>
 
         {/* headline */}
-        <div className="mt-4 2xl:mt-16 flex flex-col justify-center items-center">
+        <div className="mt-4 flex flex-col justify-center items-center">
           <h2 className="text-2xl text-black font-semibold text-center">
             Create
             <p>
