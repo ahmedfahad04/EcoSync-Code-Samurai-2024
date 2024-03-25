@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import config from "../configs/config.js";
+import { config } from "../configs/config.js";
 
 export async function hashPassword(password) {
     const hashedPassword = await bcrypt.hash(password, 10);
