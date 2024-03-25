@@ -44,9 +44,8 @@ async function initiateResetPassword(email) {
     if (!isExist) throw new HttpError({ email: "email address does not exist" }, 404);
 
     const otp = utils.generateOTP();
-    nodeCache.set(email, otp, 180);
+    nodeCache.set(email, otp, 300);
 
-    // send email with otp
     sendEmailWithOTP(email, otp);
 }
 

@@ -3,7 +3,10 @@ import { config } from "./config.js";
 import nodemailer from "nodemailer";
 
 const transporter = nodemailer.createTransport({
-    service: config.nodemailer.service,
+    service: "gmail",
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
     auth: {
         user: config.nodemailer.user,
         pass: config.nodemailer.password,
@@ -25,14 +28,14 @@ export const sendEmailWithOTP = async (receiverEmail, otp) => {
     const html =
         `<p>Dear user,</p>
 
-    <p>I hope this email finds you well. We are reaching out to you to complete the account 
-    verification process for your SPL account. To proceed, we kindly request that 
+    <p>I hope this email finds you well. We are reaching out to you to complete the reset password 
+    process for your DNCC account. To proceed, we kindly request that 
     you use the following One-Time Password (OTP):</p>
 
     <p><strong>OTP:</strong> ${otp}</p>
 
     <p>Please note that the OTP is valid for 5 minutes. If it expires before you have 
-    a chance to use it, you can request a new OTP by following the "Forgot Password" process on our website. </p>
+    a chance to use it, you can request a new OTP by following the "Reset Password" process on our website. </p>
 
     <p>Link of our website: <a href="www.google.com">click</a></p>
 
