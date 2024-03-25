@@ -1,0 +1,1 @@
+do all things in controller ?? not service, repository
