@@ -41,7 +41,7 @@ const Home = () => {
               (DNCC)
             </p>
             <a
-              href="/dashboard"
+              href="/admin/dashboard"
               className="bg-secondary hover:bg-primary hover:text-green-950 hover:font-bold text-white font-bold py-2 px-6 inline-block transition duration-300 rounded-full"
             >
               Get Started
