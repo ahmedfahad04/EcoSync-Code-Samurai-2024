@@ -3,6 +3,7 @@ import usersRepository from "../users/users.repository.js";
 import utils from "../../utils/utils.js";
 import { config } from "../../configs/config.js";
 import { nodeCache } from "../../configs/nodeCache.js";
+import { sendEmailWithOTP } from "../../configs/nodemailer.js";
 
 async function signup(signUpDto) {
     const exists = await usersRepository.isUserExistByEmail(signUpDto.email);
@@ -46,6 +47,7 @@ async function initiateResetPassword(email) {
     nodeCache.set(email, otp, 180);
 
     // send email with otp
+    sendEmailWithOTP(email, otp);
 }
 
 async function confirmResetPassword(email, otp, password) {
