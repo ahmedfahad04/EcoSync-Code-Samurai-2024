@@ -26,6 +26,10 @@ export default (options) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
+        profile_url: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
         role_id: {
             type: DataTypes.UUID,
             allowNull: true,
