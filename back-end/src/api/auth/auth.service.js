@@ -73,4 +73,15 @@ async function confirmResetPassword(email, otp, password) {
     nodeCache.del(email);
 }
 
-export default { signup, login, initiateResetPassword, confirmResetPassword };
+async function changePassword(sub, old_password, new_password) {
+    const user = await usersRepository.findOneUserById(sub);
+    if (!user) throw new HttpError({ message: "user not found" }, 404);
+
+    const isVerified = await utils.verifyPassword(old_password, user.password);
+    if (!isVerified) throw new HttpError({ old_password: "invalid password" }, 400);
+
+    const hashedPassword = await utils.hashPassword(new_password);
+    await usersRepository.updateOneUser(sub, { password: hashedPassword });
+}
+
+export default { signup, login, initiateResetPassword, confirmResetPassword, changePassword };

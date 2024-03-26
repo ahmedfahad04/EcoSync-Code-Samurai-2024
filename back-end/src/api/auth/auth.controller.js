@@ -41,4 +41,13 @@ async function confirmResetPassword(req, res) {
     res.json({ message: "Password changed successfully" });
 }
 
-export default { login, logout, signup, initiateResetPassword, confirmResetPassword };
+async function changePassword(req, res) {
+    const { sub } = req.user;
+    const { old_password, new_password } = req.body;
+
+    await authService.changePassword(sub, old_password, new_password);
+    
+    res.json({ message: "Password changed successfully" });
+}
+
+export default { login, logout, signup, initiateResetPassword, confirmResetPassword, changePassword };

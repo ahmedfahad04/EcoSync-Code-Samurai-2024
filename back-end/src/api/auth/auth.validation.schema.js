@@ -20,3 +20,8 @@ export const confirmResetPasswordSchema = Joi.object({
     otp: Joi.string().trim().required().length(6),
     password: Joi.string().trim().required().min(6).max(30),
 }).required();
+
+export const changePasswordSchema = Joi.object({
+    old_password: Joi.string().trim().required().min(6).max(30),
+    new_password: Joi.string().trim().required().min(6).max(30),
+}).required();

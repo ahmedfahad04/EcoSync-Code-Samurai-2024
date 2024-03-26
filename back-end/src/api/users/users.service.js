@@ -42,7 +42,10 @@ async function findOne(user_id) {
 
 async function findAll(query) {
     const users = await usersRepository.findAllUser(query);
-    return users;
+    return users.map((user) => {
+        delete user.password;
+        return user;
+    });
 }
 
 async function update(user_id, userDto) {
