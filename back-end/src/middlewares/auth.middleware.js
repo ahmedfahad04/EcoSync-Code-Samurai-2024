@@ -1,5 +1,5 @@
 import utils from "../utils/utils.js";
-import config from "../configs/config.js";
+import { config } from "../configs/config.js";
 import usersRepository from "../api/users/users.repository.js";
 
 export async function checkAuthentication(req, res, next) {

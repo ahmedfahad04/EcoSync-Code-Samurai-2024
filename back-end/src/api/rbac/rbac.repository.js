@@ -10,7 +10,13 @@ async function findOneRoleByName(role_name) {
     return role ? role.toJSON() : null;
 }
 
+async function findAllRole() {
+    const roles = await models.Role.findAll();
+    return roles.map((role) => role.toJSON());
+}
+
 export default {
     findOneRoleById,
-    findOneRoleByName
+    findOneRoleByName,
+    findAllRole,
 };
