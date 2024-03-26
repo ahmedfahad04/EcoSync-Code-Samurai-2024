@@ -12,6 +12,7 @@ export const VehicleCapacities = [3, 5, 7];
 export default (options) => {
     const { sequelize, DataTypes, Sequelize } = options;
     const Vehicle = sequelize.define("vehicles", {
+
         vehicle_id: {
             type: DataTypes.UUID,
             defaultValue: Sequelize.UUIDV4,

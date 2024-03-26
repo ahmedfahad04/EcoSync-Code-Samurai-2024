@@ -8,10 +8,12 @@ import {
 import Table from "@/components/Table/Table";
 import TableRow from "@/components/Table/TableRow";
 import { IUsers } from "@/models/Users";
+import Chip from "@/ui/Chip";
 import { createAvatar } from "@/utils/CreateAvatart";
+import { formattedDate } from "@/utils/formatDate";
 import avatar from "../../public/avatar.png";
 
-interface ContactTableProps {
+interface UserTableProps {
   id: string;
   users: Array<IUsers>;
   loading: boolean;
@@ -22,7 +24,7 @@ interface ContactTableProps {
   setCheckedRow: React.Dispatch<React.SetStateAction<Set<string>>>;
 }
 
-const ContactTable = ({
+const UserTable = ({
   id,
   users,
   loading,
@@ -31,7 +33,7 @@ const ContactTable = ({
   actions,
   options,
   setCheckedRow,
-}: ContactTableProps) => {
+}: UserTableProps) => {
   const handleChangeHeaderCheckbox = ({ checked }: ICheckboxData) => {
     const temp = new Set<string>();
     if (checked) {
@@ -75,11 +77,13 @@ const ContactTable = ({
               observerRef={users.length == index + 1 ? lastRowRef : null}
               checkBox={true}
               isChecked={checkedRow.has(user.userId)}
-              name={createAvatar(avatar, user.name)}
-              role={user.role}
-              email={user.email}
-              phoneNumber={user.phone}
-              createDate={user.createdAt}
+              rowData={[
+                createAvatar(avatar, user.name),
+                <Chip data={user.role} type="user" />,
+                user.email,
+                user.phone,
+                formattedDate(user.createdAt.toString()),
+              ]}
               options={options}
               onChangeCheckbox={handleChangeRowCheckbox}
             />
@@ -88,4 +92,4 @@ const ContactTable = ({
   );
 };
 
-export default ContactTable;
+export default UserTable;
