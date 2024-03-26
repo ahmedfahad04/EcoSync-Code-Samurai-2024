@@ -1,6 +1,10 @@
 import { RoleTypes } from "../models/Role.js";
 import { models } from "./mysql.js";
 
+const start = async () => {
+    await createRoles();
+};
+
 const createRoles = async () => {
     try {
         const rolesToCreate = Object.values(RoleTypes).map((roleName) => ({
@@ -15,13 +19,12 @@ const createRoles = async () => {
 
 const createPermissions = async () => {};
 
-const assignPermissionToRoles = async () => {}
+const assignPermissionToRoles = async () => {};
 
-const createAdmin= async () => {
-    
-}
+const createAdmin = async () => {};
 
 export const startup = {
     createRoles,
     createPermissions,
+    start,
 };

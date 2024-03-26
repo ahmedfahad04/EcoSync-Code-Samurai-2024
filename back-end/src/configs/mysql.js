@@ -61,9 +61,7 @@ export function initializeMySqlConnection() {
                 clearInterval(interval);
                 console.log(`MySql connection has been established successfully.`);
                 await sequelize.sync();
-
-                // create initial data
-                await startup.createRoles();
+                await startup.start();
             })
             .catch((err) => {
                 console.log("\n");
@@ -76,13 +74,6 @@ export function initializeMySqlConnection() {
     }, 3000);
 }
 
-async function dropAllTable() {
-    sequelize.drop({ force: true }).then(() => {
-        console.log("Dropped all table successfully");
-    });
-}
-
-// dropAllTable();
 // initializeMySqlConnection();
 
 export { Op, Sequelize, sequelize, models };
