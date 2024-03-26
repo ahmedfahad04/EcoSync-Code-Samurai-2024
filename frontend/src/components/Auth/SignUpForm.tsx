@@ -1,15 +1,12 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FC, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
 import * as yup from "yup";
 
-import { API_END_POINTS } from "@/constants/Service";
 import { ISignUpRequest } from "@/models/Auth";
 import Button from "@/ui/Button";
 import InputField from "@/ui/InputField";
-import { httpClient } from "@/utils/httpClient";
 import { NavLink } from "react-router-dom";
 import { PuffLoader } from "react-spinners";
 import logo from "../../../public/ecosync-logo.png";
@@ -61,29 +58,30 @@ const SignUpForm: FC = () => {
     setIsLoading(true);
 
     try {
-      await httpClient
-        .post(
-          `${API_END_POINTS.REGISTER}`,
-          {
-            name: data.name,
-            email: data.email,
-            phoneNumber: data.phoneNumber, //! need to change according to api var name
-            password: data.password,
-            role: 1,
-          },
-          {
-            withCredentials: true,
-          }
-        )
-        .then((res) => {
-          console.log("RES: ", res);
-          navigate("/auth/signin");
-          toast.success("Registration Successful!");
-        })
-        .catch((err) => {
-          toast.error(err.response.data.message);
-          console.log("Error in user creation: ", err.response.data.message);
-        });
+      console.log("DATA: ", data);
+      // await httpClient
+      //   .post(
+      //     `${API_END_POINTS.REGISTER}`,
+      //     {
+      //       name: data.name,
+      //       email: data.email,
+      //       phoneNumber: data.phoneNumber, //! need to change according to api var name
+      //       password: data.password,
+      //       role: 1,
+      //     },
+      //     {
+      //       withCredentials: true,
+      //     }
+      //   )
+      //   .then((res) => {
+      //     console.log("RES: ", res);
+      //     navigate("/auth/signin");
+      //     toast.success("Registration Successful!");
+      //   })
+      //   .catch((err) => {
+      //     toast.error(err.response.data.message);
+      //     console.log("Error in user creation: ", err.response.data.message);
+      //   });
     } catch (error) {
       console.log(error);
     } finally {
@@ -122,17 +120,21 @@ const SignUpForm: FC = () => {
             onSubmit={handleSubmit(onSubmit)}
           >
             {[
-              { name: "name", key: "name", placeholder: "Name" },
-              { name: "Email", key: "email", placeholder: "Email" },
+              { name: "Name", key: "name", placeholder: "Abdur Rahman" },
               {
-                name: "phoneNumber",
+                name: "Email",
+                key: "email",
+                placeholder: "abdurrahman33@gmail.com",
+              },
+              {
+                name: "Phone Number",
                 key: "phoneNumber",
-                placeholder: "Phone Number",
+                placeholder: "01766620054",
               },
               {
                 name: "Password",
                 key: "password",
-                placeholder: "Password",
+                placeholder: "********",
               },
             ].map((field) => (
               <div key={field.key}>

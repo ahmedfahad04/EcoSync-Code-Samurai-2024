@@ -34,7 +34,7 @@ const InputField: React.FC<InputFieldProps> = ({
         {/* Label for input field */}
         {label && (
           <label htmlFor={id} className="text-black text-md">
-            {placeholder}
+            {name}
           </label>
         )}
 
@@ -69,7 +69,7 @@ const InputField: React.FC<InputFieldProps> = ({
       {/* Label for input field */}
       {label && (
         <label htmlFor={id} className="text-black w-full mb-1 text-md">
-          {placeholder}
+          {name}
         </label>
       )}
 
