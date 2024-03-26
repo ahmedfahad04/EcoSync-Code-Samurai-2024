@@ -19,11 +19,11 @@ export default (options) => {
             comment: "GPS Coordinates will be stored as a array of number, [latitude, longitude]",
         },
         ward_number: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
             allowNull: false,
         },
         capacity: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.FLOAT,
             allowNull: false,
             comment: "Capacity in tons",
         }
