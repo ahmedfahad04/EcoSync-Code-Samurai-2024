@@ -95,22 +95,13 @@ const SignUpForm: FC = () => {
 
   return (
     <div className="text-white">
-      <div className="py-8 2xl:py-12">
+      <div className="py-8 2xl:py-12 md:mt-20">
         {/* message top */}
         <div className="mr-16 2xl:mr-28 ml-16 2xl:ml-28 flex flex-row mt-10 justify-center text-black ">
           <NavLink to="/" className="flex flex-row justify-center items-center">
             <img src={logo} width={70} />
             <p className="font-bold">EcoSync</p>
           </NavLink>
-          {/* <p className="text-sm">
-            Have an account?&nbsp;
-            <span
-              className="text-primary text-sm font-medium cursor-pointer"
-              onClick={onClickSignIn}
-            >
-              Sign in!
-            </span>
-          </p> */}
         </div>
 
         {/* headline */}
