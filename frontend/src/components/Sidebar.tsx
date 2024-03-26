@@ -7,9 +7,9 @@ import { AccountMenu } from "./AccountMenu";
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
   const Menus = [
-    { title: "Dashboard", src: <LayoutDashboard />, path: "/dashboard" },
-    { title: "Manage Users", src: <Users />, path: "/dashboard/users" },
-    { title: "Manage Vehicles", src: <Truck />, path: "/dashboard/vehicles" },
+    { title: "Dashboard", src: <LayoutDashboard />, path: "" },
+    { title: "Manage Users", src: <Users />, path: "/users" },
+    { title: "Manage Vehicles", src: <Truck />, path: "/vehicles" },
     // { title: "Accounts", src: "User", gap: true },
   ];
 
@@ -54,7 +54,7 @@ const Sidebar = () => {
         <ul className="pt-6">
           {Menus.map((Menu, index) => (
             <NavLink
-              to={`/admin${Menu.path}`}
+              to={`/dashboard${Menu.path}`}
               style={({ isActive }) => ({
                 color: isActive ? "white" : "#787E8B",
                 backgroundColor: isActive ? "#17A948" : "#F8F9FA",

@@ -14,11 +14,11 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Home />} />
-        
-        <Route path="/admin" element={<PrivateRoute />}>
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="dashboard/users" element={<Users />} />
-          <Route path="dashboard/vehicles" element={<Vehicles />} />
+
+        <Route path="/dashboard" element={<PrivateRoute />}>
+          <Route path="" element={<Dashboard />} />
+          <Route path="users" element={<Users />} />
+          <Route path="vehicles" element={<Vehicles />} />
         </Route>
 
         <Route path="/login" element={<SignIn />} />
