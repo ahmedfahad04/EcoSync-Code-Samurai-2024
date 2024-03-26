@@ -50,8 +50,9 @@ const TableRow: React.FC<TableRowProps> = ({
       {rowData?.map((item, id) => (
         <td
           key={id}
-          className={`pr-2 break-words text-left ${customTableDataClass}`}
+          className={`pr-2 break-words text-left ${customTableDataClass} ${id === 0 ? 'pl-3' : ''}`}
         >
+          
           <div className="flex">{item}</div>
         </td>
       ))}

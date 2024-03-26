@@ -56,7 +56,7 @@ const VehicleTable = ({
     <Table
       id={id}
       headerData={["Vehicle Number", "Type", "Capaity", "Registered Date"]}
-      columnWidth={["35%", "25%", "25%", "15%"]}
+      columnWidth={["32%", "28%", "25%", "15%"]}
       checkBox={!!vehicles.length}
       customTableClass="contact-table w-full no-scrollbar"
       isChecked={!!vehicles.length && checkedRow.size === vehicles.length}
