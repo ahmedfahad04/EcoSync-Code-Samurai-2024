@@ -23,4 +23,8 @@ export const config = {
         user: process.env.NODEMAILER_USER,
         password: process.env.NODEMAILER_PASSWORD,
     },
+    admin: {
+        email: process.env.ADMIN_EMAIL,
+        password: process.env.ADMIN_PASSWORD,
+    },
 };

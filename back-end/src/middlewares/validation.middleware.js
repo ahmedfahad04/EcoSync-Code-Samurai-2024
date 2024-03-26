@@ -8,6 +8,11 @@ export const schemaValidator = (schema, location = "body") => {
                 return res.status(500).json({ message: "Internal Server Error" });
             }
             const dto = req[location];
+
+            if(location === "body" && Object.keys(dto).length == 0) {
+                return res.status(400).json({"message": "body cannot be empty"});
+            }
+
             const { error } = schema.validate(dto);
             if (error) return res.status(400).json(formatError(error));
             else next();

@@ -4,6 +4,7 @@ export const RoleTypes = {
     systemAdmin: "System Admin",
     stsManager: "STS Manager",
     landfillManager: "Landfill Manager",
+    unassigned: "Unassigned",
 };
 
 export default (options) => {
@@ -29,8 +30,7 @@ export default (options) => {
     });
 
     Role.associate = (models) => {
-        Role.belongsToMany(models.User, {
-            through: models.UserRole,
+        Role.hasMany(models.User, {
             foreignKey: "role_id",
         });
     };

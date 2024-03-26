@@ -4,24 +4,16 @@ import utils from "../../utils/utils.js";
 import { config } from "../../configs/config.js";
 import { nodeCache } from "../../configs/nodeCache.js";
 import { sendEmailWithOTP } from "../../configs/nodemailer.js";
-
-async function signup(signUpDto) {
-    const exists = await usersRepository.isUserExistByEmail(signUpDto.email);
-    if (exists) throw new HttpError({ email: "email address already exists" }, 409);
-
-    signUpDto.password = await utils.hashPassword(signUpDto.password);
-
-    let user = await usersRepository.createOneUser(signUpDto);
-
-    delete user.password;
-
-    return user;
-}
+import { RoleTypes } from "../../models/Role.js";
 
 async function login(email, password) {
     const user = await usersRepository.findOneUserByEmailWithRoles(email);
 
     if (!user) throw new HttpError({ message: `invalid email or password` }, 401);
+
+    if (user.role?.role_name === RoleTypes.unassigned) {
+        throw new HttpError({ message: "you are not allowed" }, 403);
+    }
 
     const isVerified = await utils.verifyPassword(password, user.password);
     if (!isVerified) throw new HttpError({ message: "invalid email or password" }, 401);
@@ -61,4 +53,15 @@ async function confirmResetPassword(email, otp, password) {
     nodeCache.del(email);
 }
 
-export default { signup, login, initiateResetPassword, confirmResetPassword };
+async function changePassword(sub, old_password, new_password) {
+    const user = await usersRepository.findOneUserById(sub);
+    if (!user) throw new HttpError({ message: "user not found" }, 404);
+
+    const isVerified = await utils.verifyPassword(old_password, user.password);
+    if (!isVerified) throw new HttpError({ old_password: "invalid password" }, 400);
+
+    const hashedPassword = await utils.hashPassword(new_password);
+    await usersRepository.updateOneUser(sub, { password: hashedPassword });
+}
+
+export default { login, initiateResetPassword, confirmResetPassword, changePassword };

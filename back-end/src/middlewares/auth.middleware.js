@@ -1,5 +1,5 @@
 import utils from "../utils/utils.js";
-import config from "../configs/config.js";
+import { config } from "../configs/config.js";
 import usersRepository from "../api/users/users.repository.js";
 
 export async function checkAuthentication(req, res, next) {
@@ -13,11 +13,8 @@ export async function checkAuthentication(req, res, next) {
         const decodedToken = utils.verifyJwtToken(accessToken);
 
         if (!decodedToken) {
-            // return checkRefreshToken(req, res, next);
             return res.status(401).json({ message: "authentication failed" });
         }
-
-        // do something here if roles are updated for that user
 
         req.user = decodedToken;
 
