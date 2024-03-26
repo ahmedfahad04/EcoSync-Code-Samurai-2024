@@ -32,3 +32,10 @@ export enum ROLETYPE {
   ROLE2 = 'STS Manager',
   ROLE3 = 'Landfil Manager'
 }
+
+export enum TRUCKTYPE {
+  TYPE1 = "Open Truck",
+  TYPE2 = 'Dump Truck',
+  TYPE3 = 'Compactor',
+  TYPE4 = 'Container Carrier'
+}
