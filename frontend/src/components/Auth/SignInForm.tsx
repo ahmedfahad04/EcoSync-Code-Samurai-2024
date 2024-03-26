@@ -76,7 +76,7 @@ const SignInForm: FC = () => {
     }
   };
 
-  const onClickSignUp = () => navigate("/auth/signup");
+  const onClickSignUp = () => navigate("/register");
 
   return (
     <div className="text-white">
@@ -89,59 +89,34 @@ const SignInForm: FC = () => {
               <span className="font-normal text-base">Back to Home Page</span>
             </p>
           </NavLink>
-          <p className="flex justify-end text-sm">
-            Don't have an account?&nbsp;
-            <span
-              className=" text-primary text-sm font-medium cursor-pointer"
-              onClick={onClickSignUp}
-            >
-              Sign Up!
-            </span>
-          </p>
-        </div>
-
-        {/* headline */}
-        <div className="mt-12 2xl:mt-16 flex flex-col justify-center items-center">
-          <h2 className="text-4xl font-semibold">Welcome Back</h2>
-          <h3 className="mt-2 text-lg">Login into your account</h3>
-
-          {/* Google & Facebook Buttons */}
-          {/* <div className="mt-12 flex flex-row justify-center items-center gap-3">
-            <Button
-              buttonVariant="secondary"
-              customClass="flex justify-center item-center py-2 px-6 text-black text-xs font-medium border-vibrant-green !rounded-md"
-              icon={{
-                iconFile: <GoogleIcon />,
-                iconCustomClass: "w-[26px] h-[26px]",
-              }}
-            >
-              Google
-            </Button>
-            <Button
-              buttonVariant="secondary"
-              customClass="flex justify-center item-center py-2 px-6 text-black text-xs font-medium !rounded-md"
-              icon={{
-                iconFile: <FacebookIcon />,
-                iconCustomClass: "w-[26px] h-[26px]",
-              }}
-            >
-              Facebook
-            </Button>
-          </div> */}
         </div>
 
         {/* Signin Form */}
-        <div className="flex flex-col justify-center items-center mt-10">
+        <div className="flex flex-col justify-center items-center">
+          <div className="flex flex-col justify-start items-start w-[450px]">
+            <h2 className="text-4xl font-semibold text-black">
+              Welcome Back 👋
+            </h2>
+            <h3 className="mt-2 text-lg text-gray-400">
+              Login into your account
+            </h3>
+          </div>
+
+          {/* form */}
           <form
-            className="flex flex-col gap-5 w-[388px]"
+            className="flex flex-col gap-5 w-[450px] mt-10"
             onSubmit={handleSubmit(onSubmit)}
           >
             {[
-              { name: "Email", key: "email", placeholder: "Email" },
+              {
+                name: "Email",
+                key: "email",
+                placeholder: "abdurrahman23@gmail.com",
+              },
               {
                 name: "Password",
                 key: "password",
-                placeholder: "Password",
+                placeholder: "********",
               },
             ].map((field) => (
               <div key={field.key}>
@@ -162,6 +137,8 @@ const SignInForm: FC = () => {
                       id={value}
                       name={field.name}
                       placeholder={field.placeholder}
+                      label={true}
+                      customInputClass="bg-[#F3F4F6] border-none active:border-none h-12 rounded-md"
                     />
                   )}
                 />
@@ -172,6 +149,12 @@ const SignInForm: FC = () => {
                 )}
               </div>
             ))}
+
+            <div className=" flex justify-end 2xl:my-4">
+              <NavLink to={"/forgot-password"} className="text-sm text-primary">
+                Forgot Password
+              </NavLink>
+            </div>
 
             {isLoading ? (
               <Button
@@ -193,6 +176,16 @@ const SignInForm: FC = () => {
             )}
           </form>
         </div>
+
+        <p className="text-sm  text-black mt-16 flex justify-center items-center">
+          Don't have an account?&nbsp;
+          <span
+            className="text-primary text-sm font-medium cursor-pointer"
+            onClick={onClickSignUp}
+          >
+            Sign up!
+          </span>
+        </p>
       </div>
     </div>
   );
