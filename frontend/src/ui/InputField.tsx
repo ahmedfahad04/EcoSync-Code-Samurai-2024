@@ -33,7 +33,7 @@ const InputField: React.FC<InputFieldProps> = ({
       <div className="relative">
         {/* Label for input field */}
         {label && (
-          <label htmlFor={id} className="text-black text-md">
+          <label htmlFor={id} className="text-black text-md font-medium">
             {name}
           </label>
         )}
@@ -68,14 +68,17 @@ const InputField: React.FC<InputFieldProps> = ({
     <div className="w-full flex flex-col justify-center items-center">
       {/* Label for input field */}
       {label && (
-        <label htmlFor={id} className="text-black w-full mb-1 text-md">
+        <label
+          htmlFor={id}
+          className="text-black w-full mb-1 text-md font-medium"
+        >
           {name}
         </label>
       )}
 
       <input
         id={id}
-        className={`w-full h-12 rounded-lg px-4 py-2.5 text-black text-base border-2 border-[#9095A1FF] placeholder:text-gray-400 placeholder:text-base focus:border-0 placeholder:font-light ${customInputClass}`}
+        className={`w-full h-10 text-sm rounded-lg px-4 py-2.5 text-black placeholder:text-gray-400 placeholder:text-base focus:border-0 placeholder:font-light ${customInputClass}`}
         type={type}
         placeholder={placeholder}
         onChange={onChange}
