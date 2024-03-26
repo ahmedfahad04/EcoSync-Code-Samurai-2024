@@ -1,14 +1,6 @@
 import { config } from "../../configs/config.js";
 import authService from "./auth.service.js";
 
-async function signup(req, res) {
-    const signUpDto = req.body;
-
-    const user = await authService.signup(signUpDto);
-
-    res.status(201).json(user);
-}
-
 async function login(req, res) {
     const loginDto = req.body;
 
@@ -50,4 +42,4 @@ async function changePassword(req, res) {
     res.json({ message: "Password changed successfully" });
 }
 
-export default { login, logout, signup, initiateResetPassword, confirmResetPassword, changePassword };
+export default { login, logout, initiateResetPassword, confirmResetPassword, changePassword };

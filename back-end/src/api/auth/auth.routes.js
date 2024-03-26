@@ -4,10 +4,9 @@ import authController from "./auth.controller.js";
 
 import {checkAuthentication} from "../../middlewares/auth.middleware.js"
 import { schemaValidator } from "../../middlewares/validation.middleware.js";
-import { signUpSchema, loginSchema, initiateResetPasswordSchema, confirmResetPasswordSchema, changePasswordSchema } from "./auth.validation.schema.js";
+import { loginSchema, initiateResetPasswordSchema, confirmResetPasswordSchema, changePasswordSchema } from "./auth.validation.schema.js";
 
 export const authRoutes = express.Router();
-authRoutes.post("/create", schemaValidator(signUpSchema), authController.signup);
 authRoutes.post("/login", schemaValidator(loginSchema), authController.login);
 authRoutes.delete("/logout", authController.logout);
 

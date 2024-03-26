@@ -15,6 +15,12 @@ const createRoles = async () => {
 
 const createPermissions = async () => {};
 
+const assignPermissionToRoles = async () => {}
+
+const createAdmin= async () => {
+    
+}
+
 export const startup = {
     createRoles,
     createPermissions,
