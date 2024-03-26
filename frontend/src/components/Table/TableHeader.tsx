@@ -46,7 +46,7 @@ const TableHeader: React.FC<TableHeaderProps> = ({
           <th
             key={item}
             className={`whitespace-normal break-words py-3 pr-2 ${
-              index === 0 && "pl-2"
+              index === 0 && "pl-3"
             } text-left text-lg  ${
               !checkBox && index === 0 && "pl-3"
             } ${customTableHeaderClass}`}

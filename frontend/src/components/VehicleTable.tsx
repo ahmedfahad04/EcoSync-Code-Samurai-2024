@@ -7,15 +7,13 @@ import {
 
 import Table from "@/components/Table/Table";
 import TableRow from "@/components/Table/TableRow";
-import { IUsers } from "@/models/Users";
+import { IVehicle } from "@/models/Vehicles";
 import Chip from "@/ui/Chip";
-import { createAvatar } from "@/utils/CreateAvatart";
 import { formattedDate } from "@/utils/formatDate";
-import avatar from "../../public/avatar.png";
 
-interface UserTableProps {
+interface VehicleTableProps {
   id: string;
-  users: Array<IUsers>;
+  vehicles: Array<IVehicle>;
   loading: boolean;
   lastRowRef: React.Ref<HTMLTableRowElement>;
   checkedRow: Set<string>;
@@ -24,21 +22,21 @@ interface UserTableProps {
   setCheckedRow: React.Dispatch<React.SetStateAction<Set<string>>>;
 }
 
-const UserTable = ({
+const VehicleTable = ({
   id,
-  users,
+  vehicles,
   loading,
   lastRowRef,
   checkedRow,
   actions,
   options,
   setCheckedRow,
-}: UserTableProps) => {
+}: VehicleTableProps) => {
   const handleChangeHeaderCheckbox = ({ checked }: ICheckboxData) => {
     const temp = new Set<string>();
     if (checked) {
-      const result = users?.reduce((acc, contact) => {
-        acc.add(contact.userId);
+      const result = vehicles?.reduce((acc, contact) => {
+        acc.add(contact.vid);
         return acc;
       }, temp);
 
@@ -57,39 +55,38 @@ const UserTable = ({
   return (
     <Table
       id={id}
-      headerData={["User", "Role", "Email", "Phone", "Create Date"]}
-      columnWidth={["28%", "15%", "25%", "18%", "15%"]}
-      checkBox={!!users.length}
+      headerData={["Vehicle Number", "Type", "Capaity", "Registered Date"]}
+      columnWidth={["32%", "28%", "25%", "15%"]}
+      checkBox={!!vehicles.length}
       customTableClass="contact-table w-full no-scrollbar"
-      isChecked={!!users.length && checkedRow.size === users.length}
+      isChecked={!!vehicles.length && checkedRow.size === vehicles.length}
       isAnyRowChecked={!!checkedRow.size}
       actions={actions}
       onChangeCheckbox={handleChangeHeaderCheckbox}
     >
-      {loading || !users
+      {loading || !vehicles
         ? Array.from({ length: 10 }).map((_, index) => (
             <TableSkeleton key={index} />
           ))
-        : users?.map((user: IUsers, index: number) => (
+        : vehicles?.map((vehicle: IVehicle, index: number) => (
             <TableRow
               key={index}
-              id={user.userId}
-              observerRef={users.length == index + 1 ? lastRowRef : null}
+              id={vehicle.vid}
+              observerRef={vehicles.length == index + 1 ? lastRowRef : null}
               checkBox={true}
-              isChecked={checkedRow.has(user.userId)}
-              rowData={[
-                createAvatar(avatar, user.name),
-                <Chip data={user.role} type="user" />,
-                user.email,
-                user.phone,
-                formattedDate(user.createdAt.toString()),
-              ]}
+              isChecked={checkedRow.has(vehicle.vehicleNumber)}
               options={options}
               onChangeCheckbox={handleChangeRowCheckbox}
+              rowData={[
+                vehicle.vehicleNumber,
+                <Chip data={vehicle.vehicleType} type="vehicle" />,
+                vehicle.vehicleCapacity,
+                formattedDate(vehicle.createdAt.toString()),
+              ]}
             />
           ))}
     </Table>
   );
 };
 
-export default UserTable;
+export default VehicleTable;
