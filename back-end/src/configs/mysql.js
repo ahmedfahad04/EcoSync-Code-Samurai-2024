@@ -20,6 +20,9 @@ import Vehicle from "../models/Vehicle.js";
 import STSDepartureEntry from "../models/STSDepartureEntry.js";
 import TruckDumpingEntry from "../models/TruckDumpingEntry.js";
 
+import UserSTS_Manager from "../models/UserSTS_Manager.js";
+import UserLandfill_Manager from "../models/UserLandfill_Manager.js";
+
 import Bill from "../models/Bill.js";
 
 const options = { sequelize, DataTypes, Sequelize, Op };
@@ -36,6 +39,9 @@ const models = {
     STSDepartureEntry: STSDepartureEntry(options),
     TruckDumpingEntry: TruckDumpingEntry(options),
 
+    UserSTS_Manager: UserSTS_Manager(options),
+    UserLandfill_Manager: UserLandfill_Manager(options),
+
     Bill: Bill(options),
 };
 
@@ -51,7 +57,7 @@ export function initializeMySqlConnection() {
         count += 1;
         sequelize
             .authenticate()
-            .then(async() => {
+            .then(async () => {
                 clearInterval(interval);
                 console.log(`MySql connection has been established successfully.`);
                 await sequelize.sync();

@@ -11,6 +11,7 @@ export default (options) => {
         sts_name: {
             type: DataTypes.STRING,
             allowNull: false,
+            unique: true,
         },
         gps_coordinate: {
             type: DataTypes.STRING,
@@ -25,18 +26,15 @@ export default (options) => {
             type: DataTypes.INTEGER,
             allowNull: false,
             comment: "Capacity in tons",
-        },
-        sts_manager_id: {
-            type: DataTypes.UUID,
-            allowNull: true,
-            references: {
-                model: "users",
-                key: "user_id",
-            },
-        },
+        }
     });
 
-    STS.associate = (models) => {};
+    STS.associate = (models) => {
+        STS.belongsToMany(models.User, {
+            through: models.UserSTS_Manager,
+            foreignKey: "sts_id"
+        });
+    };
 
     return STS;
 };

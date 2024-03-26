@@ -11,6 +11,7 @@ export default (options) => {
         landfill_name: {
             type: DataTypes.STRING,
             allowNull: false,
+            unique: true,
         },
         gps_coordinate: {
             type: DataTypes.STRING,
@@ -25,17 +26,14 @@ export default (options) => {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
-        landfill_manager_id: {
-            type: DataTypes.UUID,
-            allowNull: true,
-            references: {
-                model: "users",
-                key: "user_id",
-            },
-        },
     });
 
-    Landfill.associate = (models) => {};
+    Landfill.associate = (models) => {
+        Landfill.belongsToMany(models.User, {
+            through: models.UserLandfill_Manager,
+            foreignKey: "landfill_id",
+        });
+    };
 
     return Landfill;
 };
