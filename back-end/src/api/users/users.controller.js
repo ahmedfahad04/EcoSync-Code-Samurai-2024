@@ -14,12 +14,6 @@ async function findOne(req, res) {
     res.status(200).json(user);
 }
 
-async function getProfile(req, res) {
-    const { user_id } = req.user;
-    const { user } = await usersService.findOne(user_id);
-    res.status(200).json(user);
-}
-
 async function findAll(req, res) {
     const query = req.query;
     const users = await usersService.findAll(query);
@@ -57,7 +51,6 @@ async function addRole(req, res) {
 export default {
     create,
     findOne,
-    getProfile,
     findAll,
     update,
     deleteUser,
