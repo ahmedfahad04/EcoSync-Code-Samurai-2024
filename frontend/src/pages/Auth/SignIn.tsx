@@ -1,10 +1,10 @@
 import SignInForm from "@/components/Auth/SignInForm";
 import AuthLayout from "@/layout/AuthLayout";
-import AuthImage from "../../../public/auth-image-3.jpg";
+import AuthImage from "../../../public/auth-2.jpg";
 
 const SignIn = () => {
   return (
-    <AuthLayout imageSource={AuthImage}>
+    <AuthLayout imageSource={AuthImage} imagePosition="left">
       <SignInForm />
     </AuthLayout>
   );
