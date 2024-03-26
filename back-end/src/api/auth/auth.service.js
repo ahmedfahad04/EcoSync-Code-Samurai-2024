@@ -4,6 +4,8 @@ import utils from "../../utils/utils.js";
 import { config } from "../../configs/config.js";
 import { nodeCache } from "../../configs/nodeCache.js";
 import { sendEmailWithOTP } from "../../configs/nodemailer.js";
+import rbacRepository from "../rbac/rbac.repository.js";
+import { RoleTypes } from "../../models/Role.js";
 
 async function signup(signUpDto) {
     const exists = await usersRepository.isUserExistByEmail(signUpDto.email);
@@ -11,10 +13,20 @@ async function signup(signUpDto) {
 
     signUpDto.password = await utils.hashPassword(signUpDto.password);
 
+    let role;
+    if (signUpDto.role_id) {
+        role = await rbacRepository.findOneRoleById(signUpDto.role_id);
+        if (!role) throw new HttpError({ role_id: "invalid role_id" }, 400);
+    } else {
+        role = await rbacRepository.findOneRoleByName(RoleTypes.unassigned);
+        signUpDto.role_id = role.role_id;
+    }
+
     let user = await usersRepository.createOneUser(signUpDto);
 
     delete user.password;
 
+    user.role = role;
     return user;
 }
 

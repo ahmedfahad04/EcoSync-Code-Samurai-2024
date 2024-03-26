@@ -1,4 +1,4 @@
-import { models } from "../../configs/mysql.js";
+import { models, sequelize } from "../../configs/mysql.js";
 
 async function createOneUser(user) {
     const createdUser = await models.User.create(user);

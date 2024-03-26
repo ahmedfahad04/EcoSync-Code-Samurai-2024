@@ -13,11 +13,8 @@ export async function checkAuthentication(req, res, next) {
         const decodedToken = utils.verifyJwtToken(accessToken);
 
         if (!decodedToken) {
-            // return checkRefreshToken(req, res, next);
             return res.status(401).json({ message: "authentication failed" });
         }
-
-        // do something here if roles are updated for that user
 
         req.user = decodedToken;
 

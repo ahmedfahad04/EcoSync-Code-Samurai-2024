@@ -2,6 +2,7 @@
 
 import { Sequelize, Op, DataTypes } from "sequelize";
 import { config } from "./config.js";
+import { startup } from "./mysql.startup.js";
 
 const sequelize = new Sequelize(config.mysql.database_url, {
     logging: false,
@@ -10,7 +11,6 @@ const sequelize = new Sequelize(config.mysql.database_url, {
 
 import User from "../models/User.js";
 import Role from "../models/Role.js";
-import UserRole from "../models/UserRole.js";
 import Permission from "../models/Permission.js";
 import RolePermission from "../models/RolePermission.js";
 
@@ -27,7 +27,6 @@ const options = { sequelize, DataTypes, Sequelize, Op };
 const models = {
     User: User(options),
     Role: Role(options),
-    UserRole: UserRole(options),
     Permission: Permission(options),
     RolePermission: RolePermission(options),
 
@@ -52,10 +51,13 @@ export function initializeMySqlConnection() {
         count += 1;
         sequelize
             .authenticate()
-            .then(() => {
+            .then(async() => {
                 clearInterval(interval);
                 console.log(`MySql connection has been established successfully.`);
-                sequelize.sync();
+                await sequelize.sync();
+
+                // create initial data
+                await startup.createRoles();
             })
             .catch((err) => {
                 console.log("\n");
