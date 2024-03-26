@@ -1,5 +1,5 @@
 import usersService from "./users.service.js";
-import rbacRepository from "../rbac/rbac.repository.js";
+import rolesRepository from "../rbac/roles.repository.js";
 
 async function create(req, res) {
     const dto = req.body;
@@ -41,7 +41,7 @@ async function deleteUser(req, res) {
 }
 
 async function findAvailableRoles(req, res) {
-    const roles = await rbacRepository.findAllRole();
+    const roles = await rolesRepository.findAllRole();
     res.json(roles);
 }
 

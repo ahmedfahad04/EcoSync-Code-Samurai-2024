@@ -1,7 +1,7 @@
 import { HttpError } from "../../utils/HttpError.js";
 import usersRepository from "./users.repository.js";
 import utils from "../../utils/utils.js";
-import rbacRepository from "../rbac/rbac.repository.js";
+import rolesRepository from "../rbac/roles.repository.js";
 import { RoleTypes } from "../../models/Role.js";
 
 async function create(userDto) {
@@ -12,10 +12,10 @@ async function create(userDto) {
 
     let role;
     if (userDto.role_id) {
-        role = await rbacRepository.findOneRoleById(userDto.role_id);
+        role = await rolesRepository.findOneRoleById(userDto.role_id);
         if (!role) throw new HttpError({ role_id: "invalid role_id" }, 400);
     } else {
-        role = await rbacRepository.findOneRoleByName(RoleTypes.unassigned);
+        role = await rolesRepository.findOneRoleByName(RoleTypes.unassigned);
         userDto.role_id = role.role_id;
     }
 
@@ -69,7 +69,7 @@ async function addRole(user_id, role_id) {
 
     if (!user) throw new HttpError({ message: `user with id: ${user_id} not found` }, 404);
 
-    const role = await rbacRepository.findOneRoleById(role_id);
+    const role = await rolesRepository.findOneRoleById(role_id);
     if (!role) throw new HttpError({ role_id: "invalid role_id" }, 400);
 
     await usersRepository.updateOneUser(user_id, { role_id });
