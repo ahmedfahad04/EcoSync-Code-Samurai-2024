@@ -10,6 +10,7 @@ import { config } from "./src/configs/config.js";
 import { authRoutes } from "./src/api/auth/auth.routes.js";
 import { usersRoutes } from "./src/api/users/users.routes.js";
 import { profileRoutes } from "./src/api/profile/profile.routes.js";
+import { vehicleRoutes } from "./src/api/vehicles/vehicles.routes.js";
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(cookieParser(config.cookie.secret));
 app.use("/api/auth", authRoutes);
 app.use("/api/users", usersRoutes);
 app.use("/api/profile", profileRoutes);
+app.use("/api/vehicles", vehicleRoutes);
 
 app.use(notFoundHandler);
 app.use(globalErrorHandler);

@@ -27,7 +27,7 @@ export default (options) => {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                isIn: [[Object.values(VehicleTypes)]],
+                isIn: [Object.values(VehicleTypes)],
             },
         },
         capacity: {
