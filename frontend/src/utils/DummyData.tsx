@@ -1,4 +1,5 @@
 import { IUsers } from "@/models/Users";
+import { IVehicle } from "@/models/Vehicles";
 
 export const dummyUsers: IUsers[] = [
   {
@@ -8,7 +9,7 @@ export const dummyUsers: IUsers[] = [
     phone: "+1234567890",
     role: "Admin",
     userId: "1",
-    createdAt: new Date(),
+    createdAt: new Date("2022-03-25"),
   },
   {
     name: "Jane Smith",
@@ -17,7 +18,7 @@ export const dummyUsers: IUsers[] = [
     phone: "+1987654321",
     role: "STS Manager",
     userId: "2",
-    createdAt: new Date(),
+    createdAt: new Date("2022-03-25"),
   },
   {
     name: "Alice Johnson",
@@ -26,7 +27,7 @@ export const dummyUsers: IUsers[] = [
     phone: "+1122334455",
     role: "Unassigned",
     userId: "3",
-    createdAt: new Date(),
+    createdAt: new Date("2022-03-26"),
   },
   {
     name: "Bob Brown",
@@ -35,7 +36,7 @@ export const dummyUsers: IUsers[] = [
     phone: "+1765432987",
     role: "Landfil Manager",
     userId: "4",
-    createdAt: new Date(),
+    createdAt: new Date("2022-03-25"),
   },
   {
     name: "Emily Davis",
@@ -44,6 +45,117 @@ export const dummyUsers: IUsers[] = [
     phone: "+1987234567",
     role: "Unassigned",
     userId: "5",
-    createdAt: new Date(),
+    createdAt: new Date("2022-03-25"),
+  },
+  // Add 5 more entries
+  {
+    name: "Michael Johnson",
+    userName: "michael_johnson",
+    email: "michael.johnson@example.com",
+    phone: "+1122334455",
+    role: "Admin",
+    userId: "6",
+    createdAt: new Date("2022-03-26"),
+  },
+  {
+    name: "Jessica Brown",
+    userName: "jessica_brown",
+    email: "jessica.brown@example.com",
+    phone: "+1765432987",
+    role: "Manager",
+    userId: "7",
+    createdAt: new Date("2022-03-25"),
+  },
+  {
+    name: "David Smith",
+    userName: "david_smith",
+    email: "david.smith@example.com",
+    phone: "+1987234567",
+    role: "Developer",
+    userId: "8",
+    createdAt: new Date("2022-03-25"),
+  },
+  {
+    name: "Sarah Davis",
+    userName: "sarah_davis",
+    email: "sarah.davis@example.com",
+    phone: "+1987654321",
+    role: "Designer",
+    userId: "9",
+    createdAt: new Date("2022-03-25"),
+  },
+  {
+    name: "Daniel Wilson",
+    userName: "daniel_wilson",
+    email: "daniel.wilson@example.com",
+    phone: "+1234567890",
+    role: "Tester",
+    userId: "10",
+    createdAt: new Date("2022-03-25"),
+  },
+  {
+    name: "David Smith",
+    userName: "david_smith",
+    email: "david.smith@example.com",
+    phone: "+1987234567",
+    role: "Developer",
+    userId: "8",
+    createdAt: new Date("2022-03-25"),
+  },
+  {
+    name: "Sarah Davis",
+    userName: "sarah_davis",
+    email: "sarah.davis@example.com",
+    phone: "+1987654321",
+    role: "Designer",
+    userId: "9",
+    createdAt: new Date("2022-03-25"),
+  },
+  {
+    name: "Daniel Wilson",
+    userName: "daniel_wilson",
+    email: "daniel.wilson@example.com",
+    phone: "+1234567890",
+    role: "Tester",
+    userId: "10",
+    createdAt: new Date("2022-03-25"),
+  },
+];
+
+export const dummyVehicles: IVehicle[] = [
+  {
+    vid: "1",
+    vehicleNumber: "ABC123",
+    vehicleType: "Open Truck",
+    vehicleCapacity: "3 Ton",
+    createdAt: new Date("2022-01-01"),
+  },
+  {
+    vid: "2",
+    vehicleNumber: "XYZ456",
+    vehicleType: "Dump Truck",
+    vehicleCapacity: "5 Ton",
+    createdAt: new Date("2022-02-15"),
+  },
+  {
+    vid: "3",
+    vehicleNumber: "DEF789",
+    vehicleType: "Compactor",
+    vehicleCapacity: "7 Ton",
+    createdAt: new Date("2022-03-20"),
+  },
+  {
+    vid: "4",
+    vehicleNumber: "GHI012",
+    vehicleType: "Container Carrier",
+    vehicleCapacity: "3 Ton",
+    createdAt: new Date("2022-04-10"),
+  },
+  {
+    vid: "5",
+    vehicleNumber: "JKL345",
+    vehicleType: "Open Truck",
+    vehicleCapacity: "7 Ton",
+    createdAt: new Date("2022-05-25"),
   },
 ];
