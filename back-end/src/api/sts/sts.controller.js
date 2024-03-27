@@ -8,13 +8,12 @@ async function createSts(req, res) {
 
     const exist = await models.STS.findOne({ where: { sts_name: stsDto.sts_name } });
     if (exist) {
-        throw new HttpError({ sts_number: "sts name already exists" }, 400);
+        throw new HttpError({ sts_name: "sts name already exists" }, 400);
     }
 
-    stsDto.gps_coordinate = JSON.stringify(stsDto.gps_coordinate);
-
-    let sts = await models.STS.create(stsDto);
+    let sts = await models.STS.create({...stsDto, gps_coordinate:  JSON.stringify(stsDto.gps_coordinate)});
     sts = sts.toJSON();
+    sts.gps_coordinate = stsDto.gps_coordinate;
 
     res.status(201).json(sts);
 }

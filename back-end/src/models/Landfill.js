@@ -1,5 +1,10 @@
 "use strict";
 
+export const time_format = {
+    regex: /^([0-1][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/,
+    msg: "Invalid time format. Please use HH:MM:SS",
+};
+
 export default (options) => {
     const { sequelize, DataTypes, Sequelize } = options;
     const Landfill = sequelize.define("landfills", {
@@ -23,14 +28,20 @@ export default (options) => {
             allowNull: false,
         },
         opening_time: {
-            type: DataTypes.DATE,
+            type: DataTypes.STRING,
             allowNull: false,
-            defaultValue: DataTypes.NOW,
+            defaultValue: "06:00:00",
+            validate: {
+                is: time_format.regex,
+            },
         },
-        cosing_time: {
-            type: DataTypes.DATE,
+        closing_time: {
+            type: DataTypes.STRING,
             allowNull: false,
-            defaultValue: DataTypes.NOW,
+            defaultValue: "17:00:00",
+            validate: {
+                is: time_format.regex,
+            },
         },
     });
 

@@ -11,7 +11,7 @@ const createRoles = async () => {
             role_name: roleName,
         }));
         await models.Role.bulkCreate(rolesToCreate, { updateOnDuplicate: ["role_name"] });
-        console.log("Roles created successfully");
+        console.log("Roles are created successfully");
     } catch (error) {
         console.error("Error creating roles:", error);
     }

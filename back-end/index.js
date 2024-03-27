@@ -12,6 +12,7 @@ import { usersRoutes } from "./src/api/users/users.routes.js";
 import { profileRoutes } from "./src/api/profile/profile.routes.js";
 import { vehicleRoutes } from "./src/api/vehicles/vehicles.routes.js";
 import { stsRoutes } from "./src/api/sts/sts.routes.js";
+import { landfillRoutes } from "./src/api/landfills/landfills.routes.js";
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use("/api/users", usersRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/vehicles", vehicleRoutes);
 app.use("/api/sts", stsRoutes);
+app.use("/api/landfills", landfillRoutes);
 
 app.use(notFoundHandler);
 app.use(globalErrorHandler);
