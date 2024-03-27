@@ -35,16 +35,17 @@ const AddVechileForm = () => {
       </header>
 
       {/* form */}
-      <form action="" className="mt-10">
+      <form action="" className="mt-10 w-full">
         <InputField
           id="vid"
-          name="vehicleNumber"
+          name="Vehicle Number"
           placeholder="DHAKA-D-11-9999"
           value={formData.vehicleNumber}
           label={true}
           onChange={handleChange}
           customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
         />
+
         <Dropdown
           name="Select Truck Type"
           options={[
@@ -54,7 +55,7 @@ const AddVechileForm = () => {
             "Container Carrier",
           ]}
           label="Vehicle Type"
-          customClass="mt-5"
+          customClass="mt-3"
           onSelect={(selectedOption) =>
             setFormData((prevFormData) => ({
               ...prevFormData,
@@ -67,13 +68,33 @@ const AddVechileForm = () => {
           name="Select Capacity"
           options={["3 Ton", "5 Ton", "7 Ton"]}
           label="Vehicle Capacity"
-          customClass="mt-5 bg-slate-300/6"
+          customClass="mt-3 bg-slate-300/6"
           onSelect={(selectedOption) =>
             setFormData((prevFormData) => ({
               ...prevFormData,
               capacity: selectedOption,
             }))
           }
+        />
+
+        <InputField
+          id="vid"
+          name="Fuel Cost Loaded (per km /-)"
+          placeholder="250"
+          value={formData.vehicleNumber}
+          label={true}
+          onChange={handleChange}
+          customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
+        />
+
+        <InputField
+          id="vid"
+          name="Fuel Cost Unloaded (per km /-)"
+          placeholder="180"
+          value={formData.vehicleNumber}
+          label={true}
+          onChange={handleChange}
+          customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
         />
 
         <div className="flex flex-auto justify-end items-end ">

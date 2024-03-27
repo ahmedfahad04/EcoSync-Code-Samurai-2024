@@ -32,19 +32,19 @@ const VehicleTable = ({
   options,
   setCheckedRow,
 }: VehicleTableProps) => {
-  const handleChangeHeaderCheckbox = ({ checked }: ICheckboxData) => {
-    const temp = new Set<string>();
-    if (checked) {
-      const result = vehicles?.reduce((acc, contact) => {
-        acc.add(contact.vid);
-        return acc;
-      }, temp);
+  // const handleChangeHeaderCheckbox = ({ checked }: ICheckboxData) => {
+  //   const temp = new Set<string>();
+  //   if (checked) {
+  //     const result = vehicles?.reduce((acc, contact) => {
+  //       acc.add(contact.vid);
+  //       return acc;
+  //     }, temp);
 
-      setCheckedRow(result);
-    } else {
-      setCheckedRow(temp);
-    }
-  };
+  //     setCheckedRow(result);
+  //   } else {
+  //     setCheckedRow(temp);
+  //   }
+  // };
 
   const handleChangeRowCheckbox = ({ name, checked }: ICheckboxData) => {
     const temp = new Set(checkedRow);
@@ -57,12 +57,12 @@ const VehicleTable = ({
       id={id}
       headerData={["Vehicle Number", "Type", "Capaity", "Registered Date"]}
       columnWidth={["32%", "28%", "25%", "15%"]}
-      checkBox={!!vehicles.length}
+      // checkBox={!!vehicles.length}
       customTableClass="contact-table w-full no-scrollbar"
-      isChecked={!!vehicles.length && checkedRow.size === vehicles.length}
-      isAnyRowChecked={!!checkedRow.size}
+      // isChecked={!!vehicles.length && checkedRow.size === vehicles.length}
+      // isAnyRowChecked={!!checkedRow.size}
       actions={actions}
-      onChangeCheckbox={handleChangeHeaderCheckbox}
+      // onChangeCheckbox={handleChangeHeaderCheckbox}
     >
       {loading || !vehicles
         ? Array.from({ length: 10 }).map((_, index) => (
@@ -73,10 +73,10 @@ const VehicleTable = ({
               key={index}
               id={vehicle.vid}
               observerRef={vehicles.length == index + 1 ? lastRowRef : null}
-              checkBox={true}
-              isChecked={checkedRow.has(vehicle.vehicleNumber)}
-              options={options}
-              onChangeCheckbox={handleChangeRowCheckbox}
+              // checkBox={true}
+              // isChecked={checkedRow.has(vehicle.vehicleNumber)}
+              // options={options}
+              // onChangeCheckbox={handleChangeRowCheckbox}
               rowData={[
                 vehicle.vehicleNumber,
                 <Chip data={vehicle.vehicleType} type="vehicle" />,
