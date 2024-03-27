@@ -1,8 +1,7 @@
 import AddVehicle from "@/components/Modals/AddVehicle";
-import VehicleTable from "@/components/VehicleTable";
 import Layout from "@/layout/Layout";
 import { IVehicle } from "@/models/Vehicles";
-import { DeleteIcon, Edit3Icon, SearchIcon } from "lucide-react";
+import { SearchIcon } from "lucide-react";
 import { useState } from "react";
 
 const Vehicles = () => {
@@ -105,7 +104,7 @@ const Vehicles = () => {
 
         {/* vehicle table */}
         <div className="flex-1 mt-10">
-          <VehicleTable
+          {/* <VehicleTable
             id={"usertable"}
             vehicles={dummyData}
             loading={false}
@@ -125,7 +124,7 @@ const Vehicles = () => {
               },
             ]}
             setCheckedRow={setCheckedRow}
-          />
+          /> */}
         </div>
       </div>
     </Layout>
