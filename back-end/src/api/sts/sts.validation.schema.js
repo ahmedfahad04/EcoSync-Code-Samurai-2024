@@ -13,3 +13,7 @@ export const updateStsSchema = Joi.object({
     ward_number: Joi.string().optional(),
     capacity: Joi.number().optional(),
 });
+
+export const addManagerSchema = Joi.object({
+    manager_id: Joi.string().trim().required().max(100),
+});
