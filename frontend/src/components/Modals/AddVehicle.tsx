@@ -10,7 +10,7 @@ interface AddVehicleModalProps {
 
 const AddVehicle: React.FC<AddVehicleModalProps> = ({
   isOpen,
-  customClass = "w-1/4 flex flex-col justify-center item-center",
+  customClass = "w-[500px] flex flex-col justify-center item-center",
   onClose,
 }) => {
   return (

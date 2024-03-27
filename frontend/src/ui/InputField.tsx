@@ -8,7 +8,7 @@ interface InputFieldProps {
   id: string;
   name: string;
   value: string;
-  label?: boolean;
+  label?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -32,9 +32,9 @@ const InputField: React.FC<InputFieldProps> = ({
     return (
       <div className="relative">
         {/* Label for input field */}
-        {label && (
+        {label.length > 0 && (
           <label htmlFor={id} className="text-black text-md font-medium">
-            {name}
+            {label}
           </label>
         )}
 
@@ -67,12 +67,12 @@ const InputField: React.FC<InputFieldProps> = ({
   return (
     <div className="w-full flex flex-col justify-center items-center">
       {/* Label for input field */}
-      {label && (
+      {label.length > 0 && (
         <label
           htmlFor={id}
           className="text-black w-full mb-1 mt-3 text-md font-medium"
         >
-          {name}
+          {label}
         </label>
       )}
 

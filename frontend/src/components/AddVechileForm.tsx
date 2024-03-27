@@ -8,9 +8,11 @@ const AddVechileForm = () => {
     vehicleNumber: "",
     truckType: "",
     capacity: "",
+    cpk_loaded: "",
+    cpk_unloaded: "",
   });
 
-  const handleChange = (e: { target: { name: any; value: any } }) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
@@ -19,6 +21,7 @@ const AddVechileForm = () => {
   };
 
   const handleCreate = () => {
+    //! api call
     console.log("Form Data:", formData);
   };
 
@@ -35,13 +38,13 @@ const AddVechileForm = () => {
       </header>
 
       {/* form */}
-      <form action="" className="mt-10 w-full">
+      <form className="mt-10 w-full">
         <InputField
-          id="vid"
-          name="Vehicle Number"
+          id="vehicleNumber"
+          name="vehicleNumber"
           placeholder="DHAKA-D-11-9999"
           value={formData.vehicleNumber}
-          label={true}
+          label={"Vehicle Number"}
           onChange={handleChange}
           customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
         />
@@ -78,28 +81,30 @@ const AddVechileForm = () => {
         />
 
         <InputField
-          id="vid"
-          name="Fuel Cost Loaded (per km /-)"
+          id="cpk_loaded"
+          name="cpk_loaded"
+          type="number"
           placeholder="250"
-          value={formData.vehicleNumber}
-          label={true}
+          value={formData.cpk_loaded}
+          label={"Fuel Cost Loaded (per km /-)"}
           onChange={handleChange}
           customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
         />
 
         <InputField
-          id="vid"
-          name="Fuel Cost Unloaded (per km /-)"
+          id="cpk_unloaded"
+          name="cpk_unloaded"
           placeholder="180"
-          value={formData.vehicleNumber}
-          label={true}
+          type="number"
+          value={formData.cpk_unloaded}
+          label={"Fuel Cost Unloaded (per km /-)"}
           onChange={handleChange}
           customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
         />
 
         <div className="flex flex-auto justify-end items-end ">
           <button
-            type="button"
+            type="submit"
             onClick={handleCreate}
             className="p-2 bg-primary hover:bg-secondary hover:text-black text-white rounded-md mt-8"
           >
