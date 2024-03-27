@@ -13,8 +13,8 @@ export const getRoleColor = (role: string | undefined): string => {
     }
 };
 
-export const getTruckTypeColor = (role: string | undefined): string => {
-    switch (role) {
+export const getTruckTypeColor = (type: string | undefined): string => {
+    switch (type) {
         case TRUCKTYPE.TYPE1:
             return "bg-red-100 text-red-800";
         case TRUCKTYPE.TYPE2:
