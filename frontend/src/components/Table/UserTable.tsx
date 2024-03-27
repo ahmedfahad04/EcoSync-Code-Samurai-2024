@@ -2,18 +2,17 @@ import { IUsers } from "@/models/Users";
 import Chip from "@/ui/Chip";
 import { dummyUsers } from "@/utils/DummyData";
 import { formattedDate } from "@/utils/formatDate";
-import { Delete } from "@mui/icons-material";
-import { EditIcon } from "lucide-react";
-import {
-  MRT_ActionMenuItem,
-  MaterialReactTable,
-  type MRT_ColumnDef,
-} from "material-react-table";
-import { useMemo } from "react";
+import MenuItem from "@mui/material/MenuItem/MenuItem";
+import { EditIcon, TrashIcon } from "lucide-react";
+import { MaterialReactTable, type MRT_ColumnDef } from "material-react-table";
+import { useMemo, useState } from "react";
+import AddUser from "../Modals/AddUser";
 
 const data = dummyUsers;
 
 const NewUserTable = () => {
+  const [showAddUserModal, setShowAddUserModal] = useState<boolean>(false);
+
   const columns = useMemo<MRT_ColumnDef<IUsers>[]>(
     () => [
       {
@@ -66,24 +65,38 @@ const NewUserTable = () => {
         // positionActionsColumn="last"
         enableStickyHeader
         muiTableContainerProps={{ sx: { maxHeight: "500px" } }}
-        renderRowActionMenuItems={({ row, table }) => [
-          <MRT_ActionMenuItem //or just use a normal MUI MenuItem component
-            icon={<EditIcon />}
+        renderRowActionMenuItems={({ closeMenu, row, table }) => [
+          <MenuItem
             key="edit"
-            label="Edit"
-            onClick={() => alert(row.original.name)}
-            table={table}
-            className="bg-blue-200"
-          />,
-          <MRT_ActionMenuItem
-            icon={<Delete />}
+            onClick={() => {
+              setShowAddUserModal(!showAddUserModal);
+              closeMenu();
+            }}
+            className="flex gap-2"
+          >
+            <EditIcon size={20} />
+            <span>Edit</span>
+          </MenuItem>,
+
+          <MenuItem
             key="delete"
-            label="Delete"
-            onClick={() => alert("Delete")}
-            table={table}
-          />,
+            onClick={() => {
+              console.info("Delete");
+              closeMenu();
+            }}
+            className="flex gap-2"
+          >
+            <TrashIcon size={20} />
+            <span>Delete</span>
+          </MenuItem>,
         ]}
       />
+      {showAddUserModal && (
+        <AddUser
+          isOpen={showAddUserModal}
+          onClose={() => setShowAddUserModal(false)}
+        />
+      )}
     </div>
   );
 };
