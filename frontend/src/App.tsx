@@ -1,5 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
+import ConfirmationMessage from "./pages/Auth/ConfirmationMessage";
+import ForgotPassword from "./pages/Auth/ForgotPassword";
 import SignIn from "./pages/Auth/SignIn";
 import Dashboard from "./pages/Dashboard";
 import Home from "./pages/Home";
@@ -21,6 +23,8 @@ function App() {
         </Route>
 
         <Route path="/login" element={<SignIn />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/confirmation" element={<ConfirmationMessage />} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>
