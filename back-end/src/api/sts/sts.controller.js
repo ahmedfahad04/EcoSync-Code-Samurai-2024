@@ -11,7 +11,7 @@ async function createSts(req, res) {
         throw new HttpError({ sts_name: "sts name already exists" }, 400);
     }
 
-    let sts = await models.STS.create({...stsDto, gps_coordinate:  JSON.stringify(stsDto.gps_coordinate)});
+    let sts = await models.STS.create({ ...stsDto, gps_coordinate: JSON.stringify(stsDto.gps_coordinate) });
     sts = sts.toJSON();
     sts.gps_coordinate = stsDto.gps_coordinate;
 
@@ -48,18 +48,19 @@ async function removeManager(req, res) {}
 
 async function addVehicleDepartureEntry(req, res) {
     const { sts_id } = req.params;
-    const enryDto = req.body;
+    const entryDto = req.body;
 
     const sts = await models.STS.findByPk(sts_id);
     if (!sts) throw new HttpError({ sts_id: "sts not found" }, 404);
 
-    const vehicle = await models.Vehicle.findByPk(enryDto.vehicle_id);
+    const vehicle = await models.Vehicle.findByPk(entryDto.vehicle_id);
     if (!vehicle) throw new HttpError({ vehicle_id: "vehicle not found" }, 404);
 
-    const landfill = await models.Landfill.findByPk(enryDto.landfill_id);
+    const landfill = await models.Landfill.findByPk(entryDto.landfill_id);
     if (!landfill) throw new HttpError({ landfill_id: "landfill not found" }, 404);
 
-    let departureEntry = await models.STSDepartureEntry.create(enryDto);
+    entryDto.sts_id = sts_id;
+    let departureEntry = await models.STSDepartureEntry.create(entryDto);
     departureEntry = departureEntry.toJSON();
 
     res.status(201).json(departureEntry);

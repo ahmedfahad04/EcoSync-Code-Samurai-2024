@@ -12,4 +12,4 @@ landfillRoutes.put("/:landfill_id", schemaValidator(updatelandfillSchema), landf
 landfillRoutes.put("/:landfill_id/manager", schemaValidator(addManagerSchema), landfillsController.addManager);
 landfillRoutes.delete("/:landfill_id/manager", landfillsController.removeManager);
 
-landfillRoutes.post("/:landfill_id/truck_dumping", schemaValidator(addTruckDumpingEntrySchema), landfillsController.addTruckDumpingEntry);
+landfillRoutes.post("/:landfill_id/truck-dumping", schemaValidator(addTruckDumpingEntrySchema), landfillsController.addTruckDumpingEntry);

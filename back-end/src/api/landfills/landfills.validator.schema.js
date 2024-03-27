@@ -23,7 +23,7 @@ export const addManagerSchema = Joi.object({
 
 export const addTruckDumpingEntrySchema = Joi.object({
     vehicle_id: Joi.string().trim().required(),
-    landfill_id: Joi.string().trim().required(),
+    sts_id: Joi.string().trim().required(),
     waste_volume: Joi.number().required(),
     arrival_time: Joi.date().required(),
     departure_time: Joi.date().required(),

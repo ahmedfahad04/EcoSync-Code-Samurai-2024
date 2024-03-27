@@ -45,7 +45,25 @@ async function addManager(req, res) {
 
 async function removeManager(req, res) {}
 
-async function addTruckDumpingEntry(req, res) {}
+async function addTruckDumpingEntry(req, res) {
+    const { landfill_id } = req.params;
+    const entryDto = req.body;
+
+    const landfill = await models.Landfill.findByPk(landfill_id);
+    if (!landfill) throw new HttpError({ landfill_id: "landfill not found" }, 404);
+
+    const vehicle = await models.Vehicle.findByPk(entryDto.vehicle_id);
+    if (!vehicle) throw new HttpError({ vehicle_id: "vehicle not found" }, 404);
+
+    const sts = await models.STS.findByPk(entryDto.sts_id);
+    if (!sts) throw new HttpError({ sts_id: "sts not found" }, 404);
+
+    entryDto.landfill_id = landfill_id;
+    let dumpingEntry = await models.TruckDumpingEntry.create(entryDto);
+    dumpingEntry = dumpingEntry.toJSON();
+
+    res.status(201).json(dumpingEntry);
+}
 
 export default {
     createLanfill,
