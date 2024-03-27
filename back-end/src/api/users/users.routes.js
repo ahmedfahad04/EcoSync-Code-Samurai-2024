@@ -18,5 +18,3 @@ usersRoutes.put("/:user_id", schemaValidator(updateUserSchema), usersController.
 usersRoutes.put("/:user_id/roles", schemaValidator(addRoleSchema), usersController.addRole);
 
 usersRoutes.delete("/:user_id", usersController.deleteUser);
-
-// usersRoutes.get("/profile", checkAuthentication, usersController.getProfile);
