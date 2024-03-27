@@ -1,6 +1,6 @@
 import ModalLayout from "@/layout/ModalLayout";
 import React from "react";
-import AddVechileForm from "../AddVechileForm";
+import AddUserForm from "../AddUserForm";
 
 interface AddVehicleModalProps {
   isOpen: boolean;
@@ -8,7 +8,7 @@ interface AddVehicleModalProps {
   onClose: () => void;
 }
 
-const AddVehicle: React.FC<AddVehicleModalProps> = ({
+const AddUser: React.FC<AddVehicleModalProps> = ({
   isOpen,
   customClass = "w-[500px] flex flex-col justify-center item-center",
   onClose,
@@ -17,12 +17,12 @@ const AddVehicle: React.FC<AddVehicleModalProps> = ({
     <ModalLayout
       isOpen={isOpen}
       onClose={onClose}
-      headline={"Add New Vehicle"}
+      headline={"Add New User"}
       customClass={customClass}
     >
-      <AddVechileForm />
+      <AddUserForm />
     </ModalLayout>
   );
 };
 
-export default AddVehicle;
+export default AddUser;

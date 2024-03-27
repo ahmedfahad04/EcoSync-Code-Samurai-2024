@@ -30,7 +30,7 @@ const InputField: React.FC<InputFieldProps> = ({
 
   if (type === "password") {
     return (
-      <div className="relative">
+      <div className="relative mt-3">
         {/* Label for input field */}
         {label.length > 0 && (
           <label htmlFor={id} className="text-black text-md font-medium">
@@ -40,7 +40,7 @@ const InputField: React.FC<InputFieldProps> = ({
 
         <input
           id={id}
-          className={`w-full h-12 mt-1 rounded-lg px-4 py-2.5 text-black text-base border-2 border-[#9095A1FF] placeholder:text-gray-400 placeholder:text-base focus:border-0 placeholder:font-light ${customInputClass}`}
+          className={`w-full h-10 text-sm rounded-lg px-4 py-2.5 text-black placeholder:text-gray-400 placeholder:text-base focus:border-0 placeholder:font-light ${customInputClass}`}
           type={isPasswordVisible ? "text" : "password"}
           placeholder={placeholder}
           onChange={onChange}
