@@ -2,16 +2,28 @@ import { IUsers } from "@/models/Users";
 import Chip from "@/ui/Chip";
 import { dummyUsers } from "@/utils/DummyData";
 import { formattedDate } from "@/utils/formatDate";
-import MenuItem from "@mui/material/MenuItem/MenuItem";
-import { EditIcon, TrashIcon } from "lucide-react";
-import { MaterialReactTable, type MRT_ColumnDef } from "material-react-table";
+import { Delete } from "@mui/icons-material";
+import { EditIcon } from "lucide-react";
+import {
+  MRT_ActionMenuItem,
+  MaterialReactTable,
+  type MRT_ColumnDef,
+} from "material-react-table";
 import { useMemo, useState } from "react";
-import AddUser from "../Modals/AddUser";
+import UpdateUserModal from "../Modals/UpdateUserModal";
 
 const data = dummyUsers;
 
 const NewUserTable = () => {
-  const [showAddUserModal, setShowAddUserModal] = useState<boolean>(false);
+  const [showUpdateUserModal, setShowUpdateUserModal] =
+    useState<boolean>(false);
+
+  const [userData, setUserData] = useState<{
+    name: string;
+    role: string;
+    email: string;
+    phone: string;
+  }>();
 
   const columns = useMemo<MRT_ColumnDef<IUsers>[]>(
     () => [
@@ -66,35 +78,38 @@ const NewUserTable = () => {
         enableStickyHeader
         muiTableContainerProps={{ sx: { maxHeight: "500px" } }}
         renderRowActionMenuItems={({ closeMenu, row, table }) => [
-          <MenuItem
+          <MRT_ActionMenuItem //or just use a normal MUI MenuItem component
+            icon={<EditIcon />}
             key="edit"
+            label="Edit"
             onClick={() => {
-              setShowAddUserModal(!showAddUserModal);
+              setUserData({
+                name: row.original.name,
+                email: row.original.email,
+                phone: row.original.phone,
+                role: row.original.role,
+              });
+              setShowUpdateUserModal(!showUpdateUserModal);
               closeMenu();
             }}
-            className="flex gap-2"
-          >
-            <EditIcon size={20} />
-            <span>Edit</span>
-          </MenuItem>,
-
-          <MenuItem
+            table={table}
+            className="bg-blue-200"
+          />,
+          <MRT_ActionMenuItem
+            icon={<Delete />}
             key="delete"
-            onClick={() => {
-              console.info("Delete");
-              closeMenu();
-            }}
-            className="flex gap-2"
-          >
-            <TrashIcon size={20} />
-            <span>Delete</span>
-          </MenuItem>,
+            label="Delete"
+            onClick={() => alert("Delete")}
+            table={table}
+          />,
         ]}
       />
-      {showAddUserModal && (
-        <AddUser
-          isOpen={showAddUserModal}
-          onClose={() => setShowAddUserModal(false)}
+
+      {showUpdateUserModal && (
+        <UpdateUserModal
+          isOpen={showUpdateUserModal}
+          onClose={() => setShowUpdateUserModal(false)}
+          userData={userData}
         />
       )}
     </div>

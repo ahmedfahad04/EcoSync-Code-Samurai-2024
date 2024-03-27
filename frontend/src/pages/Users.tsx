@@ -1,10 +1,10 @@
-import AddUser from "@/components/Modals/AddUser";
+import AddUserModal from "@/components/Modals/AddUserModal";
 import NewUserTable from "@/components/Table/UserTable";
 import Layout from "@/layout/Layout";
 import { useState } from "react";
 
 const Users = () => {
-  const [showAddUserModal, setShowAddUserModal] = useState<boolean>(false);
+  const [showAddUserModalModal, setShowAddUserModalModal] = useState<boolean>(false);
 
   return (
     <Layout>
@@ -14,16 +14,16 @@ const Users = () => {
           <p className="font-bold px-2 text-3xl">Users</p>
           <button
             className="h-8 mr-8 text-center flex items-center p-3 text-sm font-normal bg-[#14923EFF] text-white rounded-md hover:bg-[#177737]"
-            onClick={() => setShowAddUserModal(!showAddUserModal)}
+            onClick={() => setShowAddUserModalModal(!showAddUserModalModal)}
           >
             + New User
           </button>
         </div>
 
-        {showAddUserModal && (
-          <AddUser
-            isOpen={showAddUserModal}
-            onClose={() => setShowAddUserModal(false)}
+        {showAddUserModalModal && (
+          <AddUserModal
+            isOpen={showAddUserModalModal}
+            onClose={() => setShowAddUserModalModal(false)}
           />
         )}
 
