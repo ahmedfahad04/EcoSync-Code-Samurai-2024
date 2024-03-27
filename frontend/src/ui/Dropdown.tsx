@@ -36,7 +36,7 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   return (
     <div className={`relative inline-block text-left w-full ${customClass}`}>
-      {label && <p>{label}</p>}
+      {label && <p className="font-medium">{label}</p>}
       <div className="mt-2">
         <span className="rounded-md shadow-sm">
           <button

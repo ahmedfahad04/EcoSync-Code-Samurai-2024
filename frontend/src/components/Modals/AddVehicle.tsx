@@ -17,7 +17,7 @@ const AddVehicle: React.FC<AddVehicleModalProps> = ({
     <ModalLayout
       isOpen={isOpen}
       onClose={onClose}
-      headline={"Add new vehicle"}
+      headline={"Add New Vehicle"}
       customClass={customClass}
     >
       <AddVechileForm />
