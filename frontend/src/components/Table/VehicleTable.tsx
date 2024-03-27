@@ -61,12 +61,15 @@ const NewVehicleTable = () => {
         // positionActionsColumn="last"
         enableStickyHeader
         muiTableContainerProps={{ sx: { maxHeight: "500px" } }}
-        renderRowActionMenuItems={({ row, table }) => [
+        renderRowActionMenuItems={({ closeMenu, row, table }) => [
           <MRT_ActionMenuItem //or just use a normal MUI MenuItem component
             icon={<EditIcon />}
             key="edit"
             label="Edit"
-            onClick={() => alert(row.original.vehicleNumber)}
+            onClick={() => {
+              alert(row.original.vehicleNumber);
+              closeMenu();
+            }}
             table={table}
             className="bg-blue-200"
           />,
@@ -74,7 +77,10 @@ const NewVehicleTable = () => {
             icon={<Delete />}
             key="delete"
             label="Delete"
-            onClick={() => alert("Delete")}
+            onClick={() => {
+              alert("Delete");
+              closeMenu();
+            }}
             table={table}
           />,
         ]}

@@ -44,6 +44,16 @@ export default (options) => {
         User.belongsTo(models.Role, {
             foreignKey: "role_id",
         });
+
+        User.belongsToMany(models.STS, {
+            through: models.UserSTS_Manager,
+            foreignKey: "user_id"
+        });
+
+        User.belongsToMany(models.Landfill, {
+            through: models.UserLandfill_Manager,
+            foreignKey: "user_id"
+        });
     };
 
     return User;

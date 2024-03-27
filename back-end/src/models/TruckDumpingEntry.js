@@ -8,14 +8,6 @@ export default (options) => {
             defaultValue: Sequelize.UUIDV4,
             primaryKey: true,
         },
-        sts_id: {
-            type: DataTypes.UUID,
-            allowNull: false,
-            references: {
-                model: "sts",
-                key: "sts_id",
-            },
-        },
         landfill_id: {
             type: DataTypes.UUID,
             allowNull: false,
@@ -32,6 +24,14 @@ export default (options) => {
                 key: "vehicle_id",
             },
         },
+        sts_id: {
+            type: DataTypes.UUID,
+            allowNull: false,
+            references: {
+                model: "sts",
+                key: "sts_id",
+            },
+        },
         waste_volume: {
             type: DataTypes.FLOAT,
             allowNull: false,
@@ -39,12 +39,12 @@ export default (options) => {
         arrival_time: {
             type: DataTypes.DATE,
             allowNull: false,
-            defaultValue: DataTypes.NOW
+            defaultValue: DataTypes.NOW,
         },
         departure_time: {
             type: DataTypes.DATE,
             allowNull: false,
-            defaultValue: DataTypes.NOW
+            defaultValue: DataTypes.NOW,
         },
     });
 

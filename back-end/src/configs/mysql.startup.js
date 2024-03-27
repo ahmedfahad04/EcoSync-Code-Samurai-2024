@@ -1,13 +1,17 @@
 import { RoleTypes } from "../models/Role.js";
 import { models } from "./mysql.js";
 
+const start = async () => {
+    await createRoles();
+};
+
 const createRoles = async () => {
     try {
         const rolesToCreate = Object.values(RoleTypes).map((roleName) => ({
             role_name: roleName,
         }));
         await models.Role.bulkCreate(rolesToCreate, { updateOnDuplicate: ["role_name"] });
-        console.log("Roles created successfully");
+        console.log("Roles are created successfully");
     } catch (error) {
         console.error("Error creating roles:", error);
     }
@@ -15,13 +19,12 @@ const createRoles = async () => {
 
 const createPermissions = async () => {};
 
-const assignPermissionToRoles = async () => {}
+const assignPermissionToRoles = async () => {};
 
-const createAdmin= async () => {
-    
-}
+const createAdmin = async () => {};
 
 export const startup = {
     createRoles,
     createPermissions,
+    start,
 };
