@@ -1,6 +1,6 @@
-import { IUsers } from "@/models/Users";
+import { IVehicle } from "@/models/Vehicles";
 import Chip from "@/ui/Chip";
-import { dummyUsers } from "@/utils/DummyData";
+import { dummyVehicles } from "@/utils/DummyData";
 import { formattedDate } from "@/utils/formatDate";
 import { Delete } from "@mui/icons-material";
 import { EditIcon } from "lucide-react";
@@ -11,38 +11,33 @@ import {
 } from "material-react-table";
 import { useMemo } from "react";
 
-const data = dummyUsers;
+const data = dummyVehicles;
 
-const NewUserTable = () => {
-  const columns = useMemo<MRT_ColumnDef<IUsers>[]>(
+const NewVehicleTable = () => {
+  const columns = useMemo<MRT_ColumnDef<IVehicle>[]>(
     () => [
       {
-        accessorKey: "name",
-        header: "USER",
+        accessorKey: "vehicleNumber", //access nested data with dot notation
+        header: "VEHICLE NUMBER",
         size: 180,
       },
       {
-        accessorKey: "role",
-        header: "ROLE",
+        accessorKey: "vehicleType", //access nested data with dot notation
+        header: "TYPE",
         size: 150,
         Cell: ({ cell }) => {
-          return <Chip data={cell.getValue<string>()} type={"user"} />;
+          return <Chip data={cell.getValue<string>()} type={"vehicle"} />;
         },
       },
       {
-        accessorKey: "email",
-        header: "EMAIL",
+        accessorKey: "vehicleCapacity", //access nested data with dot notation
+        header: "CAPACITY",
         size: 150,
       },
       {
-        accessorKey: "phone",
-        header: "PHONE",
-        size: 150,
-      },
-      {
-        accessorKey: "createdAt",
-        header: "CREATION DATE",
-        size: 50,
+        accessorKey: "createdAt", //access nested data with dot notation
+        header: "REGISTERED DATE",
+        size: 80,
         type: "date",
         Cell: ({ cell }: { cell: any }) => {
           const dateStr = cell.getValue().toString();
@@ -71,7 +66,7 @@ const NewUserTable = () => {
             icon={<EditIcon />}
             key="edit"
             label="Edit"
-            onClick={() => alert(row.original.name)}
+            onClick={() => alert(row.original.vehicleNumber)}
             table={table}
             className="bg-blue-200"
           />,
@@ -88,4 +83,4 @@ const NewUserTable = () => {
   );
 };
 
-export default NewUserTable;
+export default NewVehicleTable;

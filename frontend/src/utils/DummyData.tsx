@@ -1,4 +1,5 @@
 import { IUsers } from "@/models/Users";
+import { IVehicle } from "@/models/Vehicles";
 
 export const dummyUsers: IUsers[] = [
   {
@@ -118,5 +119,43 @@ export const dummyUsers: IUsers[] = [
     role: "Tester",
     userId: "10",
     createdAt: new Date("2022-03-25"),
+  },
+];
+
+export const dummyVehicles: IVehicle[] = [
+  {
+    vid: "1",
+    vehicleNumber: "ABC123",
+    vehicleType: "Open Truck",
+    vehicleCapacity: "3 Ton",
+    createdAt: new Date("2022-01-01"),
+  },
+  {
+    vid: "2",
+    vehicleNumber: "XYZ456",
+    vehicleType: "Dump Truck",
+    vehicleCapacity: "5 Ton",
+    createdAt: new Date("2022-02-15"),
+  },
+  {
+    vid: "3",
+    vehicleNumber: "DEF789",
+    vehicleType: "Compactor",
+    vehicleCapacity: "7 Ton",
+    createdAt: new Date("2022-03-20"),
+  },
+  {
+    vid: "4",
+    vehicleNumber: "GHI012",
+    vehicleType: "Container Carrier",
+    vehicleCapacity: "3 Ton",
+    createdAt: new Date("2022-04-10"),
+  },
+  {
+    vid: "5",
+    vehicleNumber: "JKL345",
+    vehicleType: "Open Truck",
+    vehicleCapacity: "7 Ton",
+    createdAt: new Date("2022-05-25"),
   },
 ];
