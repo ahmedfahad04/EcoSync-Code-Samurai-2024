@@ -1,5 +1,5 @@
 import { ArrowLeft } from "@mui/icons-material";
-import { MailIcon } from "lucide-react";
+import { FileLock2Icon, MailIcon } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -43,6 +43,7 @@ const ForgotPassword = () => {
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
           <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
             <div className="text-center">
+              <FileLock2Icon className="h-12 w-12 mx-auto mb-4 text-secondary" />
               <h2 className="text-3xl font-extrabold text-gray-900">
                 Forgot your password?
               </h2>
