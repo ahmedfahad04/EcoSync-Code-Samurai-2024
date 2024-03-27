@@ -1,4 +1,4 @@
-import AddVehicle from "@/components/Modals/AddVehicle";
+import AddVehicleModal from "@/components/Modals/AddVehicleModal";
 import NewVehicleTable from "@/components/Table/VehicleTable";
 import Layout from "@/layout/Layout";
 import { useState } from "react";
@@ -22,7 +22,7 @@ const Vehicles = () => {
         </div>
 
         {showEditVehicleModal && (
-          <AddVehicle
+          <AddVehicleModal
             isOpen={showEditVehicleModal}
             onClose={() => setShowEditVehicleModal(false)}
           />

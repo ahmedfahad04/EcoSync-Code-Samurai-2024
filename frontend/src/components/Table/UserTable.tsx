@@ -9,11 +9,22 @@ import {
   MaterialReactTable,
   type MRT_ColumnDef,
 } from "material-react-table";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+import UpdateUserModal from "../Modals/UpdateUserModal";
 
 const data = dummyUsers;
 
 const NewUserTable = () => {
+  const [showUpdateUserModal, setShowUpdateUserModal] =
+    useState<boolean>(false);
+
+  const [userData, setUserData] = useState<{
+    name: string;
+    role: string;
+    email: string;
+    phone: string;
+  }>();
+
   const columns = useMemo<MRT_ColumnDef<IUsers>[]>(
     () => [
       {
@@ -66,12 +77,21 @@ const NewUserTable = () => {
         // positionActionsColumn="last"
         enableStickyHeader
         muiTableContainerProps={{ sx: { maxHeight: "500px" } }}
-        renderRowActionMenuItems={({ row, table }) => [
+        renderRowActionMenuItems={({ closeMenu, row, table }) => [
           <MRT_ActionMenuItem //or just use a normal MUI MenuItem component
             icon={<EditIcon />}
             key="edit"
             label="Edit"
-            onClick={() => alert(row.original.name)}
+            onClick={() => {
+              setUserData({
+                name: row.original.name,
+                email: row.original.email,
+                phone: row.original.phone,
+                role: row.original.role,
+              });
+              setShowUpdateUserModal(!showUpdateUserModal);
+              closeMenu();
+            }}
             table={table}
             className="bg-blue-200"
           />,
@@ -84,6 +104,14 @@ const NewUserTable = () => {
           />,
         ]}
       />
+
+      {showUpdateUserModal && (
+        <UpdateUserModal
+          isOpen={showUpdateUserModal}
+          onClose={() => setShowUpdateUserModal(false)}
+          userData={userData}
+        />
+      )}
     </div>
   );
 };

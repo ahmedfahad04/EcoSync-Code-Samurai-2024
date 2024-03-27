@@ -22,7 +22,7 @@ const ModalLayout: React.FC<AddVehicleModalProps> = ({
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      customClass={`bg-slate-200 w-full ${customClass}`}
+      customClass={`bg-slate-200 ${customClass}`}
     >
       <ModalHeader customClass="pt-5 pr-6 font-bold text-lg" onClose={onClose}>
         {headline}

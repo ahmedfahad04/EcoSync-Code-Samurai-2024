@@ -1,14 +1,14 @@
 import ModalLayout from "@/layout/ModalLayout";
 import React from "react";
-import AddUserForm from "../AddUserForm";
+import AddUserForm from "../Forms/AddUserForm";
 
-interface AddVehicleModalProps {
+interface AddUserModalProps {
   isOpen: boolean;
   customClass?: string;
   onClose: () => void;
 }
 
-const AddUser: React.FC<AddVehicleModalProps> = ({
+const AddUser: React.FC<AddUserModalProps> = ({
   isOpen,
   customClass = "w-[500px] flex flex-col justify-center item-center",
   onClose,

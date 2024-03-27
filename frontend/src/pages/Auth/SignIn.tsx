@@ -1,4 +1,4 @@
-import SignInForm from "@/components/Auth/SignInForm";
+import SignInForm from "@/components/Forms/Auth/SignInForm";
 import AuthLayout from "@/layout/AuthLayout";
 import AuthImage from "../../../public/auth-2.jpg";
 

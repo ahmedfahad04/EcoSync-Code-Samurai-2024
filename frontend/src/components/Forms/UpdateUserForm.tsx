@@ -1,16 +1,38 @@
 import Dropdown from "@/ui/Dropdown";
 import InputField from "@/ui/InputField";
 import { InfoIcon } from "lucide-react";
-import { useState } from "react";
-import ImageUpload from "./ImageUpload";
+import React, { useState } from "react";
+import ImageUpload from "../ImageUpload";
 
-const AddVechileForm = () => {
-  const [formData, setFormData] = useState({
+interface UpdateUserFormProps {
+  userData:
+    | {
+        name: string;
+        role: string;
+        email: string;
+        phone: string;
+      }
+    | undefined;
+  onClose: () => void;
+}
+
+const UpdateUserForm: React.FC<UpdateUserFormProps> = ({
+  userData,
+  onClose,
+}) => {
+  //! when user will update it he can't update the Role (be careful)
+  const { name, role, email, phone } = userData || {
     name: "",
-    phone: "",
-    email: "",
-    password: "",
     role: "",
+    email: "",
+    phone: "",
+  };
+
+  const [formData, setFormData] = useState({
+    name: name,
+    phone: phone,
+    email: email,
+    role: role,
   });
 
   const handleChange = (e: { target: { name: any; value: any } }) => {
@@ -23,6 +45,7 @@ const AddVechileForm = () => {
 
   const handleCreate = () => {
     //! api call
+    onClose();
     console.log("Form Data:", formData);
   };
 
@@ -81,37 +104,26 @@ const AddVechileForm = () => {
             customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
           />
 
-          <InputField
-            id="password"
-            name="password"
-            type="password"
-            placeholder="********"
-            value={formData.password}
-            label={"Password"}
-            onChange={handleChange}
-            customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
-          />
-
           <Dropdown
             name="Select User Role"
             options={["STS Manager", "Landfill Manager"]}
-            label="Vehicle Capacity"
+            label="Update Role"
             customClass="mt-3 bg-slate-300/6"
             onSelect={(selectedOption) =>
               setFormData((prevFormData) => ({
                 ...prevFormData,
-                capacity: selectedOption,
+                role: selectedOption,
               }))
             }
           />
 
           <div className="flex flex-auto justify-end items-end ">
             <button
-              type="submit"
+              type="button"
               onClick={handleCreate}
               className="p-2 bg-primary hover:bg-secondary hover:text-black text-white rounded-md mt-8"
             >
-              Create
+              Update
             </button>
           </div>
         </form>
@@ -120,4 +132,4 @@ const AddVechileForm = () => {
   );
 };
 
-export default AddVechileForm;
+export default UpdateUserForm;
