@@ -150,7 +150,7 @@ const SignInForm: FC = () => {
               </div>
             ))}
 
-            <div className=" flex justify-end 2xl:my-4">
+            <div className=" flex justify-end">
               <NavLink to={"/forgot-password"} className="text-sm text-primary">
                 Forgot Password
               </NavLink>

@@ -70,7 +70,7 @@ const InputField: React.FC<InputFieldProps> = ({
       {label && (
         <label
           htmlFor={id}
-          className="text-black w-full mb-1 text-md font-medium"
+          className="text-black w-full mb-1 mt-3 text-md font-medium"
         >
           {name}
         </label>
