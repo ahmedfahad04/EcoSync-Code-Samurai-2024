@@ -18,13 +18,19 @@ export default (options) => {
             allowNull: false,
             comment: "GPS Coordinates will be stored as a array of number, [latitude, longitude]",
         },
-        ward_number: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-        },
         capacity: {
             type: DataTypes.INTEGER,
             allowNull: false,
+        },
+        opening_time: {
+            type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: DataTypes.NOW,
+        },
+        cosing_time: {
+            type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: DataTypes.NOW,
         },
     });
 

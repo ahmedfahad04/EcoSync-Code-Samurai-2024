@@ -47,9 +47,29 @@ async function addManager(req, res) {
 
 async function removeManager(req, res) {}
 
+async function addVehicleDepartureEntry(req, res) {
+    const { sts_id } = req.params;
+    const enryDto = req.body;
+
+    const sts = await models.STS.findByPk(sts_id);
+    if (!sts) throw new HttpError({ sts_id: "sts not found" }, 404);
+
+    const vehicle = await models.Vehicle.findByPk(enryDto.vehicle_id);
+    if (!vehicle) throw new HttpError({ vehicle_id: "vehicle not found" }, 404);
+
+    const landfill = await models.Landfill.findByPk(enryDto.landfill_id);
+    if (!landfill) throw new HttpError({ landfill_id: "landfill not found" }, 404);
+
+    let departureEntry = await models.STSDepartureEntry.create(enryDto);
+    departureEntry = departureEntry.toJSON();
+
+    res.status(201).json(departureEntry);
+}
+
 export default {
     createSts,
     updateSts,
     addManager,
     removeManager,
+    addVehicleDepartureEntry,
 };
