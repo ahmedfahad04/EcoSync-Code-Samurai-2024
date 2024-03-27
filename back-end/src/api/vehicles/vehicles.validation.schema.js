@@ -10,7 +10,7 @@ export const createVehicleSchema = Joi.object({
         .valid(...VehicleCapacities)
         .required(),
     cpk_loaded: Joi.number().positive().required(),
-    cpk_unloaded: Joi.number().positive().required(),
+    cpk_unloaded: Joi.number().positive().required().less(Joi.ref('cpk_loaded')),
 });
 
 export const updateVehicleSchema = Joi.object({

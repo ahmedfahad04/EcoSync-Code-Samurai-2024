@@ -56,6 +56,8 @@ async function addVehicleDepartureEntry(req, res) {
     const vehicle = await models.Vehicle.findByPk(entryDto.vehicle_id);
     if (!vehicle) throw new HttpError({ vehicle_id: "vehicle not found" }, 404);
 
+    if (entryDto.waste_volume > vehicle.capacity) throw new HttpError({ waste_volume: `waste volume exceeds vehicle capacity: ${vehicle.capacity} tons` }, 400);
+
     const landfill = await models.Landfill.findByPk(entryDto.landfill_id);
     if (!landfill) throw new HttpError({ landfill_id: "landfill not found" }, 404);
 

@@ -21,7 +21,7 @@ export const addManagerSchema = Joi.object({
     manager_id: Joi.string().trim().required().max(100),
 });
 
-export const addTruckDumpingEntrySchema = Joi.object({
+export const addDumpingEntrySchema = Joi.object({
     vehicle_id: Joi.string().trim().required(),
     sts_id: Joi.string().trim().required(),
     waste_volume: Joi.number().required(),

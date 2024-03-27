@@ -45,7 +45,7 @@ async function addManager(req, res) {
 
 async function removeManager(req, res) {}
 
-async function addTruckDumpingEntry(req, res) {
+async function addDumpingEntry(req, res) {
     const { landfill_id } = req.params;
     const entryDto = req.body;
 
@@ -54,6 +54,8 @@ async function addTruckDumpingEntry(req, res) {
 
     const vehicle = await models.Vehicle.findByPk(entryDto.vehicle_id);
     if (!vehicle) throw new HttpError({ vehicle_id: "vehicle not found" }, 404);
+
+    if (entryDto.waste_volume > vehicle.capacity) throw new HttpError({ waste_volume: `waste volume exceeds vehicle capacity: ${vehicle.capacity} tons` }, 400);
 
     const sts = await models.STS.findByPk(entryDto.sts_id);
     if (!sts) throw new HttpError({ sts_id: "sts not found" }, 404);
@@ -70,5 +72,5 @@ export default {
     updateLanfill,
     addManager,
     removeManager,
-    addTruckDumpingEntry,
+    addDumpingEntry,
 };
