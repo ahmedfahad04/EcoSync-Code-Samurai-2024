@@ -1,7 +1,7 @@
 import { permissionConstants as pc } from "../constants/permissions.constants.js";
 import { roleConstants as rc } from "../constants/roles.constants.js";
 
-const rolePermissionData = [
+export const rolePermissionData = [
     {
         role_name: [rc.SystemAdmin],
         permission_names: [
@@ -74,7 +74,7 @@ const rolePermissionData = [
         role_name: rc.STSManager,
         permission_names: [
             pc.FIND_ALL_PERMISSION_OF_ROLE,
-            
+
             pc.FIND_PROFILE,
             pc.UPDATE_PROFILE,
 
@@ -83,8 +83,24 @@ const rolePermissionData = [
             pc.FIND_ONE_VEHICLE_DEPARTURE_ENTRY,
             pc.UPDATE_VEHICLE_DEPARTURE_ENTRY,
             pc.DELETE_VEHICLE_DEPARTURE_ENTRY,
+        ],
+    },
+    {
+        role_name: rc.LandfillManager,
+        permission_names: [
+            pc.FIND_ALL_PERMISSION_OF_ROLE,
 
-            
+            pc.FIND_PROFILE,
+            pc.UPDATE_PROFILE,
+
+            pc.CREATE_TRUCK_DUMPING_ENTRY,
+            pc.FIND_ALL_TRUCK_DUMPING_ENTRY,
+            pc.FIND_ONE_TRUCK_DUMPING_ENTRY,
+            pc.UPDATE_TRUCK_DUMPING_ENTRY,
+            pc.DELETE_TRUCK_DUMPING_ENTRY,
+
+            pc.GENERATE_BILL_FOR_DUMPING_ENTRY,
+            pc.FIND_ALL_BILL,
         ],
     },
 ];
