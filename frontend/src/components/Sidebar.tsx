@@ -1,4 +1,11 @@
-import { ChevronLeft, LayoutDashboard, Truck, Users } from "lucide-react";
+import {
+  ChevronLeft,
+  CookingPotIcon,
+  LandPlot,
+  LayoutDashboard,
+  Truck,
+  Users,
+} from "lucide-react";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import logo from "../../public/ecosync-logo.png";
@@ -10,6 +17,8 @@ const Sidebar = () => {
     { title: "Dashboard", src: <LayoutDashboard />, path: "" },
     { title: "Manage Users", src: <Users />, path: "/users" },
     { title: "Manage Vehicles", src: <Truck />, path: "/vehicles" },
+    { title: "Manage STS", src: <CookingPotIcon />, path: "/sts" },
+    { title: "Manage Landfill", src: <LandPlot />, path: "/landfill" },
     // { title: "Accounts", src: "User", gap: true },
   ];
 
