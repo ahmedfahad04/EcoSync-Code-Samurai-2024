@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
+
 import ForgotPassword from "./pages/Auth/ForgotPassword";
 import OTPVerification from "./pages/Auth/OTPVerification";
 import ResetPassword from "./pages/Auth/ResetPassword";
