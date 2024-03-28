@@ -18,6 +18,16 @@ async function createSts(req, res) {
 
     res.status(201).json(sts);
 }
+
+async function findAllSts(req, res) {
+    let sts = await models.STS.findAll();
+    sts = sts.map(st => {
+        st.gps_coordinate = JSON.parse(st.gps_coordinate);
+        return st;
+    })
+    res.json(sts);
+}
+
 async function updateSts(req, res) {}
 
 async function addManager(req, res) {
@@ -78,6 +88,7 @@ async function addVehicleDepartureEntry(req, res) {
 
 export default {
     createSts,
+    findAllSts,
     updateSts,
     addManager,
     removeManager,
