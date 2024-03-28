@@ -1,4 +1,4 @@
-import AddSTSForm from "@/components/Forms/AddSTSForm";
+import AddSTSForm from "@/components/Forms/STS/AddSTSForm";
 import ModalLayout from "@/layout/ModalLayout";
 import React from "react";
 

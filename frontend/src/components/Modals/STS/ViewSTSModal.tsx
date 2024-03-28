@@ -1,4 +1,4 @@
-import ViewSTSForm from "@/components/Forms/ViewSTSForm";
+import ViewSTSForm from "@/components/Forms/STS/ViewSTSForm";
 import ModalLayout from "@/layout/ModalLayout";
 import { ISTS } from "@/models/STS";
 import React from "react";

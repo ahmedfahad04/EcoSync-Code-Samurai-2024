@@ -1,6 +1,6 @@
 import ModalLayout from "@/layout/ModalLayout";
 import React from "react";
-import UpdateUserForm from "../../Forms/UpdateUserForm";
+import UpdateUserForm from "../../Forms/User/UpdateUserForm";
 
 interface UpdateUserModalModalProps {
   isOpen: boolean;

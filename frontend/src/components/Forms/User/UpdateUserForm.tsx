@@ -1,16 +1,42 @@
 import Dropdown from "@/ui/Dropdown";
 import InputField from "@/ui/InputField";
 import { InfoIcon } from "lucide-react";
-import { useState } from "react";
-import ImageUpload from "../ImageUpload";
+import React, { useState } from "react";
+import ImageUpload from "../../ImageUpload";
+import ChangePasswordModal from "../../Modals/User/ChangePasswordModal";
 
-const AddVechileForm = () => {
-  const [formData, setFormData] = useState({
+interface UpdateUserFormProps {
+  userData:
+    | {
+        name: string;
+        role: string;
+        email: string;
+        phone: string;
+      }
+    | undefined;
+  onClose: () => void;
+}
+
+const UpdateUserForm: React.FC<UpdateUserFormProps> = ({
+  userData,
+  onClose,
+}) => {
+  const [showChangePasswordModal, setShowChagngePasswordModal] =
+    useState<boolean>(false);
+
+  //! when user will update it he can't update the Role (be careful)
+  const { name, role, email, phone } = userData || {
     name: "",
-    phone: "",
-    email: "",
-    password: "",
     role: "",
+    email: "",
+    phone: "",
+  };
+
+  const [formData, setFormData] = useState({
+    name: name,
+    phone: phone,
+    email: email,
+    role: role,
   });
 
   const handleChange = (e: { target: { name: any; value: any } }) => {
@@ -21,13 +47,20 @@ const AddVechileForm = () => {
     }));
   };
 
-  const handleCreate = () => {
+  const handleUpdateUser = () => {
     //! api call
+    onClose();
     console.log("Form Data:", formData);
   };
 
-  const handleOnUpload = (data: { image: File }) => {
+  const handleOnImageUpload = (data: { image: File }) => {
     console.log(data.image.size);
+  };
+
+  const handleChangePasswordModal = () => {
+    console.log("MODAL ", showChangePasswordModal);
+    setShowChagngePasswordModal(true);
+    // onClose();
   };
 
   return (
@@ -44,7 +77,7 @@ const AddVechileForm = () => {
 
       {/* image */}
       <div className="mt-8 flex flex-col items-center justify-center">
-        <ImageUpload name="User Photo" onUpload={handleOnUpload} />
+        <ImageUpload name="User Photo" onUpload={handleOnImageUpload} />
       </div>
 
       {/* form */}
@@ -81,21 +114,10 @@ const AddVechileForm = () => {
             customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
           />
 
-          <InputField
-            id="password"
-            name="password"
-            type="password"
-            placeholder="********"
-            value={formData.password}
-            label={"Password"}
-            onChange={handleChange}
-            customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
-          />
-
           <Dropdown
             name="Select User Role"
             options={["STS Manager", "Landfill Manager"]}
-            label="Vehicle Capacity"
+            label="Update Role"
             customClass="mt-3 bg-slate-300/6"
             onSelect={(selectedOption) =>
               setFormData((prevFormData) => ({
@@ -105,19 +127,33 @@ const AddVechileForm = () => {
             }
           />
 
-          <div className="flex flex-auto justify-end items-end ">
+          <div className="flex flex-row justify-between items-center ">
             <button
-              type="submit"
-              onClick={handleCreate}
-              className="p-2 bg-primary hover:bg-secondary hover:text-black text-white rounded-md mt-8"
+              type="button"
+              onClick={handleChangePasswordModal}
+              className="p-2 bg-green-500 hover:bg-green-600  text-white rounded-md mt-8"
             >
-              Create
+              Change Password
+            </button>
+            <button
+              type="button"
+              onClick={handleUpdateUser}
+              className="p-2 bg-red-500 hover:bg-red-600  text-white rounded-md mt-8"
+            >
+              Update
             </button>
           </div>
         </form>
       </div>
+
+      {showChangePasswordModal && (
+        <ChangePasswordModal
+          isOpen={showChangePasswordModal}
+          onClose={() => setShowChagngePasswordModal(false)}
+        />
+      )}
     </div>
   );
 };
 
-export default AddVechileForm;
+export default UpdateUserForm;
