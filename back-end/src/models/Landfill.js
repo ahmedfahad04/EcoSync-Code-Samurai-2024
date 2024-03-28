@@ -17,6 +17,7 @@ export default (options) => {
             type: DataTypes.STRING,
             allowNull: false,
             unique: true,
+            comment: "location name of landfill"
         },
         gps_coordinate: {
             type: DataTypes.STRING,

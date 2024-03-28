@@ -12,6 +12,7 @@ export default (options) => {
             type: DataTypes.STRING,
             allowNull: false,
             unique: true,
+            comment: "location name of sts"
         },
         gps_coordinate: {
             type: DataTypes.STRING,
