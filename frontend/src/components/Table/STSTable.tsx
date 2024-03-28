@@ -8,11 +8,13 @@ import {
 } from "material-react-table";
 import { useMemo, useState } from "react";
 import EditSTSModal from "../Modals/STS/EditSTSModal";
+import ViewSTSModal from "../Modals/STS/ViewSTSModal";
 
 const data = dummySTS;
 
 const STSTable = () => {
   const [showEditSTSModal, setShowEditSTSModal] = useState<boolean>();
+  const [showSTSModal, setShowSTSModal] = useState<boolean>();
   const [STSData, setSTSData] = useState<ISTS>();
 
   const columns = useMemo<MRT_ColumnDef<ISTS>[]>(
@@ -88,12 +90,33 @@ const STSTable = () => {
             table={table}
           />,
         ]}
+        muiTableBodyRowProps={({ row }) => ({
+          onClick: () => {
+            setSTSData({
+              STSName: row.original.STSName,
+              wardNumber: row.original.wardNumber,
+              capacity: row.original.capacity,
+              longitude: row.original.longitude,
+              latitude: row.original.latitude,
+            });
+            setShowSTSModal(true);
+          },
+          sx: { cursor: "pointer" },
+        })}
       />
 
       {showEditSTSModal && (
         <EditSTSModal
           isOpen={showEditSTSModal}
           onClose={() => setShowEditSTSModal(false)}
+          stsData={STSData}
+        />
+      )}
+
+      {showSTSModal && (
+        <ViewSTSModal
+          isOpen={showSTSModal}
+          onClose={() => setShowSTSModal(false)}
           stsData={STSData}
         />
       )}
