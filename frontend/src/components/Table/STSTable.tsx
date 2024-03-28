@@ -16,13 +16,13 @@ const STSTable = () => {
   const [STSData, setSTSData] = useState<ISTS>();
   const [data, setData] = useState<ISTS[]>([]);
 
-  const handleRowDelete = (index: number, closeWindow: () => {}) => {
+  const handleRowDelete = (index: string, closeWindow: () => void) => {
     if (window.confirm("Are you sure?")) {
       // Create a copy of the current data
       const newData = [...data];
       // Remove the entry at the specified index
       //! api call to delete entry
-      newData.splice(index, 1);
+      newData.splice(parseInt(index), 1);
       // Update the data state
       setData(newData);
       closeWindow();
