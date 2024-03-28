@@ -48,6 +48,7 @@ const rolePermissionData = [
             pc.ADD_MANAGER_TO_STS,
             pc.REMOVE_MANAGER_FROM_STS,
 
+            // vehicle-departure
             pc.FIND_ALL_VEHICLE_DEPARTURE_ENTRY,
             pc.FIND_ONE_VEHICLE_DEPARTURE_ENTRY,
 
@@ -60,11 +61,17 @@ const rolePermissionData = [
 
             pc.ADD_MANAGER_TO_LANDFILL,
             pc.REMOVE_MANAGER_FROM_LANDFILL,
-            
+
+            // truck-dumping
             pc.FIND_ALL_TRUCK_DUMPING_ENTRY,
             pc.FIND_ONE_TRUCK_DUMPING_ENTRY,
 
-            // 
+            // billing
+            pc.FIND_ALL_BILL,
         ],
     },
+    {
+        role_name: "",
+        permission_names: [""]
+    }
 ];
