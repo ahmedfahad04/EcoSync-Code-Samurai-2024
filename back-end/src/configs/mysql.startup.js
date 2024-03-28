@@ -1,8 +1,11 @@
 import { RoleTypes } from "../models/Role.js";
+import { config } from "./config.js";
 import { models } from "./mysql.js";
+import utils from "../utils/utils.js";
 
 const start = async () => {
     await createRoles();
+    await createAdmin();
 };
 
 const createRoles = async () => {
@@ -21,7 +24,38 @@ const createPermissions = async () => {};
 
 const assignPermissionToRoles = async () => {};
 
-const createAdmin = async () => {};
+const createAdmin = async () => {
+    try {
+        const hashedPassword = await utils.hashPassword(config.admin.password);
+        let admin = await models.User.findOrCreate({
+            where: {
+                email: config.admin.email,
+            },
+            defaults: {
+                name: "Admin",
+                email: config.admin.email,
+                password: hashedPassword,
+            },
+        });
+
+        admin = admin[0].toJSON();
+
+        const role = await models.Role.findOne({ where: { role_name: RoleTypes.systemAdmin } });
+
+        await models.User.update(
+            { role_id: role.role_id },
+            {
+                where: {
+                    user_id: admin.user_id,
+                },
+            }
+        );
+
+        console.log("Admin is created successfully");
+    } catch (error) {
+        console.error("Error creating admin:", error);
+    }
+};
 
 export const startup = {
     createRoles,

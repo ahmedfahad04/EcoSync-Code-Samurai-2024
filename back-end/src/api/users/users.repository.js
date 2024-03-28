@@ -1,4 +1,4 @@
-import { models, sequelize } from "../../configs/mysql.js";
+import { models, Op, sequelize } from "../../configs/mysql.js";
 
 async function createOneUser(user) {
     const createdUser = await models.User.create(user);
@@ -51,18 +51,38 @@ async function isUserExistByEmail(email) {
 }
 
 async function findAllUser(query) {
-    let { page = 1, limit = 10 } = query;
+    let { page = 1, limit = 10, sort = "name", order = "ASC", name, role_name } = query;
 
     page = parseInt(page);
     limit = parseInt(limit);
 
+    const userWhere = {};
+    if (name) {
+        userWhere.name = {
+            [Op.like]: `%${name}%`,
+        };
+    }
+
+    const includeRole = {
+        model: models.Role,
+    };
+
+    if (role_name) {
+        includeRole.where = {
+            role_name: {
+                [Op.like]: `%${role_name}%`,
+            },
+        };
+    }
+
     const users = await models.User.findAll({
-        include: {
-            model: models.Role,
-            required: false,
+        include: includeRole,
+        where: {
+            ...userWhere,
         },
         offset: (page - 1) * limit,
         limit: limit,
+        order: [[sort, order]],
     });
 
     return users.map((user) => user.toJSON());
@@ -81,5 +101,5 @@ export default {
     findOneUserByEmailWithRoles,
     isUserExistByEmail,
     findAllUser,
-    deleteOneUser
+    deleteOneUser,
 };
