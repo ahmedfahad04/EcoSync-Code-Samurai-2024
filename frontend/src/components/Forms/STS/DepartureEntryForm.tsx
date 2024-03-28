@@ -15,9 +15,6 @@ const DepartureEntryForm: React.FC<DepartureEntryFormProps> = ({
 }) => {
   const [landfills, setLandfills] = useState<string[]>();
   const [vehicles, setVehicles] = useState<string[]>();
-  const [wasteVolume, setWasteVolume] = useState();
-  const [startingTime, setStartingTime] = useState();
-  const [endingTime, setEndingTime] = useState();
 
   const [formData, setFormData] = useState({
     landfillName: "",
@@ -35,7 +32,7 @@ const DepartureEntryForm: React.FC<DepartureEntryFormProps> = ({
     onClose();
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: { target: { name: any; value: any } }) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
@@ -72,7 +69,7 @@ const DepartureEntryForm: React.FC<DepartureEntryFormProps> = ({
             name="Select Landfill"
             options={landfills}
             label="Lanfill Name"
-            customClass="mt-3 bg-slate-300/6"
+            customClass="mt-5 bg-slate-300/6"
             onSelect={(selectedOption) =>
               setFormData((prevFormData) => ({
                 ...prevFormData,
@@ -85,7 +82,7 @@ const DepartureEntryForm: React.FC<DepartureEntryFormProps> = ({
             name="Select Vehicle"
             options={vehicles}
             label="Vehicle Number"
-            customClass="mt-3 bg-slate-300/6"
+            customClass="mt-5 bg-slate-300/6"
             onSelect={(selectedOption) =>
               setFormData((prevFormData) => ({
                 ...prevFormData,
@@ -98,7 +95,7 @@ const DepartureEntryForm: React.FC<DepartureEntryFormProps> = ({
             name="Select Trip"
             options={["1", "2", "3"]}
             label="Trip Number"
-            customClass="mt-3 bg-slate-300/6"
+            customClass="mt-5 mb-4 bg-slate-300/6"
             onSelect={(selectedOption) =>
               setFormData((prevFormData) => ({
                 ...prevFormData,
@@ -117,7 +114,7 @@ const DepartureEntryForm: React.FC<DepartureEntryFormProps> = ({
             customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
           />
 
-          <div className="w-full flex flex-row justify-center items-center gap-5">
+          <div className="w-full flex flex-row justify-center items-center gap-5 mt-5">
             <InputField
               id="arrival"
               name="arrival"
