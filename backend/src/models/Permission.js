@@ -1,6 +1,6 @@
 "use strict";
 
-import { permissionData } from "../api/permissions/permissions.data.js";
+import { permissionData } from "../api/rbac/data/permissions.data.js";
 
 export default (options) => {
     const { sequelize, DataTypes, Sequelize } = options;
@@ -26,7 +26,7 @@ export default (options) => {
 
     Permission.associate = (models) => {
         Permission.belongsToMany(models.Role, {
-            thorugh: models.RolePermission,
+            through: models.RolePermission,
             foreignKey: "permission_id",
         });
     };

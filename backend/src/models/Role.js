@@ -1,12 +1,5 @@
 "use strict";
 
-export const RoleTypes = {
-    systemAdmin: "System Admin",
-    stsManager: "STS Manager",
-    landfillManager: "Landfill Manager",
-    unassigned: "Unassigned",
-};
-
 export default (options) => {
     const { sequelize, DataTypes, Sequelize } = options;
     const Role = sequelize.define("roles", {
@@ -19,9 +12,6 @@ export default (options) => {
             type: DataTypes.STRING,
             allowNull: false,
             unique: true,
-            validate: {
-                isIn: [Object.values(RoleTypes)],
-            },
         },
         description: {
             type: DataTypes.STRING,
@@ -35,7 +25,7 @@ export default (options) => {
         });
 
         Role.belongsToMany(models.Permission, {
-            thorugh: models.RolePermission,
+            through: models.RolePermission,
             foreignKey: "role_id",
         });
     };

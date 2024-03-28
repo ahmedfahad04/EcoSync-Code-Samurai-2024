@@ -4,14 +4,14 @@ import utils from "../../utils/utils.js";
 import { config } from "../../configs/config.js";
 import { nodeCache } from "../../configs/nodeCache.js";
 import { sendEmailWithOTP } from "../../configs/nodemailer.js";
-import { RoleTypes } from "../../models/Role.js";
+import { roleConstants } from "../rbac/constants/roles.constants.js";
 
 async function login(email, password) {
     const user = await usersRepository.findOneUserByEmailWithRoles(email);
 
     if (!user) throw new HttpError({ message: `invalid email or password` }, 401);
 
-    if (user.role?.role_name === RoleTypes.unassigned) {
+    if (user.role?.role_name === roleConstants.unassigned) {
         throw new HttpError({ message: "you are not allowed" }, 403);
     }
 

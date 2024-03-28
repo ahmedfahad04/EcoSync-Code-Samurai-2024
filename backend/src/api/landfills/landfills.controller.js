@@ -1,6 +1,6 @@
 import { models } from "../../configs/mysql.js";
 import { HttpError } from "../../utils/HttpError.js";
-import { RoleTypes } from "../../models/Role.js";
+import { roleConstants } from "../rbac/constants/roles.constants.js";
 import usersRepository from "../users/users.repository.js";
 
 async function createLanfill(req, res) {
@@ -55,7 +55,7 @@ async function addManager(req, res) {
 
     if (!user) throw new HttpError({ manager_id: "invalid manager_id" }, 400);
 
-    if (user.role?.role_name != RoleTypes.landfillManager) throw new HttpError({ manager_id: "user must be a landfill manager" }, 400);
+    if (user.role?.role_name != roleConstants.LandfillManager) throw new HttpError({ manager_id: "user must be a landfill manager" }, 400);
 
     const user_landfill = { user_id: manager_id, landfill_id: landfill_id };
 

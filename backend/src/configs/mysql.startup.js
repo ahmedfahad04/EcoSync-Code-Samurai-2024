@@ -1,5 +1,5 @@
-import { RoleTypes } from "../models/Role.js";
 import { config } from "./config.js";
+import { roleConstants } from "./../api/rbac/constants/roles.constants.js";
 import { models } from "./mysql.js";
 import utils from "../utils/utils.js";
 
@@ -10,7 +10,7 @@ const start = async () => {
 
 const createRoles = async () => {
     try {
-        const rolesToCreate = Object.values(RoleTypes).map((roleName) => ({
+        const rolesToCreate = Object.values(roleConstants).map((roleName) => ({
             role_name: roleName,
         }));
         await models.Role.bulkCreate(rolesToCreate, { updateOnDuplicate: ["role_name"] });
@@ -40,7 +40,7 @@ const createAdmin = async () => {
 
         admin = admin[0].toJSON();
 
-        const role = await models.Role.findOne({ where: { role_name: RoleTypes.systemAdmin } });
+        const role = await models.Role.findOne({ where: { role_name: roleConstants.SystemAdmin } });
 
         await models.User.update(
             { role_id: role.role_id },

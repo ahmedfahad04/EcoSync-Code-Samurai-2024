@@ -1,4 +1,4 @@
-import { permissionConstants } from "./permission.constants.js";
+import { permissionConstants } from "../constants/permission.constants.js";
 
 export const permissionData = [
     { permission_name: "ALL", description: "Permission for System Admin" },

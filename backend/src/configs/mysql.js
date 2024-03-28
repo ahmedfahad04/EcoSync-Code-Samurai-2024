@@ -40,8 +40,6 @@ const models = {
 
     UserSTS_Manager: UserSTS_Manager(options),
     UserLandfill_Manager: UserLandfill_Manager(options),
-
-    Bill: Bill(options),
 };
 
 Object.entries(models).forEach(([name, model]) => {
