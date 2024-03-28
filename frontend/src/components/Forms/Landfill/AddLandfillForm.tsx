@@ -2,10 +2,11 @@ import InputField from "@/ui/InputField";
 import { InfoIcon } from "lucide-react";
 import { useState } from "react";
 
-const AddSTSFrom = () => {
+const AddLandfillForm = ({ onClose }: { onClose: () => void }) => {
   const [formData, setFormData] = useState({
-    STSName: "",
-    wardNumber: "",
+    landfillName: "",
+    openingTime: "",
+    endingTime: "",
     capacity: "",
     latitude: "",
     longitude: "",
@@ -19,9 +20,11 @@ const AddSTSFrom = () => {
     }));
   };
 
-  const handleCreate = () => {
-    //! api call
+  const handleCreate = (e: { preventDefault: () => void; }) => {
+    e.preventDefault();
+    //! api call & validation
     console.log("Form Data:", formData);
+    onClose();
   };
 
   return (
@@ -33,28 +36,18 @@ const AddSTSFrom = () => {
           height={28}
           className="bg-primary text-white rounded-md p-2"
         />
-        <span>STS Information</span>
+        <span>Landfill Information</span>
       </header>
 
       {/* form */}
       <div className="flex flex-col justify-start items-start">
         <form className="mt-5 w-full">
           <InputField
-            id="STSName"
-            name="STSName"
-            placeholder="Nikunjo STS"
-            value={formData.STSName}
-            label={"STS Name"}
-            onChange={handleChange}
-            customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
-          />
-
-          <InputField
-            id="wardNumber"
-            name="wardNumber"
-            placeholder="28"
-            value={formData.wardNumber}
-            label={"Ward Number"}
+            id="landfillName"
+            name="landfillName"
+            placeholder="Nikunjo Landfill"
+            value={formData.landfillName}
+            label={"Landfill Name"}
             onChange={handleChange}
             customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
           />
@@ -65,10 +58,33 @@ const AddSTSFrom = () => {
             type="number"
             placeholder="300"
             value={formData.capacity}
-            label={"STS Capacity (in tonnes)"}
+            label={"Landfill Capacity (in tonnes)"}
             onChange={handleChange}
             customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
           />
+
+          <div className="w-full flex flex-row justify-center items-center gap-5">
+            <InputField
+              id="openingTime"
+              name="openingTime"
+              type="time"
+              placeholder="10:00"
+              value={formData.openingTime}
+              label={"Opening Time"}
+              onChange={handleChange}
+              customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
+            />
+            <InputField
+              id="endingTime"
+              name="endingTime"
+              type="time"
+              placeholder="14:00"
+              value={formData.endingTime}
+              label={"Ending Time"}
+              onChange={handleChange}
+              customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
+            />
+          </div>
 
           <div className="w-full flex flex-row justify-center items-center gap-5">
             <InputField
@@ -108,4 +124,4 @@ const AddSTSFrom = () => {
   );
 };
 
-export default AddSTSFrom;
+export default AddLandfillForm;

@@ -1,3 +1,4 @@
+import AddLandfillModal from "@/components/Modals/Landfill/AddLandfillModal";
 import LandfillTable from "@/components/Table/LandfillTable";
 import Layout from "@/layout/Layout";
 import { useState } from "react";
@@ -20,12 +21,12 @@ const Landfill = () => {
           </button>
         </div>
 
-        {/* {showCreateLandfillModal && (
+        {showCreateLandfillModal && (
           <AddLandfillModal
             isOpen={showCreateLandfillModal}
             onClose={() => setShowCreateLandfillModal(false)}
           />
-        )} */}
+        )}
 
         <div className="flex-1 mt-10">
           <LandfillTable />
