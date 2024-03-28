@@ -3,6 +3,7 @@ import InputField from "@/ui/InputField";
 import { InfoIcon } from "lucide-react";
 import React, { useState } from "react";
 import ImageUpload from "../ImageUpload";
+import ChangePasswordModal from "../Modals/User/ChangePasswordModal";
 
 interface UpdateUserFormProps {
   userData:
@@ -20,6 +21,9 @@ const UpdateUserForm: React.FC<UpdateUserFormProps> = ({
   userData,
   onClose,
 }) => {
+  const [showChangePasswordModal, setShowChagngePasswordModal] =
+    useState<boolean>(false);
+
   //! when user will update it he can't update the Role (be careful)
   const { name, role, email, phone } = userData || {
     name: "",
@@ -43,14 +47,20 @@ const UpdateUserForm: React.FC<UpdateUserFormProps> = ({
     }));
   };
 
-  const handleCreate = () => {
+  const handleUpdateUser = () => {
     //! api call
     onClose();
     console.log("Form Data:", formData);
   };
 
-  const handleOnUpload = (data: { image: File }) => {
+  const handleOnImageUpload = (data: { image: File }) => {
     console.log(data.image.size);
+  };
+
+  const handleChangePasswordModal = () => {
+    console.log("MODAL ", showChangePasswordModal);
+    setShowChagngePasswordModal(true);
+    // onClose();
   };
 
   return (
@@ -67,7 +77,7 @@ const UpdateUserForm: React.FC<UpdateUserFormProps> = ({
 
       {/* image */}
       <div className="mt-8 flex flex-col items-center justify-center">
-        <ImageUpload name="User Photo" onUpload={handleOnUpload} />
+        <ImageUpload name="User Photo" onUpload={handleOnImageUpload} />
       </div>
 
       {/* form */}
@@ -117,17 +127,31 @@ const UpdateUserForm: React.FC<UpdateUserFormProps> = ({
             }
           />
 
-          <div className="flex flex-auto justify-end items-end ">
+          <div className="flex flex-row justify-between items-center ">
             <button
               type="button"
-              onClick={handleCreate}
-              className="p-2 bg-primary hover:bg-secondary hover:text-black text-white rounded-md mt-8"
+              onClick={handleChangePasswordModal}
+              className="p-2 bg-green-500 hover:bg-green-600  text-white rounded-md mt-8"
+            >
+              Change Password
+            </button>
+            <button
+              type="button"
+              onClick={handleUpdateUser}
+              className="p-2 bg-red-500 hover:bg-red-600  text-white rounded-md mt-8"
             >
               Update
             </button>
           </div>
         </form>
       </div>
+
+      {showChangePasswordModal && (
+        <ChangePasswordModal
+          isOpen={showChangePasswordModal}
+          onClose={() => setShowChagngePasswordModal(false)}
+        />
+      )}
     </div>
   );
 };
