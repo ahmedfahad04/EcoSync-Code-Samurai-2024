@@ -1,3 +1,13 @@
+import { models } from "../../configs/mysql.js";
+
+async function findAllPermission(req, res) {
+    const permissions = await models.Permission.findAll({
+        order: [["permission_name", "ASC"]]
+    });
+    res.json(permissions);
+}
+
+
 async function assignPermissionsToRole(req, res) {
     const { role_id } = req.params;
     const permission_names = req.body;
@@ -8,5 +18,6 @@ async function assignPermissionsToRole(req, res) {
 }
 
 export default {
+    findAllPermission,
     assignPermissionsToRole,
 };
