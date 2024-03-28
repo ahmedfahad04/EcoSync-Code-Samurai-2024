@@ -25,6 +25,39 @@ const rolePermissionData = [
             pc.FIND_ONE_USER,
             pc.UPDATE_USER,
             pc.DELETE_USER,
+
+            pc.ADD_ROLE_TO_USER,
+            pc.REMOVE_ROLE_FROM_USER,
+
+            // vehicle
+            pc.CREATE_VEHICLE,
+            pc.FIND_ALL_VEHICLE,
+            pc.FIND_ONE_VEHICLE,
+            pc.UPDATE_VEHICLE,
+            pc.DELETE_VEHICLE,
+
+            pc.ADD_DRIVER_TO_VEHICLE,
+
+            // sts
+            pc.CREATE_STS,
+            pc.FIND_ALL_STS,
+            pc.FIND_ONE_STS,
+            pc.UPDATE_STS,
+            pc.DELETE_STS,
+
+            pc.ADD_MANAGER_TO_STS,
+            pc.REMOVE_MANAGER_FROM_STS,
+
+            // landfill
+            pc.CREATE_LANDFILL,
+            pc.FIND_ALL_LANDFILL,
+            pc.FIND_ONE_LANDFILL,
+            pc.UPDATE_LANDFILL,
+            pc.DELETE_LANDFILL,
+
+            pc.ADD_MANAGER_TO_LANDFILL,
+            pc.REMOVE_MANAGER_FROM_LANDFILL,
+            
         ],
     },
 ];
