@@ -1,6 +1,6 @@
 import { Joi } from "../../utils/Joi.js";
 
-export const findAllDepartureEntryQuerySchema = Joi.object({
+export const findAllDumpingEntryQuerySchema = Joi.object({
     page: Joi.number().integer().positive().optional(),
     limit: Joi.number().integer().positive().optional(),
     vehicle_number: Joi.string().trim().optional(),

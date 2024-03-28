@@ -59,6 +59,10 @@ export default (options) => {
         Landfill.hasMany(models.STSDepartureEntry, {
             foreignKey: "landfill_id",
         });
+        
+        Landfill.hasMany(models.TruckDumpingEntry, {
+            foreignKey: "landfill_id",
+        });
     };
 
     return Landfill;

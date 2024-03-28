@@ -12,7 +12,7 @@ export default (options) => {
             type: DataTypes.STRING,
             allowNull: false,
             unique: true,
-            comment: "location name of sts"
+            comment: "location name of sts",
         },
         gps_coordinate: {
             type: DataTypes.STRING,
@@ -27,18 +27,22 @@ export default (options) => {
             type: DataTypes.FLOAT,
             allowNull: false,
             comment: "Capacity in tons",
-        }
+        },
     });
 
     STS.associate = (models) => {
         STS.belongsToMany(models.User, {
             through: models.UserSTS_Manager,
-            foreignKey: "sts_id"
+            foreignKey: "sts_id",
         });
 
         STS.hasMany(models.STSDepartureEntry, {
-            foreignKey: "sts_id"
-        })
+            foreignKey: "sts_id",
+        });
+
+        STS.hasMany(models.TruckDumpingEntry, {
+            foreignKey: "sts_id",
+        });
     };
 
     return STS;

@@ -46,7 +46,17 @@ export default (options) => {
         },
     });
 
-    TruckDumpingEntry.associate = (models) => {};
+    TruckDumpingEntry.associate = (models) => {
+        TruckDumpingEntry.belongsTo(models.Landfill, {
+            foreignKey: "landfill_id",
+        });
+        TruckDumpingEntry.belongsTo(models.Vehicle, {
+            foreignKey: "vehicle_id",
+        });
+        TruckDumpingEntry.belongsTo(models.STS, {
+            foreignKey: "sts_id",
+        });
+    };
 
     return TruckDumpingEntry;
 };

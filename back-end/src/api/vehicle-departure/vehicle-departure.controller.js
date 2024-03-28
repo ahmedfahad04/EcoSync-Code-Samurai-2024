@@ -1,7 +1,15 @@
 import { models, Op } from "../../configs/mysql.js";
 
 async function findAllDepartureEntry(req, res) {
-    let { page = 1, limit = 10, sts_name, landfill_name, vehicle_number, arrival_time = "1800-04-28T09:23:54.512Z", departure_time = "9026-04-28T09:23:54.512Z" } = req.query;
+    let {
+        page = 1,
+        limit = 10,
+        sts_name,
+        landfill_name,
+        vehicle_number,
+        arrival_time = "1800-04-28T09:23:54.512Z",
+        departure_time = "9026-04-28T09:23:54.512Z",
+    } = req.query;
 
     page = parseInt(page);
     limit = parseInt(limit);
