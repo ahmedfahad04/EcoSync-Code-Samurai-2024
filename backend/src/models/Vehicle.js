@@ -61,6 +61,14 @@ export default (options) => {
         Vehicle.belongsTo(models.Landfill, {
             foreignKey: "landfill_id",
         });
+
+        Vehicle.hasMany(models.STSDepartureEntry, {
+            foreignKey: "vehicle_id",
+        });
+
+        Vehicle.hasMany(models.TruckDumpingEntry, {
+            foreignKey: "vehicle_id",
+        });
     };
 
     return Vehicle;

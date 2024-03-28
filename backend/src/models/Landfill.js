@@ -17,6 +17,7 @@ export default (options) => {
             type: DataTypes.STRING,
             allowNull: false,
             unique: true,
+            comment: "location name of landfill"
         },
         gps_coordinate: {
             type: DataTypes.STRING,
@@ -52,6 +53,14 @@ export default (options) => {
         });
 
         Landfill.hasMany(models.Vehicle, {
+            foreignKey: "landfill_id",
+        });
+
+        Landfill.hasMany(models.STSDepartureEntry, {
+            foreignKey: "landfill_id",
+        });
+        
+        Landfill.hasMany(models.TruckDumpingEntry, {
             foreignKey: "landfill_id",
         });
     };

@@ -13,6 +13,11 @@ async function createVehicle(req, res) {
     res.status(201).json(vehicle);
 }
 
+async function findAllVehicle(req, res) {
+    const vehicles = await models.Vehicle.findAll();
+    res.json(vehicles);
+}
+
 async function updateVehicle(req, res) {
     const { vehicle_id } = req.params;
     const vehicleDto = req.body;
@@ -32,5 +37,6 @@ async function updateVehicle(req, res) {
 
 export default {
     createVehicle,
+    findAllVehicle,
     updateVehicle,
 };

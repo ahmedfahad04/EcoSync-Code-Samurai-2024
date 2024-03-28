@@ -6,11 +6,16 @@ import { schemaValidator } from "../../middlewares/validation.middleware.js";
 import { addManagerSchema, addDumpingEntrySchema, createlandfillSchema, updatelandfillSchema, attachVehicleSchema } from "./landfills.validator.schema.js";
 
 export const landfillRoutes = express.Router();
-landfillRoutes.post("/", schemaValidator(createlandfillSchema), landfillsController.createLanfill);
-landfillRoutes.put("/:landfill_id", schemaValidator(updatelandfillSchema), landfillsController.updateLanfill);
 
-landfillRoutes.put("/:landfill_id/manager", schemaValidator(addManagerSchema), landfillsController.addManager);
-landfillRoutes.delete("/:landfill_id/manager", landfillsController.removeManager);
+landfillRoutes.post("/", schemaValidator(createlandfillSchema), landfillsController.createLanfill);
+landfillRoutes.get("/", landfillsController.findAllLandfill);
+landfillRoutes.get("/:landfill_id", landfillsController.findOneLandfill);
+landfillRoutes.put("/:landfill_id", schemaValidator(updatelandfillSchema), landfillsController.updateLanfill);
+landfillRoutes.delete("/:landfill_id");
+
+landfillRoutes.get("/:landfill_id/managers", landfillsController.findAllLandfillManager);
+landfillRoutes.put("/:landfill_id/managers", schemaValidator(addManagerSchema), landfillsController.addManager);
+landfillRoutes.delete("/:landfill_id/managers/:manager_id", landfillsController.removeManager);
 
 landfillRoutes.post("/:landfill_id/truck-dumping", schemaValidator(addDumpingEntrySchema), landfillsController.addDumpingEntry);
 

@@ -16,6 +16,27 @@ async function createLanfill(req, res) {
     res.status(201).json(newLandfill);
 }
 
+async function findOneLandfill(req, res) {
+    const { landfill_id } = req.params;
+    let landfill = await models.Landfill.findByPk(landfill_id);
+    if (!landfill) throw new HttpError({ message: "landfill not found" }, 404);
+
+    landfill = landfill.toJSON();
+    landfill.gps_coordinate = JSON.parse(landfill.gps_coordinate);
+
+    res.status(200).json(landfill);
+}
+
+async function findAllLandfill(req, res) {
+    let landfills = await models.Landfill.findAll();
+    landfills = landfills.map((landfill) => {
+        const site = landfill.toJSON();
+        site.gps_coordinate = JSON.parse(site.gps_coordinate);
+        return site;
+    });
+    res.status(200).json(landfills);
+}
+
 async function updateLanfill(req, res) {}
 
 async function addManager(req, res) {
@@ -43,7 +64,40 @@ async function addManager(req, res) {
     res.json({ message: "landfill manager added successfully" });
 }
 
-async function removeManager(req, res) {}
+async function findAllLandfillManager(req, res) {
+    const { landfill_id } = req.params;
+    const landfill = await models.Landfill.findByPk(landfill_id);
+    if (!landfill) throw new HttpError({ message: "landfill not found" }, 404);
+
+    let managers = await models.User.findAll({
+        include: {
+            model: models.Landfill,
+            through: {
+                model: models.UserLandfill_Manager,
+                attributes: [],
+                where: { landfill_id: landfill_id },
+            },
+            attributes: [],
+            required: true,
+        },
+    });
+
+    managers = managers.map((manager) => {
+        const m = manager.toJSON();
+        delete m.password;
+        return m;
+    });
+
+    res.json(managers);
+}
+
+async function removeManager(req, res) {
+    const { landfill_id, manager_id } = req.params;
+
+    await models.UserLandfill_Manager.destroy({ where: { landfill_id, user_id: manager_id } });
+
+    res.json({ message: "landfill manager removed successfully" });
+}
 
 async function addDumpingEntry(req, res) {
     const { landfill_id } = req.params;
@@ -92,8 +146,11 @@ async function removeVehicleFromLandfill(req, res) {}
 
 export default {
     createLanfill,
+    findOneLandfill,
+    findAllLandfill,
     updateLanfill,
     addManager,
+    findAllLandfillManager,
     removeManager,
     addDumpingEntry,
     attachVehicleToLandfill,

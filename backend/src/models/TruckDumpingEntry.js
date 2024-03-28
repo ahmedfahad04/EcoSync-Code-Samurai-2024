@@ -2,19 +2,11 @@
 
 export default (options) => {
     const { sequelize, DataTypes, Sequelize } = options;
-    const STSDepatureEntry = sequelize.define("sts_departure_entry", {
-        departure_id: {
+    const TruckDumpingEntry = sequelize.define("truck_dumping_entry", {
+        dumping_id: {
             type: DataTypes.UUID,
             defaultValue: Sequelize.UUIDV4,
             primaryKey: true,
-        },
-        sts_id: {
-            type: DataTypes.UUID,
-            allowNull: false,
-            references: {
-                model: "sts",
-                key: "sts_id",
-            },
         },
         landfill_id: {
             type: DataTypes.UUID,
@@ -32,17 +24,17 @@ export default (options) => {
                 key: "vehicle_id",
             },
         },
+        sts_id: {
+            type: DataTypes.UUID,
+            allowNull: false,
+            references: {
+                model: "sts",
+                key: "sts_id",
+            },
+        },
         waste_volume: {
             type: DataTypes.FLOAT,
             allowNull: false,
-        },
-        trip_number: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            validate: {
-                isIn: [[1, 2, 3]],
-            },
-            comment: "Trip number for the specific truck (1 to 3, indicating the order within the day).",
         },
         arrival_time: {
             type: DataTypes.DATE,
@@ -54,7 +46,17 @@ export default (options) => {
         },
     });
 
-    STSDepatureEntry.associate = (models) => {};
+    TruckDumpingEntry.associate = (models) => {
+        TruckDumpingEntry.belongsTo(models.Landfill, {
+            foreignKey: "landfill_id",
+        });
+        TruckDumpingEntry.belongsTo(models.Vehicle, {
+            foreignKey: "vehicle_id",
+        });
+        TruckDumpingEntry.belongsTo(models.STS, {
+            foreignKey: "sts_id",
+        });
+    };
 
-    return STSDepatureEntry;
+    return TruckDumpingEntry;
 };
