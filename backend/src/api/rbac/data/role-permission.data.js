@@ -71,7 +71,20 @@ const rolePermissionData = [
         ],
     },
     {
-        role_name: "",
-        permission_names: [""]
-    }
+        role_name: rc.STSManager,
+        permission_names: [
+            pc.FIND_ALL_PERMISSION_OF_ROLE,
+            
+            pc.FIND_PROFILE,
+            pc.UPDATE_PROFILE,
+
+            pc.CREATE_VEHICLE_DEPARTURE_ENTRY,
+            pc.FIND_ALL_VEHICLE_DEPARTURE_ENTRY,
+            pc.FIND_ONE_VEHICLE_DEPARTURE_ENTRY,
+            pc.UPDATE_VEHICLE_DEPARTURE_ENTRY,
+            pc.DELETE_VEHICLE_DEPARTURE_ENTRY,
+
+            
+        ],
+    },
 ];
