@@ -1,4 +1,4 @@
-import { permissionConstants } from "../constants/permission.constants.js";
+import { permissionConstants } from "../constants/permissions.constants.js";
 
 export const permissionData = [
     // roles
@@ -25,6 +25,10 @@ export const permissionData = [
 
     { permission_name: permissionConstants.ADD_ROLE_TO_USER, description: "Unknown" },
     { permission_name: permissionConstants.REMOVE_ROLE_FROM_USER, description: "Unknown" },
+
+    // profile
+    { permission_name: permissionConstants.FIND_PROFILE, description: "Unknown" },
+    { permission_name: permissionConstants.UPDATE_PROFILE, description: "Unknown" },
 
     // vehicles
     { permission_name: permissionConstants.CREATE_VEHICLE, description: "Unknown" },

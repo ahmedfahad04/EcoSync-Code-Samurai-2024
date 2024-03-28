@@ -24,6 +24,10 @@ export const permissionConstants = {
     ADD_ROLE_TO_USER: "ADD_ROLE_TO_USER",
     REMOVE_ROLE_FROM_USER: "REMOVE_ROLE_FROM_USER",
 
+    // profile
+    FIND_PROFILE: "FIND_PROFILE",
+    UPDATE_PROFILE: "UPDATE_PROFILE",
+
     // vehicles
     CREATE_VEHICLE: "CREATE_VEHICLE",
     FIND_ALL_VEHICLE: "FIND_ALL_VEHICLE",
