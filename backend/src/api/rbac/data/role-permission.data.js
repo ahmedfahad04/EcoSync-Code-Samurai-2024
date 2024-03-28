@@ -48,6 +48,9 @@ const rolePermissionData = [
             pc.ADD_MANAGER_TO_STS,
             pc.REMOVE_MANAGER_FROM_STS,
 
+            pc.FIND_ALL_VEHICLE_DEPARTURE_ENTRY,
+            pc.FIND_ONE_VEHICLE_DEPARTURE_ENTRY,
+
             // landfill
             pc.CREATE_LANDFILL,
             pc.FIND_ALL_LANDFILL,
@@ -58,6 +61,10 @@ const rolePermissionData = [
             pc.ADD_MANAGER_TO_LANDFILL,
             pc.REMOVE_MANAGER_FROM_LANDFILL,
             
+            pc.FIND_ALL_TRUCK_DUMPING_ENTRY,
+            pc.FIND_ONE_TRUCK_DUMPING_ENTRY,
+
+            // 
         ],
     },
 ];
