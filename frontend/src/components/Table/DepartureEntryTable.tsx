@@ -1,6 +1,6 @@
-import { ILandfill } from "@/models/Landfill";
-import { dummyLandfill } from "@/utils/DummyData";
+import { dummyDepartureData } from "@/utils/DummyData";
 // import { dummyLandfill } from "@/utils/DummyData"; // Importing static data
+import { IDepartureEntry } from "@/models/STS";
 import { EditIcon, Trash2Icon } from "lucide-react";
 import {
   MRT_ActionMenuItem,
@@ -8,15 +8,15 @@ import {
   MaterialReactTable,
 } from "material-react-table";
 import { useEffect, useMemo, useState } from "react";
-import EditLandfillModal from "../Modals/Landfill/EditLandfillModal";
-import ViewLandfillModal from "../Modals/Landfill/ViewLandfillModal";
+import EditDepartureEntryModal from "../Modals/STS/EditDepartureEntryModal";
 
-const LandfillTable = () => {
-  const [showEditLandfillModal, setShowEditLandfillModal] =
+const DepartureEntryTable = () => {
+  const [showDepartureEntryEditModal, setShowDepartureEntryEditModal] =
     useState<boolean>(false);
-  const [showLandfillModal, setShowLandfillModal] = useState<boolean>(false);
-  const [LandfillData, setLandfillData] = useState<ILandfill>();
-  const [data, setData] = useState<ILandfill[]>([]);
+  //   const [showLandfillModal, setShowLandfillModal] = useState<boolean>(false);
+
+  const [departureEntry, setDepartureEntry] = useState<IDepartureEntry>();
+  const [data, setData] = useState<IDepartureEntry[]>([]);
 
   const handleRowDelete = (index: string, closeWindow: () => void) => {
     if (window.confirm("Are you sure?")) {
@@ -30,39 +30,39 @@ const LandfillTable = () => {
 
   useEffect(() => {
     //! fetch using useSWR
-    setData(dummyLandfill); // Set static data from dummyLandfill
+    setData(dummyDepartureData); // Set static data from dummyLandfill
   }, []); // Empty dependency array to run only once when component mounts
 
-  const columns = useMemo<MRT_ColumnDef<ILandfill>[]>(
+  const columns = useMemo<MRT_ColumnDef<IDepartureEntry>[]>(
     () => [
       {
+        accessorKey: "vehicleNumber",
+        header: "VEHICLE NUMBER",
+        size: 150,
+      },
+      {
         accessorKey: "landfillName",
-        header: "Landfill NAME",
+        header: "LANDFILL NAME",
         size: 180,
       },
       {
-        accessorKey: "openingTime",
-        header: "OPENING TIME",
+        accessorKey: "trip",
+        header: "TRIP",
         size: 150,
       },
       {
-        accessorKey: "endingTime",
-        header: "ENDING TIME",
+        accessorKey: "wasteVolume",
+        header: "WASTE VOLUME (TON)",
         size: 150,
       },
       {
-        accessorKey: "capacity",
-        header: "CAPACITY (TON)",
+        accessorKey: "arrivalTime",
+        header: "ARRIVAL TIME",
         size: 150,
       },
       {
-        accessorKey: "latitude",
-        header: "LATITUDE",
-        size: 150,
-      },
-      {
-        accessorKey: "longitude",
-        header: "LONGITUDE",
+        accessorKey: "departureTime",
+        header: "DEPARTURE TIME",
         size: 150,
       },
     ],
@@ -86,8 +86,8 @@ const LandfillTable = () => {
             key="edit"
             label="Edit"
             onClick={() => {
-              setLandfillData(row.original);
-              setShowEditLandfillModal(true);
+              setDepartureEntry(row.original);
+              setShowDepartureEntryEditModal(true);
               closeMenu();
             }}
             table={table}
@@ -105,31 +105,31 @@ const LandfillTable = () => {
         ]}
         muiTableBodyRowProps={({ row }) => ({
           onClick: () => {
-            setLandfillData(row.original);
+            setDepartureEntry(row.original);
             console.log(row.original);
-            setShowLandfillModal(true);
+            // setShowLandfillModal(true);
           },
           sx: { cursor: "pointer" },
         })}
       />
 
-      {showEditLandfillModal && (
-        <EditLandfillModal
-          isOpen={showEditLandfillModal}
-          onClose={() => setShowEditLandfillModal(false)}
-          LandfillData={LandfillData}
+      {showDepartureEntryEditModal && (
+        <EditDepartureEntryModal
+          isOpen={showDepartureEntryEditModal}
+          onClose={() => setShowDepartureEntryEditModal(false)}
+          data={departureEntry}
         />
       )}
 
-      {showLandfillModal && (
+      {/* {showLandfillModal && (
         <ViewLandfillModal
           isOpen={showLandfillModal}
           onClose={() => setShowLandfillModal(false)}
-          LandfillData={LandfillData}
+          departureEntry={departureEntry}
         />
-      )}
+      )} */}
     </div>
   );
 };
 
-export default LandfillTable;
+export default DepartureEntryTable;
