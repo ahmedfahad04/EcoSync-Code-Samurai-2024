@@ -8,6 +8,7 @@ import {
   MaterialReactTable,
 } from "material-react-table";
 import { useEffect, useMemo, useState } from "react";
+import EditLandfillModal from "../Modals/Landfill/EditLandfillModal";
 import ViewLandfillModal from "../Modals/Landfill/ViewLandfillModal";
 // import EditLandfillModal from "../Modals/Landfill/EditLandfillModal";
 // import ViewLandfillModal from "../Modals/Landfill/ViewLandfillModal";
@@ -21,12 +22,9 @@ const LandfillTable = () => {
 
   const handleRowDelete = (index: string, closeWindow: () => void) => {
     if (window.confirm("Are you sure?")) {
-      // Create a copy of the current data
       const newData = [...data];
-      // Remove the entry at the specified index
       //! api call to delete entry
       newData.splice(parseInt(index), 1);
-      // Update the data state
       setData(newData);
       closeWindow();
     }
@@ -110,20 +108,20 @@ const LandfillTable = () => {
         muiTableBodyRowProps={({ row }) => ({
           onClick: () => {
             setLandfillData(row.original);
-            console.log(row.original)
+            console.log(row.original);
             setShowLandfillModal(true);
           },
           sx: { cursor: "pointer" },
         })}
       />
 
-      {/* {showEditLandfillModal && (
+      {showEditLandfillModal && (
         <EditLandfillModal
           isOpen={showEditLandfillModal}
           onClose={() => setShowEditLandfillModal(false)}
           LandfillData={LandfillData}
         />
-      )} */}
+      )}
 
       {showLandfillModal && (
         <ViewLandfillModal
