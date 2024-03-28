@@ -36,15 +36,21 @@ export default (options) => {
             type: DataTypes.FLOAT,
             allowNull: false,
         },
+        trip_number: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            validate: {
+                isIn: [[1, 2, 3]],
+            },
+            comment: "Trip number for the specific truck (1 to 3, indicating the order within the day).",
+        },
         arrival_time: {
             type: DataTypes.DATE,
             allowNull: false,
-            defaultValue: DataTypes.NOW
         },
         departure_time: {
             type: DataTypes.DATE,
             allowNull: false,
-            defaultValue: DataTypes.NOW
         },
     });
 
