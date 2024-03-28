@@ -6,6 +6,7 @@ import * as React from "react";
 
 export const AccountMenu: React.FC = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [showUpdateUserModal, setShowUpdateUserModal] = React.useState<boolean>(false);
   const open = Boolean(anchorEl);
 
   const handleEdit = () => {
@@ -42,7 +43,7 @@ export const AccountMenu: React.FC = () => {
           color="white"
         />
       </button>
-      
+
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}
@@ -100,15 +101,8 @@ export const AccountMenu: React.FC = () => {
         </MenuItem>
       </Menu>
 
-      {/* {showUpdateModal && (
-        <UpdateBlog blog={blog} onClose={() => setShowUpdateModal(false)} />
-      )}
-
-      {showDeleteModal && (
-        <DeleteBlog
-          blogId={blog.postId}
-          onClose={() => setShowDeleteModal(false)}
-        />
+      {/* {showUpdateUserModal && (
+        // view profile modal
       )} */}
     </div>
   );
