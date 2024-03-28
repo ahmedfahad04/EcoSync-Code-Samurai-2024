@@ -1,3 +1,4 @@
+import { ISTS } from "@/models/STS";
 import { IUsers } from "@/models/Users";
 import { IVehicle } from "@/models/Vehicles";
 
@@ -159,3 +160,91 @@ export const dummyVehicles: IVehicle[] = [
     createdAt: new Date("2022-05-25"),
   },
 ];
+
+export const dummySTS: ISTS[] = [
+  {
+      STSName: "STS 1",
+      wardNumber: 101,
+      capacity: 50,
+      latitude: "40.7128° N",
+      longitude: "74.0060° W"
+  },
+  {
+      STSName: "STS 2",
+      wardNumber: 102,
+      capacity: 60,
+      latitude: "34.0522° N",
+      longitude: "118.2437° W"
+  },
+  {
+      STSName: "STS 3",
+      wardNumber: 103,
+      capacity: 45,
+      latitude: "41.8781° N",
+      longitude: "87.6298° W"
+  },
+  {
+      STSName: "STS 4",
+      wardNumber: 104,
+      capacity: 55,
+      latitude: "51.5074° N",
+      longitude: "0.1278° W"
+  },
+  {
+      STSName: "STS 5",
+      wardNumber: 105,
+      capacity: 70,
+      latitude: "35.6895° N",
+      longitude: "139.6917° E"
+  },
+  {
+      STSName: "STS 6",
+      wardNumber: 106,
+      capacity: 40,
+      latitude: "52.5200° N",
+      longitude: "13.4050° E"
+  },
+  {
+      STSName: "STS 7",
+      wardNumber: 107,
+      capacity: 65,
+      latitude: "48.8566° N",
+      longitude: "2.3522° E"
+  },
+  {
+      STSName: "STS 8",
+      wardNumber: 108,
+      capacity: 50,
+      latitude: "22.3964° N",
+      longitude: "114.1095° E"
+  },
+  {
+      STSName: "STS 9",
+      wardNumber: 109,
+      capacity: 55,
+      latitude: "19.0760° N",
+      longitude: "72.8777° E"
+  },
+  {
+      STSName: "STS 10",
+      wardNumber: 110,
+      capacity: 75,
+      latitude: "40.7128° N",
+      longitude: "74.0060° W"
+  },
+  {
+      STSName: "STS 11",
+      wardNumber: 111,
+      capacity: 60,
+      latitude: "34.0522° N",
+      longitude: "118.2437° W"
+  },
+  {
+      STSName: "STS 12",
+      wardNumber: 112,
+      capacity: 70,
+      latitude: "41.8781° N",
+      longitude: "87.6298° W"
+  }
+];
+

@@ -1,3 +1,4 @@
+import STSTable from "@/components/Table/STSTable";
 import Layout from "@/layout/Layout";
 import { useState } from "react";
 
@@ -28,7 +29,9 @@ const STS = () => {
         )} */}
 
         {/* vehicle table */}
-        <div className="flex-1 mt-10">{/* <NewVehicleTable /> */}</div>
+        <div className="flex-1 mt-10">
+          <STSTable />
+        </div>
       </div>
     </Layout>
   );
