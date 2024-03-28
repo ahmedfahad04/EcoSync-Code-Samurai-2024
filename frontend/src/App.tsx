@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import ConfirmationMessage from "./pages/Auth/ConfirmationMessage";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
+import OTPVerification from "./pages/Auth/OTPVerification";
 import ResetPassword from "./pages/Auth/ResetPassword";
 import SignIn from "./pages/Auth/SignIn";
 import Dashboard from "./pages/Dashboard";
@@ -25,7 +25,7 @@ function App() {
 
         <Route path="/login" element={<SignIn />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/confirmation" element={<ConfirmationMessage />} />
+        <Route path="/otp-verification" element={<OTPVerification />} />
         <Route path="/reset-password" element={<ResetPassword />} />
 
         <Route path="*" element={<NotFound />} />
