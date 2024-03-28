@@ -1,6 +1,6 @@
 "use strict";
 
-// add some predefined permissions, admin will assign specific permission to the roles
+import { permissionData } from "../api/rbac/data/permissions.data.js";
 
 export default (options) => {
     const { sequelize, DataTypes, Sequelize } = options;
@@ -15,7 +15,7 @@ export default (options) => {
             allowNull: false,
             unique: true,
             validate: {
-                isIn: [permissions.map((permission) => permission.name)],
+                isIn: [permissionData.map((permission) => permission.permission_name)],
             },
         },
         description: {
@@ -24,13 +24,12 @@ export default (options) => {
         },
     });
 
-    Permission.associate = (models) => {};
+    Permission.associate = (models) => {
+        Permission.belongsToMany(models.Role, {
+            through: models.RolePermission,
+            foreignKey: "permission_id",
+        });
+    };
 
     return Permission;
 };
-
-export const permissions = [
-    { name: "CREATE_USER", description: "can create user" },
-    { name: "UPDATE_USER", description: "can update user" },
-    { name: "DELETE_USER", description: "can delete user" },
-];

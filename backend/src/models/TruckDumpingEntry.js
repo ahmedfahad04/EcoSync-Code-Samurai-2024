@@ -2,7 +2,7 @@
 
 export default (options) => {
     const { sequelize, DataTypes, Sequelize } = options;
-    const TruckDumpingEntry = sequelize.define("truck_dumping_entry", {
+    const TruckDumpingEntry = sequelize.define("truck_dumping_entries", {
         dumping_id: {
             type: DataTypes.UUID,
             defaultValue: Sequelize.UUIDV4,
@@ -43,6 +43,11 @@ export default (options) => {
         departure_time: {
             type: DataTypes.DATE,
             allowNull: false,
+        },
+        is_bill_paid: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false,
         },
     });
 

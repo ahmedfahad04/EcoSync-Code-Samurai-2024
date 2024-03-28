@@ -7,7 +7,7 @@ import { addPermissionToRoleSchema } from "./rbac.validation.schema.js";
 
 export const rbacRoutes = express.Router();
 
-rbacRoutes.get("/permissions");
+rbacRoutes.get("/permissions", rbacController.findAllPermission);
 rbacRoutes.post("/permissions");
 rbacRoutes.put("/permissions/:permission_id");
 rbacRoutes.delete("/permissions/:permission_id");

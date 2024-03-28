@@ -7,6 +7,7 @@ import { startup } from "./mysql.startup.js";
 const sequelize = new Sequelize(config.mysql.database_url, {
     logging: false,
     timestamps: false,
+    freezeTableName: true,
 });
 
 import User from "../models/User.js";
@@ -22,8 +23,6 @@ import TruckDumpingEntry from "../models/TruckDumpingEntry.js";
 
 import UserSTS_Manager from "../models/UserSTS_Manager.js";
 import UserLandfill_Manager from "../models/UserLandfill_Manager.js";
-
-import Bill from "../models/Bill.js";
 
 const options = { sequelize, DataTypes, Sequelize, Op };
 
@@ -41,8 +40,6 @@ const models = {
 
     UserSTS_Manager: UserSTS_Manager(options),
     UserLandfill_Manager: UserLandfill_Manager(options),
-
-    Bill: Bill(options),
 };
 
 Object.entries(models).forEach(([name, model]) => {

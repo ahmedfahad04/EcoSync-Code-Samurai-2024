@@ -1,5 +1,5 @@
 import { models } from "../../configs/mysql.js";
-import { RoleTypes } from "../../models/Role.js";
+import { roleConstants } from "../rbac/constants/roles.constants.js";
 import { HttpError } from "../../utils/HttpError.js";
 import usersRepository from "../users/users.repository.js";
 import stsRepository from "./sts.repository.js";
@@ -46,7 +46,7 @@ async function addManager(req, res) {
 
     if (!user) throw new HttpError({ manager_id: "invalid manager_id" }, 400);
 
-    if (user.role?.role_name != RoleTypes.stsManager) throw new HttpError({ manager_id: "user must be a sts manager" }, 400);
+    if (user.role?.role_name != roleConstants.STSManager) throw new HttpError({ manager_id: "user must be a sts manager" }, 400);
 
     const user_sts = { user_id: manager_id, sts_id: sts_id };
 

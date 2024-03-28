@@ -2,7 +2,7 @@ import { HttpError } from "../../utils/HttpError.js";
 import usersRepository from "./users.repository.js";
 import utils from "../../utils/utils.js";
 import rolesRepository from "../rbac/roles.repository.js";
-import { RoleTypes } from "../../models/Role.js";
+import { roleConstants } from "../rbac/constants/roles.constants.js";
 
 async function create(userDto) {
     const exists = await usersRepository.isUserExistByEmail(userDto.email);
@@ -15,7 +15,7 @@ async function create(userDto) {
         role = await rolesRepository.findOneRoleById(userDto.role_id);
         if (!role) throw new HttpError({ role_id: "invalid role_id" }, 400);
     } else {
-        role = await rolesRepository.findOneRoleByName(RoleTypes.unassigned);
+        role = await rolesRepository.findOneRoleByName(roleConstants.Unassigned);
         userDto.role_id = role.role_id;
     }
 
