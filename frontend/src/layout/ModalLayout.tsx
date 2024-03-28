@@ -1,6 +1,6 @@
-import Modal from "@/components/Modals/Modal";
-import ModalBody from "@/components/Modals/ModalBody";
-import ModalHeader from "@/components/Modals/ModalHeader";
+import Modal from "@/components/Modals/ModalSkeleton/Modal";
+import ModalBody from "@/components/Modals/ModalSkeleton/ModalBody";
+import ModalHeader from "@/components/Modals/ModalSkeleton/ModalHeader";
 import React from "react";
 
 interface AddVehicleModalProps {

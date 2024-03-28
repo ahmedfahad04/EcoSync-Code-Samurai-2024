@@ -1,4 +1,4 @@
-import AddVehicleModal from "@/components/Modals/AddVehicleModal";
+import AddVehicleModal from "@/components/Modals/Vehicle/AddVehicleModal";
 import NewVehicleTable from "@/components/Table/VehicleTable";
 import Layout from "@/layout/Layout";
 import { useState } from "react";

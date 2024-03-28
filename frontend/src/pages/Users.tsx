@@ -1,10 +1,11 @@
-import AddUserModal from "@/components/Modals/AddUserModal";
+import AddUserModal from "@/components/Modals/User/AddUserModal";
 import NewUserTable from "@/components/Table/UserTable";
 import Layout from "@/layout/Layout";
 import { useState } from "react";
 
 const Users = () => {
-  const [showAddUserModalModal, setShowAddUserModalModal] = useState<boolean>(false);
+  const [showAddUserModalModal, setShowAddUserModalModal] =
+    useState<boolean>(false);
 
   return (
     <Layout>

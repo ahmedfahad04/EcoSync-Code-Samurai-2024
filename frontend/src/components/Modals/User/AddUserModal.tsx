@@ -1,6 +1,6 @@
 import ModalLayout from "@/layout/ModalLayout";
 import React from "react";
-import AddUserForm from "../Forms/AddUserForm";
+import AddUserForm from "../../Forms/AddUserForm";
 
 interface AddUserModalProps {
   isOpen: boolean;
@@ -8,7 +8,7 @@ interface AddUserModalProps {
   onClose: () => void;
 }
 
-const AddUser: React.FC<AddUserModalProps> = ({
+const AddUserModal: React.FC<AddUserModalProps> = ({
   isOpen,
   customClass = "w-[500px] flex flex-col justify-center item-center",
   onClose,
@@ -25,4 +25,4 @@ const AddUser: React.FC<AddUserModalProps> = ({
   );
 };
 
-export default AddUser;
+export default AddUserModal;

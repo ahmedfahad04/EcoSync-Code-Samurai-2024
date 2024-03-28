@@ -10,7 +10,7 @@ import {
   type MRT_ColumnDef,
 } from "material-react-table";
 import { useMemo, useState } from "react";
-import UpdateUserModal from "../Modals/UpdateUserModal";
+import UpdateUserModal from "../Modals/User/UpdateUserModal";
 
 const data = dummyUsers;
 
