@@ -1,3 +1,4 @@
+import AddSTSModal from "@/components/Modals/STS/AddSTSModal";
 import STSTable from "@/components/Table/STSTable";
 import Layout from "@/layout/Layout";
 import { useState } from "react";
@@ -17,16 +18,16 @@ const STS = () => {
             className="h-8 mr-8 text-center flex items-center p-3 text-sm font-normal bg-[#14923EFF] text-white rounded-md hover:bg-[#177737]"
             onClick={() => setShowCreateSTSModal(!showCreateSTSModal)}
           >
-            + Create STS
+            + New STS
           </button>
         </div>
 
-        {/* {showCreateSTSModal && (
-          <AddVehicleModal
+        {showCreateSTSModal && (
+          <AddSTSModal
             isOpen={showCreateSTSModal}
-            onClose={() => setShowCreateSTSModal(false)} useState<boolean>(false);
+            onClose={() => setShowCreateSTSModal(false)}
           />
-        )} */}
+        )}
 
         {/* vehicle table */}
         <div className="flex-1 mt-10">
