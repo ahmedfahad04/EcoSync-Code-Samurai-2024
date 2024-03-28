@@ -1,3 +1,4 @@
+import { IDepartureEntry } from "@/models/STS";
 import Dropdown from "@/ui/Dropdown";
 import InputField from "@/ui/InputField";
 import { dummyLandfill, dummyVehicles } from "@/utils/DummyData";
@@ -5,25 +6,47 @@ import { InfoIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface DepartureEntryFormProps {
-  stsData: ISTS | undefined;
+  data: IDepartureEntry | undefined;
   onClose: () => void;
+  mode: "Edit" | "Create";
 }
 
 const DepartureEntryForm: React.FC<DepartureEntryFormProps> = ({
-  stsData,
+  data,
   onClose,
+  mode,
 }) => {
-  const [landfills, setLandfills] = useState<string[]>();
-  const [vehicles, setVehicles] = useState<string[]>();
+  const [landfills, setLandfills] = useState<string[]>([]);
+  const [vehicles, setVehicles] = useState<string[]>([]);
 
-  const [formData, setFormData] = useState({
-    landfillName: "",
-    vehiceleNumber: "",
-    tripNumber: "",
-    wasteVolume: "",
-    arrival: "",
-    departure: "",
-  });
+  const {
+    landfillName,
+    vehicleNumber, // Corrected property name
+    trip, // Corrected property name
+    wasteVolume,
+    arrivalTime,
+    departureTime,
+  } = data || {};
+
+  const [formData, setFormData] = useState(
+    mode === "Edit"
+      ? {
+          landfillName: landfillName || "",
+          vehicleNumber: vehicleNumber || "",
+          trip: trip || "",
+          wasteVolume: wasteVolume || "",
+          arrival: arrivalTime || "",
+          departure: departureTime || "",
+        }
+      : {
+          landfillName: "",
+          vehicleNumber: "",
+          trip: "",
+          wasteVolume: "",
+          arrival: "",
+          departure: "",
+        }
+  );
 
   const handleCreate = (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -42,11 +65,12 @@ const DepartureEntryForm: React.FC<DepartureEntryFormProps> = ({
 
   // fetch data
   useEffect(() => {
+    console.log("DEPT: ", formData);
     const landfillNames = dummyLandfill.map((l) => l.landfillName);
-    const vehicleNubers = dummyVehicles.map((v) => v.vehicleNumber);
+    const vehicleNumbers = dummyVehicles.map((v) => v.vehicleNumber); // Corrected variable name
 
     setLandfills(landfillNames);
-    setVehicles(vehicleNubers);
+    setVehicles(vehicleNumbers); // Corrected variable name
   }, []);
 
   return (
@@ -66,7 +90,7 @@ const DepartureEntryForm: React.FC<DepartureEntryFormProps> = ({
         <form className="mt-5 w-full">
           {/* will start from here */}
           <Dropdown
-            name="Select Landfill"
+            name={mode == "Edit" ? formData.landfillName : "Select Landfill"}
             options={landfills}
             label="Lanfill Name"
             customClass="mt-5 bg-slate-300/6"
@@ -79,27 +103,27 @@ const DepartureEntryForm: React.FC<DepartureEntryFormProps> = ({
           />
 
           <Dropdown
-            name="Select Vehicle"
+            name={mode == "Edit" ? formData.vehicleNumber : "Select Vehicle"}
             options={vehicles}
             label="Vehicle Number"
             customClass="mt-5 bg-slate-300/6"
             onSelect={(selectedOption) =>
               setFormData((prevFormData) => ({
                 ...prevFormData,
-                landfillName: selectedOption,
+                vehicleNumber: selectedOption,
               }))
             }
           />
 
           <Dropdown
-            name="Select Trip"
+            name={mode == "Edit" ? formData.trip : "Select Trip"}
             options={["1", "2", "3"]}
             label="Trip Number"
             customClass="mt-5 mb-4 bg-slate-300/6"
             onSelect={(selectedOption) =>
               setFormData((prevFormData) => ({
                 ...prevFormData,
-                landfillName: selectedOption,
+                trip: selectedOption,
               }))
             }
           />

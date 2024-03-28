@@ -5,3 +5,12 @@ export interface ISTS {
     latitude: string;
     longitude: string;
 }
+
+export interface IDepartureEntry {
+    vehicleNumber: string;
+    landfillName: string;
+    trip: string;
+    wasteVolume: string;
+    arrivalTime: string;
+    departureTime: string;
+}

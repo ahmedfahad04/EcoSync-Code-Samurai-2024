@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 interface DropdownProps {
   name: string;
@@ -34,6 +34,10 @@ const Dropdown: React.FC<DropdownProps> = ({
     closeDropdown();
   };
 
+  useEffect(() => {
+    console.log("ID: ", selectedOptionIndex);
+  }, []);
+
   return (
     <div className={`relative inline-block text-left w-full ${customClass}`}>
       {label && <p className="font-medium">{label}</p>}
@@ -42,8 +46,10 @@ const Dropdown: React.FC<DropdownProps> = ({
           <button
             type="button"
             onClick={toggleDropdown}
-            className={`inline-flex justify-between w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-primary focus:border-secondary ${
-              selectedOptionIndex !== -1 ? "bg-gray-300" : "bg-gray-200"
+            className={`inline-flex justify-between w-full rounded-md border border-gray-300 px-4 py-2  text-sm font-medium text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-primary focus:border-secondary ${
+              options?.includes(optionName) == true
+                ? "bg-gray-300"
+                : "bg-gray-200"
             }`}
             id="options-menu"
             aria-expanded={isOpen}

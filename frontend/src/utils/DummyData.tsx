@@ -1,5 +1,5 @@
 import { ILandfill } from "@/models/Landfill";
-import { ISTS } from "@/models/STS";
+import { IDepartureEntry, ISTS } from "@/models/STS";
 import { IUsers } from "@/models/Users";
 import { IVehicle } from "@/models/Vehicles";
 
@@ -369,5 +369,64 @@ export const dummyLandfill: ILandfill[] = [
     capacity: "357",
     latitude: "46.7423",
     longitude: "-121.658",
+  },
+];
+
+export const dummyDepartureData: IDepartureEntry[] = [
+  {
+    vehicleNumber: "ABC123",
+    landfillName: "Landfill A",
+    trip: 1,
+    wasteVolume: 100,
+    arrivalTime: "08:00:00",
+    departureTime: "10:00:00",
+  },
+  {
+    vehicleNumber: "DEF456",
+    landfillName: "Landfill B",
+    trip: 1,
+    wasteVolume: 120,
+    arrivalTime: "08:30:00",
+    departureTime: "10:30:00",
+  },
+  {
+    vehicleNumber: "GHI789",
+    landfillName: "Landfill A",
+    trip: 2,
+    wasteVolume: 90,
+    arrivalTime: "09:00:00",
+    departureTime: "11:00:00",
+  },
+  {
+    vehicleNumber: "JKL012",
+    landfillName: "Landfill B",
+    trip: 2,
+    wasteVolume: 110,
+    arrivalTime: "09:30:00",
+    departureTime: "11:30:00",
+  },
+  {
+    vehicleNumber: "MNO345",
+    landfillName: "Landfill A",
+    trip: 3,
+    wasteVolume: 80,
+    arrivalTime: "10:00:00",
+    departureTime: "12:00:00",
+  },
+  {
+    vehicleNumber: "PQR678",
+    landfillName: "Landfill B",
+    trip: 3,
+    wasteVolume: 130,
+    arrivalTime: "10:30:00",
+    departureTime: "12:30:00",
+  },
+  {
+    vehicleNumber: "STU901",
+    landfillName: "Landfill A",
+    trip: 4,
+    wasteVolume: 70,
+    arrivalTime: "11:00:00",
+    departureTime: "13:00:00",
   },
 ];
