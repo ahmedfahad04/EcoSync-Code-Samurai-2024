@@ -7,9 +7,13 @@ import { addManagerSchema, addVehicleDepartureEntrySchema, createStsSchema, upda
 
 export const stsRoutes = express.Router();
 stsRoutes.post("/", schemaValidator(createStsSchema), stsController.createSts);
+stsRoutes.get("/")
+stsRoutes.get("/:sts_id");
 stsRoutes.put("/:sts_id", schemaValidator(updateStsSchema), stsController.updateSts);
+stsRoutes.delete("/:sts_id");
 
-stsRoutes.put("/:sts_id/manager", schemaValidator(addManagerSchema), stsController.addManager);
-stsRoutes.delete("/:sts_id/manager", stsController.removeManager);
+stsRoutes.get("/:sts_id/managers");
+stsRoutes.put("/:sts_id/managers", schemaValidator(addManagerSchema), stsController.addManager);
+stsRoutes.delete("/:sts_id/managers/manager_id", stsController.removeManager);
 
 stsRoutes.post("/:sts_id/vehicle-departure", schemaValidator(addVehicleDepartureEntrySchema), stsController.addVehicleDepartureEntry);

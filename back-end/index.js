@@ -15,6 +15,7 @@ import { stsRoutes } from "./src/api/sts/sts.routes.js";
 import { landfillRoutes } from "./src/api/landfills/landfills.routes.js";
 import { truckDumpingRoutes } from "./src/api/truck-dumping/truck-dumping.routes.js";
 import { rbacRoutes } from "./src/api/rbac/rbac.routes.js";
+import { vehicleDepartureRoutes } from "./src/api/vehicle-departure/vehicle-departure.routes.js";
 
 const app = express();
 
@@ -25,12 +26,13 @@ app.use(cookieParser(config.cookie.secret));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", usersRoutes);
+app.use("/api/rbac", rbacRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/vehicles", vehicleRoutes);
 app.use("/api/sts", stsRoutes);
 app.use("/api/landfills", landfillRoutes);
 app.use("/api/truck-dumping", truckDumpingRoutes);
-app.use("/api/rbac", rbacRoutes);
+app.use("/api/vehicle-departure", vehicleDepartureRoutes);
 
 app.use(notFoundHandler);
 app.use(globalErrorHandler);

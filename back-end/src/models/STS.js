@@ -35,6 +35,10 @@ export default (options) => {
             through: models.UserSTS_Manager,
             foreignKey: "sts_id"
         });
+
+        STS.hasMany(models.STSDepartureEntry, {
+            foreignKey: "sts_id"
+        })
     };
 
     return STS;

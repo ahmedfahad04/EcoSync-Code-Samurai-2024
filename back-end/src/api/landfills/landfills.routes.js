@@ -11,6 +11,7 @@ landfillRoutes.post("/", schemaValidator(createlandfillSchema), landfillsControl
 landfillRoutes.get("/", landfillsController.findAllLandfill);
 landfillRoutes.get("/:landfill_id", landfillsController.findOneLandfill);
 landfillRoutes.put("/:landfill_id", schemaValidator(updatelandfillSchema), landfillsController.updateLanfill);
+landfillRoutes.delete("/:landfill_id");
 
 landfillRoutes.get("/:landfill_id/managers", landfillsController.findAllLandfillManager);
 landfillRoutes.put("/:landfill_id/managers", schemaValidator(addManagerSchema), landfillsController.addManager);

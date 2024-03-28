@@ -54,7 +54,17 @@ export default (options) => {
         },
     });
 
-    STSDepatureEntry.associate = (models) => {};
+    STSDepatureEntry.associate = (models) => {
+        STSDepatureEntry.belongsTo(models.STS, {
+            foreignKey: "sts_id",
+        });
+        STSDepatureEntry.belongsTo(models.Landfill, {
+            foreignKey: "landfill_id",
+        });
+        STSDepatureEntry.belongsTo(models.Vehicle, {
+            foreignKey: "vehicle_id",
+        });
+    };
 
     return STSDepatureEntry;
 };
