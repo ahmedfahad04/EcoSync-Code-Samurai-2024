@@ -1,16 +1,20 @@
 import { ISTS } from "@/models/STS";
 import { dummySTS } from "@/utils/DummyData";
-import { Delete, EditIcon } from "lucide-react";
+import { EditIcon, Trash2Icon } from "lucide-react";
 import {
   MRT_ActionMenuItem,
   MRT_ColumnDef,
   MaterialReactTable,
 } from "material-react-table";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+import EditSTSModal from "../Modals/STS/EditSTSModal";
 
 const data = dummySTS;
 
 const STSTable = () => {
+  const [showEditSTSModal, setShowEditSTSModal] = useState<boolean>();
+  const [STSData, setSTSData] = useState<ISTS>();
+
   const columns = useMemo<MRT_ColumnDef<ISTS>[]>(
     () => [
       {
@@ -56,18 +60,25 @@ const STSTable = () => {
         muiTableContainerProps={{ sx: { maxHeight: "500px" } }}
         renderRowActionMenuItems={({ closeMenu, row, table }) => [
           <MRT_ActionMenuItem //or just use a normal MUI MenuItem component
-            icon={<EditIcon />}
+            icon={<EditIcon className="text-blue-500" />}
             key="edit"
             label="Edit"
             onClick={() => {
-              alert(row.original);
+              setSTSData({
+                STSName: row.original.STSName,
+                wardNumber: row.original.wardNumber,
+                capacity: row.original.capacity,
+                longitude: row.original.longitude,
+                latitude: row.original.latitude,
+              });
+              setShowEditSTSModal(true);
               closeMenu();
             }}
             table={table}
             className="bg-blue-200"
           />,
           <MRT_ActionMenuItem
-            icon={<Delete />}
+            icon={<Trash2Icon className="text-red-500" />}
             key="delete"
             label="Delete"
             onClick={() => {
@@ -78,6 +89,14 @@ const STSTable = () => {
           />,
         ]}
       />
+
+      {showEditSTSModal && (
+        <EditSTSModal
+          isOpen={showEditSTSModal}
+          onClose={() => setShowEditSTSModal(false)}
+          stsData={STSData}
+        />
+      )}
     </div>
   );
 };

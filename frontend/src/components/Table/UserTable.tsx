@@ -79,7 +79,7 @@ const NewUserTable = () => {
         muiTableContainerProps={{ sx: { maxHeight: "500px" } }}
         renderRowActionMenuItems={({ closeMenu, row, table }) => [
           <MRT_ActionMenuItem //or just use a normal MUI MenuItem component
-            icon={<EditIcon />}
+            icon={<EditIcon className="text-blue-500" />}
             key="edit"
             label="Edit"
             onClick={() => {
@@ -96,7 +96,7 @@ const NewUserTable = () => {
             className="bg-blue-200"
           />,
           <MRT_ActionMenuItem
-            icon={<Delete />}
+            icon={<Delete className="text-red-500" />}
             key="delete"
             label="Delete"
             onClick={() => alert("Delete")}

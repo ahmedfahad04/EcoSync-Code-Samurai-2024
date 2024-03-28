@@ -1,15 +1,32 @@
+import { ISTS } from "@/models/STS";
 import InputField from "@/ui/InputField";
 import { InfoIcon } from "lucide-react";
 import { useState } from "react";
+import STSManagerDropdown from "../STSManagerDropdown";
 
-const AddSTSForm = () => {
-  const [formData, setFormData] = useState({
+interface EditSTSFormProps {
+  stsData: ISTS | undefined;
+  onClose: () => void;
+}
+
+const EditSTSForm: React.FC<EditSTSFormProps> = ({ stsData, onClose }) => {
+  const { STSName, wardNumber, capacity, latitude, longitude } = stsData || {
     STSName: "",
     wardNumber: "",
     capacity: "",
     latitude: "",
     longitude: "",
+  };
+
+  const [formData, setFormData] = useState({
+    STSName: STSName,
+    wardNumber: wardNumber,
+    capacity: capacity,
+    latitude: latitude,
+    longitude: longitude,
   });
+
+  const [stsManager, setSTSManagers] = useState([]);
 
   const handleChange = (e: { target: { name: any; value: any } }) => {
     const { name, value } = e.target;
@@ -19,9 +36,11 @@ const AddSTSForm = () => {
     }));
   };
 
-  const handleCreate = () => {
+  const handeSaveChanges = () => {
     //! api call
     console.log("Form Data:", formData);
+    console.log("MANAGERS: ", stsManager);
+    onClose();
   };
 
   return (
@@ -52,6 +71,7 @@ const AddSTSForm = () => {
           <InputField
             id="wardNumber"
             name="wardNumber"
+            type="number"
             placeholder="28"
             value={formData.wardNumber}
             label={"Ward Number"}
@@ -69,6 +89,14 @@ const AddSTSForm = () => {
             onChange={handleChange}
             customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
           />
+
+          {/* sts dropdown */}
+          <div className="mt-3">
+            <STSManagerDropdown
+              managers={stsManager}
+              setManager={setSTSManagers}
+            />
+          </div>
 
           <div className="w-full flex flex-row justify-center items-center gap-5">
             <InputField
@@ -96,10 +124,10 @@ const AddSTSForm = () => {
           <div className="flex flex-auto justify-end items-end ">
             <button
               type="submit"
-              onClick={handleCreate}
-              className="p-2 bg-primary hover:bg-secondary hover:text-black text-white rounded-md mt-8"
+              onClick={handeSaveChanges}
+              className="p-2 bg-green-500 hover:bg-green-600  text-white rounded-md mt-8"
             >
-              Create
+              Save Changes
             </button>
           </div>
         </form>
@@ -108,4 +136,4 @@ const AddSTSForm = () => {
   );
 };
 
-export default AddSTSForm;
+export default EditSTSForm;
