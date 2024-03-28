@@ -11,6 +11,8 @@ import NotFound from "./pages/NotFound";
 import Users from "./pages/Users";
 import Vehicles from "./pages/Vehicles";
 import PrivateRoute from "./routes/PrivateRoute";
+import STS from "./pages/STS";
+import Landfill from "./pages/Landfill";
 
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
           <Route path="" element={<Dashboard />} />
           <Route path="users" element={<Users />} />
           <Route path="vehicles" element={<Vehicles />} />
+          <Route path="sts" element={<STS />} />
+          <Route path="landfill" element={<Landfill />} />
         </Route>
 
         <Route path="/login" element={<SignIn />} />
