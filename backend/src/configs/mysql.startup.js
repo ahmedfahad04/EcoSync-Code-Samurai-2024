@@ -58,7 +58,5 @@ const createAdmin = async () => {
 };
 
 export const startup = {
-    createRoles,
-    createPermissions,
     start,
 };
