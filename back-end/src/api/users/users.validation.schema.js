@@ -13,8 +13,12 @@ export const updateUserSchema = Joi.object({
 }).required();
 
 export const findAllQuerySchema = Joi.object({
-    page: Joi.number().integer().positive(),
-    limit: Joi.number().integer().positive(),
+    page: Joi.number().integer().positive().optional(),
+    limit: Joi.number().integer().positive().optional(),
+    name: Joi.string().trim().optional(),
+    sort: Joi.string().trim().valid("name").optional(),
+    order: Joi.string().trim().valid("ASC", "DESC").optional(),
+    role_name: Joi.string().trim().max(100).optional(),
 }).required();
 
 export const addRoleSchema = Joi.object({
