@@ -3,7 +3,7 @@ import { roleConstants as rc } from "../constants/roles.constants.js";
 
 export const rolePermissionData = [
     {
-        role_name: [rc.SystemAdmin],
+        role_name: rc.SystemAdmin,
         permission_names: [
             // role
             pc.CREATE_ROLE,
