@@ -8,6 +8,7 @@ import {
   MaterialReactTable,
 } from "material-react-table";
 import { useEffect, useMemo, useState } from "react";
+import ViewLandfillModal from "../Modals/Landfill/ViewLandfillModal";
 // import EditLandfillModal from "../Modals/Landfill/EditLandfillModal";
 // import ViewLandfillModal from "../Modals/Landfill/ViewLandfillModal";
 
@@ -109,6 +110,7 @@ const LandfillTable = () => {
         muiTableBodyRowProps={({ row }) => ({
           onClick: () => {
             setLandfillData(row.original);
+            console.log(row.original)
             setShowLandfillModal(true);
           },
           sx: { cursor: "pointer" },
@@ -121,7 +123,7 @@ const LandfillTable = () => {
           onClose={() => setShowEditLandfillModal(false)}
           LandfillData={LandfillData}
         />
-      )}
+      )} */}
 
       {showLandfillModal && (
         <ViewLandfillModal
@@ -129,7 +131,7 @@ const LandfillTable = () => {
           onClose={() => setShowLandfillModal(false)}
           LandfillData={LandfillData}
         />
-      )} */}
+      )}
     </div>
   );
 };
