@@ -1,7 +1,7 @@
 import { Joi } from "../../utils/Joi.js";
 import { time_format } from "../../models/Landfill.js";
 
-export const createlandfillSchema = Joi.object({
+export const createLandfillSchema = Joi.object({
     landfill_name: Joi.string().required(),
     gps_coordinate: Joi.array().items(Joi.number()).length(2).required(),
     capacity: Joi.number().required(),
@@ -9,7 +9,7 @@ export const createlandfillSchema = Joi.object({
     closing_time: Joi.string().regex(time_format.regex).required(),
 });
 
-export const updatelandfillSchema = Joi.object({
+export const updateLandfillSchema = Joi.object({
     landfill_name: Joi.string().optional(),
     gps_coordinate: Joi.array().items(Joi.number()).length(2).optional(),
     capacity: Joi.number().optional(),
