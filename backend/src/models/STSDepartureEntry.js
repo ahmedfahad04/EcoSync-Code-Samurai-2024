@@ -2,7 +2,7 @@
 
 export default (options) => {
     const { sequelize, DataTypes, Sequelize } = options;
-    const STSDepatureEntry = sequelize.define("sts_departure_entry", {
+    const STSDepatureEntry = sequelize.define("sts_departure_entris", {
         departure_id: {
             type: DataTypes.UUID,
             defaultValue: Sequelize.UUIDV4,

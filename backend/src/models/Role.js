@@ -33,6 +33,11 @@ export default (options) => {
         Role.hasMany(models.User, {
             foreignKey: "role_id",
         });
+
+        Role.belongsToMany(models.Permission, {
+            thorugh: models.RolePermission,
+            foreignKey: "role_id",
+        });
     };
 
     return Role;

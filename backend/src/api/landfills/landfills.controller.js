@@ -112,6 +112,8 @@ async function addDumpingEntry(req, res) {
     if (entryDto.waste_volume > vehicle.capacity)
         throw new HttpError({ waste_volume: `waste volume exceeds vehicle capacity: ${vehicle.capacity} tons` }, 400);
 
+    // validate if three entries in this day
+
     const sts = await models.STS.findByPk(entryDto.sts_id);
     if (!sts) throw new HttpError({ sts_id: "sts not found" }, 404);
 
