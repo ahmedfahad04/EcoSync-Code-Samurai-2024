@@ -50,6 +50,10 @@ export default (options) => {
             through: models.UserLandfill_Manager,
             foreignKey: "landfill_id",
         });
+
+        Landfill.hasMany(models.Vehicle, {
+            foreignKey: "landfill_id",
+        });
     };
 
     return Landfill;

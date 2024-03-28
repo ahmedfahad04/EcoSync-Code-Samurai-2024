@@ -28,3 +28,7 @@ export const addDumpingEntrySchema = Joi.object({
     arrival_time: Joi.date().required(),
     departure_time: Joi.date().required(),
 });
+
+export const attachVehicleSchema = Joi.object({
+    vehicle_id: Joi.string().trim().required().max(100),
+});

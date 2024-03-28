@@ -2,6 +2,7 @@ import { models } from "../../configs/mysql.js";
 import { RoleTypes } from "../../models/Role.js";
 import { HttpError } from "../../utils/HttpError.js";
 import usersRepository from "../users/users.repository.js";
+import stsRepository from "./sts.repository.js";
 
 async function createSts(req, res) {
     const stsDto = req.body;
@@ -56,7 +57,14 @@ async function addVehicleDepartureEntry(req, res) {
     const vehicle = await models.Vehicle.findByPk(entryDto.vehicle_id);
     if (!vehicle) throw new HttpError({ vehicle_id: "vehicle not found" }, 404);
 
-    if (entryDto.waste_volume > vehicle.capacity) throw new HttpError({ waste_volume: `waste volume exceeds vehicle capacity: ${vehicle.capacity} tons` }, 400);
+    if (entryDto.waste_volume > vehicle.capacity)
+        throw new HttpError({ waste_volume: `waste volume exceeds vehicle capacity: ${vehicle.capacity} tons` }, 400);
+
+    const count = await stsRepository.countTotalTrip(entryDto.vehicle_id, entryDto.departure_time);
+    if (count >= 3) throw new HttpError({ vehicle_id: "a vehicle can have maximum of 3 trips per day" }, 400);
+
+    const isTripNumberExist = await stsRepository.isTripNumberExistForCurrentDay(entryDto.vehicle_id, entryDto.departure_time, entryDto.trip_number);
+    if (isTripNumberExist) throw new HttpError({ trip_number: "trip number already exists for today" }, 400);
 
     const landfill = await models.Landfill.findByPk(entryDto.landfill_id);
     if (!landfill) throw new HttpError({ landfill_id: "landfill not found" }, 404);

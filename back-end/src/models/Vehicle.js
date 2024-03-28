@@ -46,9 +46,22 @@ export default (options) => {
             type: DataTypes.FLOAT,
             comment: "Fuel cost per kilometer - unloaded",
         },
+        landfill_id: {
+            type: DataTypes.UUID,
+            allowNull: true,
+            references: {
+                model: "landfills",
+                key: "landfill_id",
+            },
+            comment: "A number of trucks with varying load capacity are attached to each landfill",
+        },
     });
 
-    Vehicle.associate = (models) => {};
+    Vehicle.associate = (models) => {
+        Vehicle.belongsTo(models.Landfill, {
+            foreignKey: "landfill_id",
+        });
+    };
 
     return Vehicle;
 };

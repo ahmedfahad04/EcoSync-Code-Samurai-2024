@@ -55,7 +55,8 @@ async function addDumpingEntry(req, res) {
     const vehicle = await models.Vehicle.findByPk(entryDto.vehicle_id);
     if (!vehicle) throw new HttpError({ vehicle_id: "vehicle not found" }, 404);
 
-    if (entryDto.waste_volume > vehicle.capacity) throw new HttpError({ waste_volume: `waste volume exceeds vehicle capacity: ${vehicle.capacity} tons` }, 400);
+    if (entryDto.waste_volume > vehicle.capacity)
+        throw new HttpError({ waste_volume: `waste volume exceeds vehicle capacity: ${vehicle.capacity} tons` }, 400);
 
     const sts = await models.STS.findByPk(entryDto.sts_id);
     if (!sts) throw new HttpError({ sts_id: "sts not found" }, 404);
@@ -67,10 +68,34 @@ async function addDumpingEntry(req, res) {
     res.status(201).json(dumpingEntry);
 }
 
+async function attachVehicleToLandfill(req, res) {
+    const { landfill_id } = req.params;
+    const { vehicle_id } = req.body;
+
+    const landfill = await models.Landfill.findByPk(landfill_id);
+    if (!landfill) throw new HttpError({ landfill_id: "landfill not found" }, 404);
+
+    const vehicle = await models.Vehicle.findByPk(vehicle_id);
+    if (!vehicle) throw new HttpError({ vehicle_id: "vehicle not found" }, 404);
+
+    // check if attached to other landfill or not
+    if (vehicle.landfill_id) {
+        throw new HttpError({ vehicle_id: "vehicle already attached to a landfill" }, 400);
+    }
+
+    await models.Vehicle.update({ landfill_id }, { where: { vehicle_id } });
+
+    res.json({ message: "vehicle attached successfully" });
+}
+
+async function removeVehicleFromLandfill(req, res) {}
+
 export default {
     createLanfill,
     updateLanfill,
     addManager,
     removeManager,
     addDumpingEntry,
+    attachVehicleToLandfill,
+    removeVehicleFromLandfill,
 };
