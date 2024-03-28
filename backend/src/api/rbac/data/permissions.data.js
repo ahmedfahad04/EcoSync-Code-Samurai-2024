@@ -1,17 +1,16 @@
 import { permissionConstants } from "../constants/permission.constants.js";
 
 export const permissionData = [
-    { permission_name: "ALL", description: "Permission for System Admin" },
-
     // roles
     { permission_name: permissionConstants.CREATE_ROLE, description: "Unknown" },
-    { permission_name: permissionConstants.FIND_ALL_ROLE, description: "Unknown" },
     { permission_name: permissionConstants.FIND_ONE_ROLE, description: "Unknown" },
+    { permission_name: permissionConstants.FIND_ALL_ROLE, description: "Unknown" },
     { permission_name: permissionConstants.UPDATE_ROLE, description: "Unknown" },
     { permission_name: permissionConstants.DELETE_ROLE, description: "Unknown" },
 
     { permission_name: permissionConstants.ADD_PERMISSION_TO_ROLE, description: "Unknown" },
     { permission_name: permissionConstants.REMOVE_PERMISSION_FROM_ROLE, description: "Unknown" },
+    { permission_name: permissionConstants.FIND_ALL_PERMISSION_OF_ROLE, description: "Unknown" },
 
     // permissions
     { permission_name: permissionConstants.FIND_ALL_PERMISSION, description: "Unknown" },
@@ -33,6 +32,7 @@ export const permissionData = [
     { permission_name: permissionConstants.FIND_ONE_VEHICLE, description: "Unknown" },
     { permission_name: permissionConstants.UPDATE_VEHICLE, description: "Unknown" },
     { permission_name: permissionConstants.DELETE_VEHICLE, description: "Unknown" },
+
     { permission_name: permissionConstants.ADD_DRIVER_TO_VEHICLE, description: "Unknown" },
 
     // sts
