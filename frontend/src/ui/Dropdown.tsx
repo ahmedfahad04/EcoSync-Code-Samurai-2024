@@ -71,7 +71,7 @@ const Dropdown: React.FC<DropdownProps> = ({
 
       {/* Dropdown panel, show when clicking on the button */}
       {isOpen && (
-        <div className="origin-top-right z-50 absolute right-30 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none h-36 overflow-y-scroll">
+        <div className="origin-top-right z-50 absolute right-30 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none max-h-36 overflow-y-auto">
           <div
             className="py-1"
             role="menu"

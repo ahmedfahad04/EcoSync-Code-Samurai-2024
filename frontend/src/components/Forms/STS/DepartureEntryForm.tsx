@@ -1,4 +1,5 @@
 import Dropdown from "@/ui/Dropdown";
+import InputField from "@/ui/InputField";
 import { dummyLandfill, dummyVehicles } from "@/utils/DummyData";
 import { InfoIcon } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -34,6 +35,15 @@ const DepartureEntryForm: React.FC<DepartureEntryFormProps> = ({
     onClose();
   };
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
+
+  // fetch data
   useEffect(() => {
     const landfillNames = dummyLandfill.map((l) => l.landfillName);
     const vehicleNubers = dummyVehicles.map((v) => v.vehicleNumber);
@@ -57,76 +67,11 @@ const DepartureEntryForm: React.FC<DepartureEntryFormProps> = ({
       {/* form */}
       <div className="flex flex-col justify-start items-start">
         <form className="mt-5 w-full">
-          {/* <InputField
-            id="landfillName"
-            name="landfillName"
-            placeholder="Nikunjo Landfill"
-            value={formData.landfillName}
-            label={"Landfill Name"}
-            onChange={handleChange}
-            customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
-          />
-
-          <InputField
-            id="capacity"
-            name="capacity"
-            type="number"
-            placeholder="300"
-            value={formData.capacity}
-            label={"Landfill Capacity (in tonnes)"}
-            onChange={handleChange}
-            customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
-          />
-
-          <div className="w-full flex flex-row justify-center items-center gap-5">
-            <InputField
-              id="openingTime"
-              name="openingTime"
-              type="time"
-              placeholder="10:00"
-              value={formData.openingTime}
-              label={"Opening Time"}
-              onChange={handleChange}
-              customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
-            />
-            <InputField
-              id="endingTime"
-              name="endingTime"
-              type="time"
-              placeholder="14:00"
-              value={formData.endingTime}
-              label={"Ending Time"}
-              onChange={handleChange}
-              customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
-            />
-          </div>
-
-          <div className="w-full flex flex-row justify-center items-center gap-5">
-            <InputField
-              id="latitude"
-              name="latitude"
-              placeholder="21.1478 W"
-              value={formData.latitude}
-              label={"Latitude"}
-              onChange={handleChange}
-              customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
-            />
-            <InputField
-              id="longitude"
-              name="longitude"
-              placeholder="22.1478 E"
-              value={formData.longitude}
-              label={"Longitude"}
-              onChange={handleChange}
-              customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
-            />
-          </div> */}
-
           {/* will start from here */}
           <Dropdown
             name="Select Landfill"
             options={landfills}
-            label="Select Landfill Name"
+            label="Lanfill Name"
             customClass="mt-3 bg-slate-300/6"
             onSelect={(selectedOption) =>
               setFormData((prevFormData) => ({
@@ -136,15 +81,74 @@ const DepartureEntryForm: React.FC<DepartureEntryFormProps> = ({
             }
           />
 
+          <Dropdown
+            name="Select Vehicle"
+            options={vehicles}
+            label="Vehicle Number"
+            customClass="mt-3 bg-slate-300/6"
+            onSelect={(selectedOption) =>
+              setFormData((prevFormData) => ({
+                ...prevFormData,
+                landfillName: selectedOption,
+              }))
+            }
+          />
+
+          <Dropdown
+            name="Select Trip"
+            options={["1", "2", "3"]}
+            label="Trip Number"
+            customClass="mt-3 bg-slate-300/6"
+            onSelect={(selectedOption) =>
+              setFormData((prevFormData) => ({
+                ...prevFormData,
+                landfillName: selectedOption,
+              }))
+            }
+          />
+
+          <InputField
+            id="wasteVolume"
+            name="wasteVolume"
+            placeholder="DHAKA-D-11-9999"
+            value={formData.wasteVolume}
+            label={"Weight of wastes (in tonnes)"}
+            onChange={handleChange}
+            customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
+          />
+
+          <div className="w-full flex flex-row justify-center items-center gap-5">
+            <InputField
+              id="arrival"
+              name="arrival"
+              type="time"
+              placeholder="10:00"
+              value={formData.arrival}
+              label={"Time of Arrival (at STS)"}
+              onChange={handleChange}
+              customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
+            />
+            <InputField
+              id="departure"
+              name="departure"
+              type="time"
+              placeholder="14:00"
+              value={formData.departure}
+              label={"Time of Departure (from STS)"}
+              onChange={handleChange}
+              customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
+            />
+          </div>
+
           {/*!! add map */}
 
           <div className="flex flex-auto justify-end items-end ">
             <button
               type="submit"
               onClick={handleCreate}
-              className="p-2 bg-primary hover:bg-secondary hover:text-black text-white rounded-md mt-8"
+              className="p-2 bg-green-500 hover:bg-green-600  text-white rounded-md mt-8"
             >
-              Create
+              Add Entry
             </button>
           </div>
         </form>
