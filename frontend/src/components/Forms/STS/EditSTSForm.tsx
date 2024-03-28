@@ -2,7 +2,7 @@ import { ISTS } from "@/models/STS";
 import InputField from "@/ui/InputField";
 import { InfoIcon } from "lucide-react";
 import { useState } from "react";
-import STSManagerDropdown from "../STSManagerDropdown";
+import STSManagerDropdown from "../../STSManagerDropdown";
 
 interface EditSTSFormProps {
   stsData: ISTS | undefined;

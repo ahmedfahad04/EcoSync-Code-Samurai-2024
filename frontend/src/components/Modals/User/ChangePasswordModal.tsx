@@ -1,7 +1,6 @@
+import ChangePasswordForm from "@/components/Forms/User/ChangePasswordForm";
 import ModalLayout from "@/layout/ModalLayout";
 import React from "react";
-import AddUserForm from "../../Forms/AddUserForm";
-import ChangePasswordForm from "@/components/Forms/ChangePasswordForm";
 
 interface ChangePasswordModalProps {
   isOpen: boolean;

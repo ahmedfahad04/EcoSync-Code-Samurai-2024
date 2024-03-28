@@ -1,4 +1,4 @@
-import EditSTSForm from "@/components/Forms/EditSTSForm";
+import EditSTSForm from "@/components/Forms/STS/EditSTSForm";
 import ModalLayout from "@/layout/ModalLayout";
 import { ISTS } from "@/models/STS";
 import React from "react";

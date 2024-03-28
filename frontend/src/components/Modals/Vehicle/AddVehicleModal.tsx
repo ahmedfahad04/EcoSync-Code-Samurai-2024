@@ -1,6 +1,6 @@
 import ModalLayout from "@/layout/ModalLayout";
 import React from "react";
-import AddVechileForm from "../../Forms/AddVechileForm";
+import AddVechileForm from "../../Forms/Vehicle/AddVechileForm";
 
 interface AddVehicleModalProps {
   isOpen: boolean;

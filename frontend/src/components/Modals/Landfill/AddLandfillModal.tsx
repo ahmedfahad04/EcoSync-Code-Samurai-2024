@@ -1,31 +1,28 @@
-import ViewSTSForm from "@/components/Forms/STS/ViewSTSForm";
+import AddLandfillForm from "@/components/Forms/Landfill/AddLandfillForm";
 import ModalLayout from "@/layout/ModalLayout";
-import { ISTS } from "@/models/STS";
 import React from "react";
 
-interface ViewSTSModalProps {
+interface AddLandfillModalProps {
   isOpen: boolean;
   customClass?: string;
   onClose: () => void;
-  stsData: ISTS | undefined;
 }
 
-const ViewSTSModal: React.FC<ViewSTSModalProps> = ({
+const AddLandfill: React.FC<AddLandfillModalProps> = ({
   isOpen,
   customClass = "w-[500px] flex flex-col justify-center item-center",
   onClose,
-  stsData,
 }) => {
   return (
     <ModalLayout
       isOpen={isOpen}
       onClose={onClose}
-      headline={"View STS"}
+      headline={"Add New Landfill"}
       customClass={customClass}
     >
-      <ViewSTSForm stsData={stsData} />
+      <AddLandfillForm onClose={onClose} />
     </ModalLayout>
   );
 };
 
-export default ViewSTSModal;
+export default AddLandfill;

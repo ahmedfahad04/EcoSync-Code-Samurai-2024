@@ -1,15 +1,44 @@
+import LandfillManagerDropdown from "@/components/LandfillManagerDropdown";
+import { ILandfill } from "@/models/Landfill";
 import InputField from "@/ui/InputField";
 import { InfoIcon } from "lucide-react";
 import { useState } from "react";
 
-const AddSTSForm = () => {
-  const [formData, setFormData] = useState({
-    STSName: "",
-    wardNumber: "",
+interface EditLandfillFormProps {
+  landfillData: ILandfill | undefined;
+  onClose: () => void;
+}
+
+const EditLandfillForm: React.FC<EditLandfillFormProps> = ({
+  landfillData,
+  onClose,
+}) => {
+  const {
+    landfillName,
+    openingTime,
+    endingTime,
+    capacity,
+    latitude,
+    longitude,
+  } = landfillData || {
+    landfillName: "",
+    openingTime: "",
+    endingTime: "",
     capacity: "",
     latitude: "",
     longitude: "",
+  };
+
+  const [formData, setFormData] = useState({
+    landfillName: landfillName,
+    openingTime: openingTime,
+    endingTime: endingTime,
+    capacity: capacity,
+    latitude: latitude,
+    longitude: longitude,
   });
+
+  const [LandfillManager, setLandfillManagers] = useState([]);
 
   const handleChange = (e: { target: { name: any; value: any } }) => {
     const { name, value } = e.target;
@@ -19,9 +48,11 @@ const AddSTSForm = () => {
     }));
   };
 
-  const handleCreate = () => {
-    //! api call
+  const handeSaveChanges = () => {
+    //! api call & validation
     console.log("Form Data:", formData);
+    console.log("MANAGERS: ", LandfillManager);
+    onClose();
   };
 
   return (
@@ -33,28 +64,18 @@ const AddSTSForm = () => {
           height={28}
           className="bg-primary text-white rounded-md p-2"
         />
-        <span>STS Information</span>
+        <span>Landfill Information</span>
       </header>
 
       {/* form */}
       <div className="flex flex-col justify-start items-start">
         <form className="mt-5 w-full">
           <InputField
-            id="STSName"
-            name="STSName"
-            placeholder="Nikunjo STS"
-            value={formData.STSName}
-            label={"STS Name"}
-            onChange={handleChange}
-            customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
-          />
-
-          <InputField
-            id="wardNumber"
-            name="wardNumber"
-            placeholder="28"
-            value={formData.wardNumber}
-            label={"Ward Number"}
+            id="landfillName"
+            name="landfillName"
+            placeholder="Nikunjo Landfill"
+            value={formData.landfillName}
+            label={"Landfill Name"}
             onChange={handleChange}
             customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
           />
@@ -65,10 +86,40 @@ const AddSTSForm = () => {
             type="number"
             placeholder="300"
             value={formData.capacity}
-            label={"STS Capacity (in tonnes)"}
+            label={"Landfill Capacity (in tonnes)"}
             onChange={handleChange}
             customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
           />
+
+          <div className="w-full flex flex-row justify-center items-center gap-5">
+            <InputField
+              id="openingTime"
+              name="openingTime"
+              type="time"
+              placeholder="10:00"
+              value={formData.openingTime}
+              label={"Opening Time"}
+              onChange={handleChange}
+              customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
+            />
+            <InputField
+              id="endingTime"
+              name="endingTime"
+              type="time"
+              placeholder="14:00"
+              value={formData.endingTime}
+              label={"Ending Time"}
+              onChange={handleChange}
+              customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
+            />
+          </div>
+
+          <div className="mt-3">
+            <LandfillManagerDropdown
+              managers={LandfillManager}
+              setManager={setLandfillManagers}
+            />
+          </div>
 
           <div className="w-full flex flex-row justify-center items-center gap-5">
             <InputField
@@ -96,10 +147,10 @@ const AddSTSForm = () => {
           <div className="flex flex-auto justify-end items-end ">
             <button
               type="submit"
-              onClick={handleCreate}
+              onClick={handeSaveChanges}
               className="p-2 bg-primary hover:bg-secondary hover:text-black text-white rounded-md mt-8"
             >
-              Create
+              Save Change
             </button>
           </div>
         </form>
@@ -108,4 +159,4 @@ const AddSTSForm = () => {
   );
 };
 
-export default AddSTSForm;
+export default EditLandfillForm;

@@ -1,16 +1,14 @@
-import Dropdown from "@/ui/Dropdown";
 import InputField from "@/ui/InputField";
 import { InfoIcon } from "lucide-react";
 import { useState } from "react";
-import ImageUpload from "../ImageUpload";
 
-const AddVechileForm = () => {
+const AddSTSFrom = () => {
   const [formData, setFormData] = useState({
-    name: "",
-    phone: "",
-    email: "",
-    password: "",
-    role: "",
+    STSName: "",
+    wardNumber: "",
+    capacity: "",
+    latitude: "",
+    longitude: "",
   });
 
   const handleChange = (e: { target: { name: any; value: any } }) => {
@@ -26,10 +24,6 @@ const AddVechileForm = () => {
     console.log("Form Data:", formData);
   };
 
-  const handleOnUpload = (data: { image: File }) => {
-    console.log(data.image.size);
-  };
-
   return (
     <div className=" w-full mt-5">
       {/* header */}
@@ -39,71 +33,65 @@ const AddVechileForm = () => {
           height={28}
           className="bg-primary text-white rounded-md p-2"
         />
-        <span>User Information</span>
+        <span>STS Information</span>
       </header>
-
-      {/* image */}
-      <div className="mt-8 flex flex-col items-center justify-center">
-        <ImageUpload name="User Photo" onUpload={handleOnUpload} />
-      </div>
 
       {/* form */}
       <div className="flex flex-col justify-start items-start">
         <form className="mt-5 w-full">
           <InputField
-            id="name"
-            name="name"
-            placeholder="Abdul Hadi"
-            value={formData.name}
-            label={"Full Name"}
+            id="STSName"
+            name="STSName"
+            placeholder="Nikunjo STS"
+            value={formData.STSName}
+            label={"STS Name"}
             onChange={handleChange}
             customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
           />
 
           <InputField
-            id="phone"
-            name="phone"
-            placeholder="01766610021"
-            value={formData.phone}
-            label={"Phone Number"}
+            id="wardNumber"
+            name="wardNumber"
+            placeholder="28"
+            value={formData.wardNumber}
+            label={"Ward Number"}
             onChange={handleChange}
             customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
           />
 
           <InputField
-            id="email"
-            name="email"
-            type="email"
-            placeholder="abdulhadi@gmail.com"
-            value={formData.email}
-            label={"Email"}
+            id="capacity"
+            name="capacity"
+            type="number"
+            placeholder="300"
+            value={formData.capacity}
+            label={"STS Capacity (in tonnes)"}
             onChange={handleChange}
             customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
           />
 
-          <InputField
-            id="password"
-            name="password"
-            type="password"
-            placeholder="********"
-            value={formData.password}
-            label={"Password"}
-            onChange={handleChange}
-            customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
-          />
+          <div className="w-full flex flex-row justify-center items-center gap-5">
+            <InputField
+              id="latitude"
+              name="latitude"
+              placeholder="21.1478 W"
+              value={formData.latitude}
+              label={"Latitude"}
+              onChange={handleChange}
+              customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
+            />
+            <InputField
+              id="longitude"
+              name="longitude"
+              placeholder="22.1478 E"
+              value={formData.longitude}
+              label={"Longitude"}
+              onChange={handleChange}
+              customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
+            />
+          </div>
 
-          <Dropdown
-            name="Select User Role"
-            options={["STS Manager", "Landfill Manager"]}
-            label="Vehicle Capacity"
-            customClass="mt-3 bg-slate-300/6"
-            onSelect={(selectedOption) =>
-              setFormData((prevFormData) => ({
-                ...prevFormData,
-                role: selectedOption,
-              }))
-            }
-          />
+          {/*!! add map */}
 
           <div className="flex flex-auto justify-end items-end ">
             <button
@@ -120,4 +108,4 @@ const AddVechileForm = () => {
   );
 };
 
-export default AddVechileForm;
+export default AddSTSFrom;

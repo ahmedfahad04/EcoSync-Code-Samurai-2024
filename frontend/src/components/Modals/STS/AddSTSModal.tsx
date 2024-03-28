@@ -1,4 +1,4 @@
-import AddSTSForm from "@/components/Forms/AddSTSForm";
+import AddSTSFrom from "@/components/Forms/STS/AddSTSForm";
 import ModalLayout from "@/layout/ModalLayout";
 import React from "react";
 
@@ -20,7 +20,7 @@ const AddSTSModal: React.FC<AddSTSModalProps> = ({
       headline={"Add New STS"}
       customClass={customClass}
     >
-      <AddSTSForm />
+      <AddSTSFrom />
     </ModalLayout>
   );
 };
