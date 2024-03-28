@@ -78,7 +78,7 @@ async function findAllLandfillManager(req, res) {
                 where: { landfill_id: landfill_id },
             },
             attributes: [],
-            required: true
+            required: true,
         },
     });
 
@@ -91,7 +91,13 @@ async function findAllLandfillManager(req, res) {
     res.json(managers);
 }
 
-async function removeManager(req, res) {}
+async function removeManager(req, res) {
+    const { landfill_id, manager_id } = req.params;
+
+    await models.UserLandfill_Manager.destroy({ where: { landfill_id, user_id: manager_id } });
+
+    res.json({ message: "landfill manager removed successfully" });
+}
 
 async function addDumpingEntry(req, res) {
     const { landfill_id } = req.params;
