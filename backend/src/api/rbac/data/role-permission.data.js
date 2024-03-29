@@ -32,6 +32,7 @@ export const rolePermissionData = [
             // vehicle
             pc.CREATE_VEHICLE,
             pc.FIND_ALL_VEHICLE,
+            pc.FIND_ALL_AVAILABLE_VEHICLE,
             pc.FIND_ONE_VEHICLE,
             pc.UPDATE_VEHICLE,
             pc.DELETE_VEHICLE,
@@ -62,6 +63,9 @@ export const rolePermissionData = [
             pc.ADD_MANAGER_TO_LANDFILL,
             pc.REMOVE_MANAGER_FROM_LANDFILL,
 
+            pc.ADD_VEHICLE_DESTINATION_TO_LANDFILL,
+            pc.REMOVE_VEHICLE_DESTINATION_TO_LANDFILL,
+
             // truck-dumping
             pc.FIND_ALL_TRUCK_DUMPING_ENTRY,
             pc.FIND_ONE_TRUCK_DUMPING_ENTRY,
@@ -77,6 +81,10 @@ export const rolePermissionData = [
 
             pc.FIND_PROFILE,
             pc.UPDATE_PROFILE,
+
+            pc.FIND_ALL_VEHICLE,
+            pc.FIND_ALL_AVAILABLE_VEHICLE,
+            pc.FIND_ONE_VEHICLE,
 
             pc.CREATE_VEHICLE_DEPARTURE_ENTRY,
             pc.FIND_ALL_VEHICLE_DEPARTURE_ENTRY,

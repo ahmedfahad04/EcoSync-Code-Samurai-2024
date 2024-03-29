@@ -33,6 +33,7 @@ export const permissionData = [
     // vehicles
     { permission_name: pc.CREATE_VEHICLE, description: "Unknown" },
     { permission_name: pc.FIND_ALL_VEHICLE, description: "Unknown" },
+    { permission_name: pc.FIND_ALL_AVAILABLE_VEHICLE, description: "Unknown" },
     { permission_name: pc.FIND_ONE_VEHICLE, description: "Unknown" },
     { permission_name: pc.UPDATE_VEHICLE, description: "Unknown" },
     { permission_name: pc.DELETE_VEHICLE, description: "Unknown" },
@@ -65,6 +66,9 @@ export const permissionData = [
 
     { permission_name: pc.ADD_MANAGER_TO_LANDFILL, description: "Unknown" },
     { permission_name: pc.REMOVE_MANAGER_FROM_LANDFILL, description: "Unknown" },
+
+    { permission_name: pc.ADD_VEHICLE_DESTINATION_TO_LANDFILL, description: "Unknown" },
+    { permission_name: pc.REMOVE_VEHICLE_DESTINATION_TO_LANDFILL, description: "Unknown" },
 
     // truck-dumping
     { permission_name: pc.CREATE_TRUCK_DUMPING_ENTRY, description: "Unknown" },

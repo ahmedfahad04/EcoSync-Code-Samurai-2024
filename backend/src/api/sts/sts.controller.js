@@ -67,6 +67,8 @@ async function addVehicleDepartureEntry(req, res) {
     const vehicle = await models.Vehicle.findByPk(entryDto.vehicle_id);
     if (!vehicle) throw new HttpError({ vehicle_id: "vehicle not found" }, 404);
 
+    // validate if vehicle is available or not?? or use /vehicles/available
+
     if (entryDto.waste_volume > vehicle.capacity)
         throw new HttpError({ waste_volume: `waste volume exceeds vehicle capacity: ${vehicle.capacity} tons` }, 400);
 
