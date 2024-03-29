@@ -13,7 +13,6 @@ const AddVechileForm = ({ onClose }: { onClose: () => {} }) => {
     phone: "",
     email: "",
     password: "",
-    // role: "",
   });
 
   const [errors, setErrors] = useState({

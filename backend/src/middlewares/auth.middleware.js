@@ -1,8 +1,9 @@
 import utils from "../utils/utils.js";
 import { config } from "../configs/config.js";
 import usersRepository from "../api/users/users.repository.js";
+import { models } from "../configs/mysql.js";
 
-export async function checkAuthentication(req, res, next) {
+export const checkAuthentication = async (req, res, next) => {
     try {
         const bearerToken = req.headers.authorization;
         const authToken = bearerToken ? bearerToken.split(" ")[1] : null;
@@ -16,7 +17,32 @@ export async function checkAuthentication(req, res, next) {
             return res.status(401).json({ message: "authentication failed" });
         }
 
-        req.user = decodedToken;
+        const user = await usersRepository.findOneUserByIdWithRoles(decodedToken.sub);
+
+        if (!user) {
+            return res.status(401).json({ message: "authentication failed" });
+        }
+
+        const role = user.role;
+        const permissions = await models.Permission.findAll({
+            include: {
+                model: models.Role,
+                where: {
+                    role_id: role.role_id,
+                },
+                through: {
+                    model: models.RolePermission,
+                    attributes: [],
+                },
+                attributes: [],
+            },
+        });
+        const permission_names = [];
+        for (const permission of permissions) {
+            permission_names.push(permission.permission_name);
+        }
+
+        req.user = { ...decodedToken, role_name: role.role_name, permission_names: permission_names };
 
         next();
     } catch (err) {
@@ -25,6 +51,19 @@ export async function checkAuthentication(req, res, next) {
     }
 }
 
-export async function checkPermission(permission) {
-    // return midleware
+export const checkPermission = (permission) => {
+    return [
+        checkAuthentication,
+        (req, res, next) => {
+            if (!req.user) return res.status(401).send({ message: "Authentication failed" });
+
+            const permission_names = req.user.permission_names;
+
+            if (!permission_names.includes(permission)) {
+                return res.status(403).json({ message: "you do not have permission to access this resource" });
+            }
+
+            return next();
+        },
+    ];
 }

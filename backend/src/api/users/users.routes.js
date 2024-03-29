@@ -1,14 +1,15 @@
 import express from "express";
 
 import usersController from "./users.controller.js";
-import { checkAuthentication } from "../../middlewares/auth.middleware.js";
+import { checkPermission } from "../../middlewares/auth.middleware.js";
 
 import { schemaValidator } from "../../middlewares/validation.middleware.js";
 import { addRoleSchema, createUserSchema, findAllQuerySchema, updateUserSchema } from "./users.validation.schema.js";
+import { permissionConstants as pc } from "../rbac/constants/permissions.constants.js";
 
 export const usersRoutes = express.Router();
 
-usersRoutes.post("/", schemaValidator(createUserSchema), usersController.create);
+usersRoutes.post("/", checkPermission(pc.CREATE_USER), schemaValidator(createUserSchema), usersController.create);
 
 usersRoutes.get("/", schemaValidator(findAllQuerySchema, "query"), usersController.findAll);
 usersRoutes.get("/roles", usersController.findAvailableRoles);
