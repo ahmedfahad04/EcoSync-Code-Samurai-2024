@@ -15,3 +15,11 @@ export interface IUsers {
         updatedAt: string;
     }
 }
+
+export interface IRole {
+    role_id: string;
+    role_name: string;
+    description: string;
+    createdAt: string;
+    updatedAt: string;
+}

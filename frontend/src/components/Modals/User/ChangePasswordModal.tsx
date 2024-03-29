@@ -20,7 +20,7 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
       headline={"Change Password"}
       customClass={customClass}
     >
-      <ChangePasswordForm />
+      <ChangePasswordForm onClose={onClose} />
     </ModalLayout>
   );
 };

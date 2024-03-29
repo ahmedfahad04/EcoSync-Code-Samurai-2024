@@ -1,3 +1,4 @@
+import { useAuth } from "@/context/AuthContext";
 import {
   ChevronLeft,
   CookingPotIcon,
@@ -13,6 +14,7 @@ import { AccountMenu } from "./UserAccountMenu";
 
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
+  const { user } = useAuth();
   const Menus = [
     { title: "Dashboard", src: <LayoutDashboard />, path: "" },
     { title: "Manage Users", src: <Users />, path: "/users" },
@@ -104,8 +106,8 @@ const Sidebar = () => {
           {/* have eto fix the logo alignment */}
           <div className="leading-4 flex flex-row justify-between items-center w-full">
             <div>
-              <h4 className="font-semibold">Jhon Doe</h4>
-              <span className="text-xs text-gray-600">Sys Admin</span>
+              <h4 className="font-semibold">{user?.name}</h4>
+              <span className="text-xs text-gray-600">{user?.email}</span>
             </div>
             <div>
               <AccountMenu />

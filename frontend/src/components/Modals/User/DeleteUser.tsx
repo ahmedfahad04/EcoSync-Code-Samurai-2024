@@ -2,32 +2,23 @@ import { TrashIcon } from "@heroicons/react/16/solid";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 
-import { API_END_POINTS } from "@/constants/Service";
-import { useBlogContext } from "@/context/BlogContext";
 import { httpClient } from "@/utils/httpClient";
 
-interface DeleteBlogProps {
-  blogId: string;
+interface DeleteUserProps {
+  url: string;
   onClose: () => void;
 }
 
-const DeleteBlog: React.FC<DeleteBlogProps> = ({ blogId, onClose }) => {
-  const [loading, setLoading] = useState(false); // State for loading status
-  const { isDeleted, setIsDeleted } = useBlogContext();
+const DeleteUser: React.FC<DeleteUserProps> = ({ url, onClose }) => {
+  const [loading, setLoading] = useState(false);
 
   const handleDeletePost = () => {
     setLoading(true);
     httpClient
-      .delete(`${API_END_POINTS.BLOG}/${blogId}`, {
-        withCredentials: true,
-      })
+      .delete(`${url}`)
       .then((res) => {
-        console.log("Post Deleted", res.data);
-        toast.success("Post deletion successful!");
-
-        if (setIsDeleted) {
-          setIsDeleted(!isDeleted);
-        }
+        console.log("User Deleted", res.data);
+        toast.success("User deletion successful!");
 
         onClose();
       })
@@ -88,4 +79,4 @@ const DeleteBlog: React.FC<DeleteBlogProps> = ({ blogId, onClose }) => {
   );
 };
 
-export default DeleteBlog;
+export default DeleteUser;

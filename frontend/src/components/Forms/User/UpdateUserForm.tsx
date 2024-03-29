@@ -1,6 +1,5 @@
 import { API_END_POINTS, BASE_URL } from "@/constants/Service";
 import { useAuth } from "@/context/AuthContext";
-import Dropdown from "@/ui/Dropdown";
 import InputField from "@/ui/InputField";
 import { httpClient } from "@/utils/httpClient";
 import { InfoIcon } from "lucide-react";
@@ -95,8 +94,10 @@ const UpdateUserForm: React.FC<UpdateUserFormProps> = ({
           onClose();
         })
         .catch((err) => {
-          console.log("ERR", err);
-          toast.error("Failed to update user");
+          const errMsg = err.request.responseText.split(":")[1];
+          const trimmedErrMsg = errMsg.substr(1, errMsg.length - 3);
+          console.log("ERR", trimmedErrMsg);
+          toast.error(trimmedErrMsg);
         });
 
       setIsLoading(false);
@@ -170,19 +171,6 @@ const UpdateUserForm: React.FC<UpdateUserFormProps> = ({
             onChange={handleChange}
             error={errors.name}
             customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
-          />
-
-          <Dropdown
-            name={formData.role}
-            options={["STS Manager", "Landfill Manager"]}
-            label="Update Role"
-            customClass="mt-3 bg-slate-300/6"
-            onSelect={(selectedOption) =>
-              setFormData((prevFormData) => ({
-                ...prevFormData,
-                role: selectedOption,
-              }))
-            }
           />
 
           <div className="flex flex-row justify-between items-center ">

@@ -65,11 +65,19 @@ const SignInForm: FC = () => {
           const errMsg = err.response?.data.message;
 
           if (errMsg) {
-            toast.error(errMsg);
+            toast.error(
+              errMsg
+                .toLowerCase()
+                .split(" ")
+                .map(
+                  (word: string) => word.charAt(0).toUpperCase() + word.slice(1)
+                )
+                .join(" ")
+            );
           } else {
             toast.error(err.response?.data.password);
           }
-          console.error("ERROR>>>: ", err.response.data.message);
+          console.error("ERROR>>>: ", err);
         });
     } catch (error) {
       // toaster will be added later
@@ -140,8 +148,8 @@ const SignInForm: FC = () => {
                       id={value}
                       name={field.name}
                       placeholder={field.placeholder}
-                      label={true}
-                      customInputClass="bg-[#F3F4F6] border-none active:border-none h-12 rounded-md"
+                      label={field.key}
+                      customInputClass=" bg-[#F3F4F6] border-none active:border-none h-12 rounded-md"
                     />
                   )}
                 />
