@@ -8,6 +8,22 @@ async function findAllPermission(req, res) {
     res.json(permissions);
 }
 
+async function createOneRole(req, res) {
+    const roleDto = req.body;
+
+    const existedRole = await models.Role.findOne({
+        where: {
+            role_name: roleDto.role_name,
+        },
+    });
+    if (existedRole) throw new HttpError({ role_name: "role already exist" }, 400);
+
+    let role = await models.Role.create({ ...roleDto, role_name: roleDto.role_name.toUpperCase() });
+    role = role.toJSON();
+
+    res.status(201).json(role);
+}
+
 async function findAllRole(req, res) {
     const roles = await models.Role.findAll({
         order: [["role_name", "ASC"]],
@@ -65,6 +81,7 @@ async function findAllPermissionOfRole(req, res) {
 
 export default {
     findAllPermission,
+    createOneRole,
     findAllRole,
     assignPermissionsToRole,
     findAllPermissionOfRole,

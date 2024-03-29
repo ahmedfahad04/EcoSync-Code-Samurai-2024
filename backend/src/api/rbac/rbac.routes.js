@@ -3,7 +3,7 @@ import express from "express";
 import rbacController from "./rbac.controller.js";
 import { checkAuthentication } from "../../middlewares/auth.middleware.js";
 import { schemaValidator } from "../../middlewares/validation.middleware.js";
-import { addPermissionToRoleSchema } from "./rbac.validation.schema.js";
+import { addPermissionToRoleSchema, createRoleSchema } from "./rbac.validation.schema.js";
 
 export const rbacRoutes = express.Router();
 
@@ -13,7 +13,7 @@ rbacRoutes.get("/permissions/:permission_id");
 
 // roles
 rbacRoutes.get("/roles", rbacController.findAllRole);
-rbacRoutes.post("/roles");
+rbacRoutes.post("/roles", schemaValidator(createRoleSchema), rbacController.createOneRole);
 rbacRoutes.put("/roles/:role_id");
 rbacRoutes.delete("/roles/:role_id");
 
