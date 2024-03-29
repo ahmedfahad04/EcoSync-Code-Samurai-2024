@@ -20,7 +20,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({
       headline={"Add New User"}
       customClass={customClass}
     >
-      <AddUserForm />
+      <AddUserForm onClose={onClose}/>
     </ModalLayout>
   );
 };
