@@ -3,10 +3,20 @@ import usersRepository from "./users.repository.js";
 import utils from "../../utils/utils.js";
 import rolesRepository from "../rbac/roles.repository.js";
 import { roleConstants } from "../rbac/constants/roles.constants.js";
+import { models } from "../../configs/mysql.js";
 
 async function create(userDto) {
     const exists = await usersRepository.isUserExistByEmail(userDto.email);
     if (exists) throw new HttpError({ email: "email address already exists" }, 409);
+
+    if (userDto.phone_number) {
+        const phone_exist = await models.User.findOne({
+            where: {
+                phone_number: userDto.phone_number,
+            },
+        });
+        if (phone_exist) throw new HttpError({ phone_number: "phone number already exists" }, 400);
+    }
 
     userDto.password = await utils.hashPassword(userDto.password);
 
@@ -52,6 +62,20 @@ async function update(user_id, userDto) {
     const user = await usersRepository.findOneUserById(user_id);
 
     if (!user) throw new HttpError({ message: `user with id: ${user_id} not found` }, 404);
+
+    if (userDto.email) {
+        const exists = await usersRepository.isUserExistByEmail(userDto.email);
+        if (exists) throw new HttpError({ email: "email address already exists" }, 400);
+    }
+
+    if (userDto.phone_number) {
+        const phone_exist = await models.User.findOne({
+            where: {
+                phone_number: userDto.phone_number,
+            },
+        });
+        if (phone_exist) throw new HttpError({ phone_number: "phone number already exists" }, 400);
+    }
 
     await usersRepository.updateOneUser(user_id, userDto);
 }
