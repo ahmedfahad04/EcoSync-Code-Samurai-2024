@@ -1,17 +1,22 @@
+import { API_END_POINTS, BASE_URL } from "@/constants/Service";
+import { useAuth } from "@/context/AuthContext";
 import Dropdown from "@/ui/Dropdown";
 import InputField from "@/ui/InputField";
+import { httpClient } from "@/utils/httpClient";
 import { InfoIcon } from "lucide-react";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 import ImageUpload from "../../ImageUpload";
 import ChangePasswordModal from "../../Modals/User/ChangePasswordModal";
 
 interface UpdateUserFormProps {
   userData:
     | {
+        user_id: string;
         name: string;
         role: string;
         email: string;
-        phone: string;
+        phone_number: string;
       }
     | undefined;
   onClose: () => void;
@@ -23,20 +28,28 @@ const UpdateUserForm: React.FC<UpdateUserFormProps> = ({
 }) => {
   const [showChangePasswordModal, setShowChagngePasswordModal] =
     useState<boolean>(false);
+  const { user } = useAuth();
+  const [isLoading, setIsLoading] = useState<boolean>();
 
   //! when user will update it he can't update the Role (be careful)
-  const { name, role, email, phone } = userData || {
+  const { user_id, name, role, email, phone_number } = userData || {
     name: "",
     role: "",
     email: "",
-    phone: "",
+    phone_number: "",
   };
 
   const [formData, setFormData] = useState({
     name: name,
-    phone: phone,
+    phone_number: phone_number,
     email: email,
     role: role,
+  });
+
+  const [errors, setErrors] = useState({
+    name: "",
+    phone_number: "",
+    email: "",
   });
 
   const handleChange = (e: { target: { name: any; value: any } }) => {
@@ -45,10 +58,52 @@ const UpdateUserForm: React.FC<UpdateUserFormProps> = ({
       ...prevFormData,
       [name]: value,
     }));
+
+    // Validation
+    if (name === "name") {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        name: value.length < 2 ? "Name is too short" : "",
+      }));
+    } else if (name === "phone") {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        phone: !/^\d{11}$/.test(value) ? "Invalid phone number" : "",
+      }));
+    } else if (name === "email") {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        email: !/\S+@\S+\.\S+/.test(value) ? "Invalid email address" : "",
+      }));
+    }
   };
 
   const handleUpdateUser = () => {
-    //! api call
+    console.log("ID: ", userData);
+    if (Object.values(formData).every((value) => value !== "")) {
+      setIsLoading(true);
+
+      // to update other info
+      httpClient
+        .put(`${BASE_URL}${API_END_POINTS.USER}/${user_id}`, {
+          name: formData.name,
+          // email: formData.email,
+          phone_number: formData.phone_number,
+        })
+        .then(() => {
+          toast.success("User updated Successfully");
+          onClose();
+        })
+        .catch((err) => {
+          console.log("ERR", err);
+          toast.error("Failed to update user");
+        });
+
+      setIsLoading(false);
+    } else {
+      toast.error("Please fill all required fields");
+    }
+
     onClose();
     console.log("Form Data:", formData);
   };
@@ -90,16 +145,18 @@ const UpdateUserForm: React.FC<UpdateUserFormProps> = ({
             value={formData.name}
             label={"Full Name"}
             onChange={handleChange}
+            error={errors.name}
             customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
           />
 
           <InputField
-            id="phone"
-            name="phone"
+            id="phone_number"
+            name="phone_number"
             placeholder="01766610021"
-            value={formData.phone}
+            value={formData.phone_number}
             label={"Phone Number"}
             onChange={handleChange}
+            error={errors.name}
             customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
           />
 
@@ -111,11 +168,12 @@ const UpdateUserForm: React.FC<UpdateUserFormProps> = ({
             value={formData.email}
             label={"Email"}
             onChange={handleChange}
+            error={errors.name}
             customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
           />
 
           <Dropdown
-            name="Select User Role"
+            name={formData.role}
             options={["STS Manager", "Landfill Manager"]}
             label="Update Role"
             customClass="mt-3 bg-slate-300/6"
@@ -128,25 +186,37 @@ const UpdateUserForm: React.FC<UpdateUserFormProps> = ({
           />
 
           <div className="flex flex-row justify-between items-center ">
-            <button
-              type="button"
-              onClick={handleChangePasswordModal}
-              className="p-2 bg-green-500 hover:bg-green-600  text-white rounded-md mt-8"
-            >
-              Change Password
-            </button>
-            <button
-              type="button"
-              onClick={handleUpdateUser}
-              className="p-2 bg-red-500 hover:bg-red-600  text-white rounded-md mt-8"
-            >
-              Update
-            </button>
+            {user?.role?.role_name === userData?.role && (
+              <button
+                type="button"
+                onClick={handleChangePasswordModal}
+                className="p-2 bg-green-500 hover:bg-green-600  text-white rounded-md mt-8"
+              >
+                Change Password
+              </button>
+            )}
+
+            {isLoading ? (
+              <button
+                type="button"
+                onClick={handleUpdateUser}
+                className="p-2 bg-red-800 hover:bg-red-600  text-white rounded-md mt-8"
+              >
+                Updating...
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={handleUpdateUser}
+                className="p-2 bg-red-500 hover:bg-red-600  text-white rounded-md mt-8"
+              >
+                Update
+              </button>
+            )}
           </div>
         </form>
       </div>
 
-      {/* only available to personal user */}
       {showChangePasswordModal && (
         <ChangePasswordModal
           isOpen={showChangePasswordModal}
