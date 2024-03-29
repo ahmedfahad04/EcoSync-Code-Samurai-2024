@@ -87,7 +87,7 @@ const UpdateUserForm: React.FC<UpdateUserFormProps> = ({
       httpClient
         .put(`${BASE_URL}${API_END_POINTS.USER}/${user_id}`, {
           name: formData.name,
-          // email: formData.email,
+          email: formData.email,
           phone_number: formData.phone_number,
         })
         .then(() => {
