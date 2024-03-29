@@ -1,8 +1,9 @@
+import { API_END_POINTS, BASE_URL } from "@/constants/Service";
 import { IUsers } from "@/models/Users";
 import Chip from "@/ui/Chip";
 import { formattedDate } from "@/utils/formatDate";
 import { Delete } from "@mui/icons-material";
-import { EditIcon } from "lucide-react";
+import { EditIcon, UserIcon } from "lucide-react";
 import {
   MRT_ActionMenuItem,
   MaterialReactTable,
@@ -10,13 +11,22 @@ import {
 } from "material-react-table";
 import { useMemo, useState } from "react";
 import useSWR from "swr"; // Import useSWR hook
+import AssignRoleModal from "../Modals/User/AssignRoleModal";
+import DeleteUser from "../Modals/User/DeleteUser";
 import UpdateUserModal from "../Modals/User/UpdateUserModal";
 
-const fetcher = (url) => fetch(url).then((res) => res.json()); // Fetcher function for SWR
+const fetcher = (url: string) => fetch(url).then((res) => res.json()); // Fetcher function for SWR
 
 const NewUserTable = () => {
   const [showUpdateUserModal, setShowUpdateUserModal] =
     useState<boolean>(false);
+  const [showDeleteUserModal, setShowDeleteUserModal] =
+    useState<boolean>(false);
+  const [showAssignRoleModal, setShowAssignRoleModal] =
+    useState<boolean>(false);
+
+  const [selectedUser, setSelectedUser] = useState<IUsers>();
+
   const [userData, setUserData] = useState<{
     name: string;
     role: string;
@@ -26,9 +36,9 @@ const NewUserTable = () => {
   }>();
 
   const { data: users } = useSWR<IUsers[]>(
-    "http://localhost:3000/api/users",
+    `${BASE_URL}${API_END_POINTS.USER}`,
     fetcher
-  ); // Fetch user data using useSWR
+  );
 
   const columns = useMemo<MRT_ColumnDef<IUsers>[]>(
     () => [
@@ -83,6 +93,17 @@ const NewUserTable = () => {
         enableStickyHeader
         muiTableContainerProps={{ sx: { maxHeight: "500px" } }}
         renderRowActionMenuItems={({ closeMenu, row, table }) => [
+          <MRT_ActionMenuItem
+            icon={<UserIcon className="text-green-500" />}
+            key="assignRole"
+            label="Assign Role"
+            onClick={() => {
+              setSelectedUser(row.original);
+              setShowAssignRoleModal(true);
+              closeMenu();
+            }}
+            table={table}
+          />,
           <MRT_ActionMenuItem //or just use a normal MUI MenuItem component
             icon={<EditIcon className="text-blue-500" />}
             key="edit"
@@ -94,7 +115,6 @@ const NewUserTable = () => {
                 phone_number: row.original.phone_number,
                 role: row.original.role?.role_name,
                 user_id: row.original.user_id,
-
               });
               setShowUpdateUserModal(!showUpdateUserModal);
               closeMenu();
@@ -106,17 +126,36 @@ const NewUserTable = () => {
             icon={<Delete className="text-red-500" />}
             key="delete"
             label="Delete"
-            onClick={() => alert("Delete")}
+            onClick={() => {
+              setShowDeleteUserModal(true);
+              setSelectedUser(row.original);
+              closeMenu();
+            }}
             table={table}
           />,
         ]}
       />
+
+      {showAssignRoleModal && (
+        <AssignRoleModal
+          isOpen={showAssignRoleModal}
+          onClose={() => setShowAssignRoleModal(false)}
+          user={selectedUser}
+        />
+      )}
 
       {showUpdateUserModal && (
         <UpdateUserModal
           isOpen={showUpdateUserModal}
           onClose={() => setShowUpdateUserModal(false)}
           userData={userData}
+        />
+      )}
+
+      {showDeleteUserModal && (
+        <DeleteUser
+          url={`${BASE_URL}${API_END_POINTS.USER}/${selectedUser?.user_id}`}
+          onClose={() => setShowDeleteUserModal(false)}
         />
       )}
     </div>

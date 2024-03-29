@@ -58,17 +58,22 @@ const AddVechileForm = ({ onClose }: { onClose: () => {} }) => {
     if (Object.values(formData).every((value) => value !== "")) {
       setIsLoading(true);
       httpClient
-        .post(`${BASE_URL}${API_END_POINTS.USER}`, {
-          name: formData.name,
-          email: formData.email,
-          phone_number: formData.phone,
-          password: formData.password,
-        })
+        .post(
+          `${BASE_URL}${API_END_POINTS.USER}`,
+          {
+            name: formData.name,
+            email: formData.email,
+            phone_number: formData.phone,
+            password: formData.password,
+          },
+          { withCredentials: true }
+        )
         .then(() => {
           toast.success("User created Successfully");
           onClose();
         })
         .catch((err) => {
+          console.log("ERR: ", err);
           toast.error(err.response.data.email);
         });
 
