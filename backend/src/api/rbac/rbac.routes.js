@@ -7,16 +7,20 @@ import { addPermissionToRoleSchema } from "./rbac.validation.schema.js";
 
 export const rbacRoutes = express.Router();
 
-rbacRoutes.get("/permissions", rbacController.findAllPermission);
+// permissions
 rbacRoutes.post("/permissions");
+rbacRoutes.get("/permissions", rbacController.findAllPermission);
+rbacRoutes.get("/permissions/self");
+rbacRoutes.get("/permissions/:permission_id");
 rbacRoutes.put("/permissions/:permission_id");
 rbacRoutes.delete("/permissions/:permission_id");
 
+// roles
 rbacRoutes.get("/roles");
 rbacRoutes.post("/roles");
 rbacRoutes.put("/roles/:role_id");
 rbacRoutes.delete("/roles/:role_id");
 
-rbacRoutes.get("/roles/:role_id/permissions");
+rbacRoutes.get("/roles/:role_id/permissions", rbacController.findAllPermissionOfRole);
 rbacRoutes.put("/roles/:role_id/permissions", schemaValidator(addPermissionToRoleSchema), rbacController.assignPermissionsToRole);
 rbacRoutes.delete("/roles/:role/permissions/:permission_id");

@@ -3,11 +3,11 @@ import { HttpError } from "../../utils/HttpError.js";
 import { roleConstants } from "../rbac/constants/roles.constants.js";
 import usersRepository from "../users/users.repository.js";
 
-async function createLanfill(req, res) {
+async function createLandfill(req, res) {
     const landfillDto = req.body;
 
-    const exilandfill = await models.Landfill.findOne({ where: { landfill_name: landfillDto.landfill_name } });
-    if (exilandfill) throw new HttpError({ landfill_name: "landfill already exilandfill" });
+    const existLandfill = await models.Landfill.findOne({ where: { landfill_name: landfillDto.landfill_name } });
+    if (existLandfill) throw new HttpError({ landfill_name: "landfill already exist" });
 
     let newLandfill = await models.Landfill.create({ ...landfillDto, gps_coordinate: JSON.stringify(landfillDto.gps_coordinate) });
     newLandfill = newLandfill.toJSON();
@@ -37,7 +37,9 @@ async function findAllLandfill(req, res) {
     res.status(200).json(landfills);
 }
 
-async function updateLanfill(req, res) {}
+async function updateLandfill(req, res) {}
+
+async function deleteLandfill(req, res) {}
 
 async function addManager(req, res) {
     const { landfill_id } = req.params;
@@ -147,10 +149,11 @@ async function attachVehicleToLandfill(req, res) {
 async function removeVehicleFromLandfill(req, res) {}
 
 export default {
-    createLanfill,
+    createLandfill,
     findOneLandfill,
     findAllLandfill,
-    updateLanfill,
+    updateLandfill,
+    deleteLandfill,
     addManager,
     findAllLandfillManager,
     removeManager,
