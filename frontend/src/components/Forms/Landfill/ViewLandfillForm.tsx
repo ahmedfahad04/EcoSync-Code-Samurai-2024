@@ -1,7 +1,7 @@
 import { ILandfill } from "@/models/Landfill";
 import Label from "@/ui/Label";
 import { dummyUsers } from "@/utils/DummyData";
-import { InfoIcon } from "lucide-react";
+import { ClockIcon, InfoIcon } from "lucide-react";
 
 interface ViewLandfillFormProps {
   landfillData: ILandfill | undefined;
@@ -40,7 +40,13 @@ const ViewLandfillForm: React.FC<ViewLandfillFormProps> = ({
         {/* lat and long */}
         <div className="w-full flex flex-row justify-between items-center gap-5">
           <div className="w-2/4">
-            <Label title={"Latitude"} value={landfillData?.latitude} />
+            <Label
+              title={"Latitude"}
+              value={landfillData?.latitude}
+              icon={
+                <ClockIcon width={18} height={18} className="text-gray-500" />
+              }
+            />
           </div>
 
           <div className="w-2/4">
