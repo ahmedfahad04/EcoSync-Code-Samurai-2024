@@ -11,7 +11,7 @@ async function login(email, password) {
 
     if (!user) throw new HttpError({ message: `invalid email or password` }, 401);
 
-    if (user.role?.role_name === roleConstants.unassigned) {
+    if (user.role?.role_name === roleConstants.Unassigned) {
         throw new HttpError({ message: "you are not allowed" }, 403);
     }
 
