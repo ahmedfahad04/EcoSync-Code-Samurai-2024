@@ -94,6 +94,7 @@ const NewUserTable = () => {
                 phone_number: row.original.phone_number,
                 role: row.original.role?.role_name,
                 user_id: row.original.user_id,
+
               });
               setShowUpdateUserModal(!showUpdateUserModal);
               closeMenu();
