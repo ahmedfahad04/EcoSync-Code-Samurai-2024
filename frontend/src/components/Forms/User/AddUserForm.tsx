@@ -61,9 +61,10 @@ const AddVechileForm = ({ onClose }: { onClose: () => {} }) => {
         .post(`${BASE_URL}${API_END_POINTS.USER}`, {
           name: formData.name,
           email: formData.email,
+          phone_number: formData.phone,
           password: formData.password,
         })
-        .then((res) => {
+        .then(() => {
           toast.success("User created Successfully");
           onClose();
         })

@@ -1,5 +1,5 @@
 export interface IUsers {
-    user_id?: string;
+    user_id: string;
     name: string;
     userName: string;
     email: string;
@@ -7,7 +7,7 @@ export interface IUsers {
     role_id: string;
     createdAt: Date;
     updatedAt?: Date;
-    role?: {
+    role: {
         role_id: string;
         role_name: string;
         description: string;

@@ -21,7 +21,8 @@ const NewUserTable = () => {
     name: string;
     role: string;
     email: string;
-    phone: string;
+    phone_number: string;
+    user_id: string;
   }>();
 
   const { data: users } = useSWR<IUsers[]>(
@@ -49,11 +50,11 @@ const NewUserTable = () => {
         header: "EMAIL",
         size: 150,
       },
-      // {
-      //   accessorKey: "phone_number",
-      //   header: "PHONE",
-      //   size: 150,
-      // },
+      {
+        accessorKey: "phone_number",
+        header: "PHONE",
+        size: 150,
+      },
       {
         accessorKey: "createdAt",
         header: "CREATION DATE",
@@ -90,8 +91,10 @@ const NewUserTable = () => {
               setUserData({
                 name: row.original.name,
                 email: row.original.email,
-                phone: row.original.phone_number,
+                phone_number: row.original.phone_number,
                 role: row.original.role?.role_name,
+                user_id: row.original.user_id,
+
               });
               setShowUpdateUserModal(!showUpdateUserModal);
               closeMenu();
