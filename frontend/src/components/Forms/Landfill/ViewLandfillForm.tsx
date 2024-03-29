@@ -29,34 +29,34 @@ const ViewLandfillForm: React.FC<ViewLandfillFormProps> = ({
 
         <div className="w-full flex flex-row justify-between items-center gap-5">
           <div className="w-2/4">
-            <Label title={"Opening Time"} value={landfillData?.openingTime} />
+            <Label
+              title={"Opening Time"}
+              value={landfillData?.openingTime}
+              icon={
+                <ClockIcon width={18} height={18} className="text-gray-500" />
+              }
+            />
           </div>
 
           <div className="w-2/4">
-            <Label title={"Ending Time"} value={landfillData?.endingTime} />
+            <Label
+              title={"Ending Time"}
+              value={landfillData?.endingTime}
+              icon={
+                <ClockIcon width={18} height={18} className="text-gray-500" />
+              }
+            />
           </div>
         </div>
 
         {/* lat and long */}
         <div className="w-full flex flex-row justify-between items-center gap-5">
           <div className="w-2/4">
-            <Label
-              title={"Latitude"}
-              value={landfillData?.latitude}
-              icon={
-                <ClockIcon width={18} height={18} className="text-gray-500" />
-              }
-            />
+            <Label title={"Latitude"} value={landfillData?.latitude} />
           </div>
 
           <div className="w-2/4">
-            <Label
-              title={"Longitude"}
-              value={landfillData?.longitude}
-              icon={
-                <ClockIcon width={18} height={18} className="text-gray-500" />
-              }
-            />
+            <Label title={"Longitude"} value={landfillData?.longitude} />
           </div>
         </div>
 
