@@ -93,17 +93,22 @@ const NewUserTable = () => {
         enableStickyHeader
         muiTableContainerProps={{ sx: { maxHeight: "500px" } }}
         renderRowActionMenuItems={({ closeMenu, row, table }) => [
-          <MRT_ActionMenuItem
-            icon={<UserIcon className="text-green-500" />}
-            key="assignRole"
-            label="Assign Role"
-            onClick={() => {
-              setSelectedUser(row.original);
-              setShowAssignRoleModal(true);
-              closeMenu();
-            }}
-            table={table}
-          />,
+          row.original.role.role_name === "System Admin" ? (
+            ""
+          ) : (
+            <MRT_ActionMenuItem
+              icon={<UserIcon className="text-green-500" />}
+              key="assignRole"
+              label="Assign Role"
+              onClick={() => {
+                setSelectedUser(row.original);
+                setShowAssignRoleModal(true);
+                closeMenu();
+              }}
+              table={table}
+            />
+          ),
+
           <MRT_ActionMenuItem //or just use a normal MUI MenuItem component
             icon={<EditIcon className="text-blue-500" />}
             key="edit"

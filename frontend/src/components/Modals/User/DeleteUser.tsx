@@ -10,7 +10,7 @@ interface DeleteUserProps {
 }
 
 const DeleteUser: React.FC<DeleteUserProps> = ({ url, onClose }) => {
-  const [loading, setLoading] = useState(false); // State for loading status
+  const [loading, setLoading] = useState(false);
 
   const handleDeletePost = () => {
     setLoading(true);
