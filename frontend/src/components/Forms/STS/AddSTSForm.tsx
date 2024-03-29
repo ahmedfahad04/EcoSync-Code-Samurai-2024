@@ -1,6 +1,7 @@
 import InputField from "@/ui/InputField";
 import { InfoIcon } from "lucide-react";
 import { useState } from "react";
+import MapLocation from "./MapLocation";
 
 const AddSTSFrom = () => {
   const [formData, setFormData] = useState({
@@ -92,7 +93,7 @@ const AddSTSFrom = () => {
           </div>
 
           {/*!! add map */}
-
+          <MapLocation/>
           <div className="flex flex-auto justify-end items-end ">
             <button
               type="submit"
