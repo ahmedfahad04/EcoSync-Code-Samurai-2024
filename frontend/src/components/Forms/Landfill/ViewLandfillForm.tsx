@@ -50,7 +50,13 @@ const ViewLandfillForm: React.FC<ViewLandfillFormProps> = ({
           </div>
 
           <div className="w-2/4">
-            <Label title={"Longitude"} value={landfillData?.longitude} />
+            <Label
+              title={"Longitude"}
+              value={landfillData?.longitude}
+              icon={
+                <ClockIcon width={18} height={18} className="text-gray-500" />
+              }
+            />
           </div>
         </div>
 

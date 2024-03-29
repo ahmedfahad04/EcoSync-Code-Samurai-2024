@@ -21,7 +21,7 @@ const Label: React.FC<LabelProps> = ({
         {title}
       </label>
       <p
-        className={`bg-gray-200 p-2 rounded-md flex flex-row gap-2 items-center ${customLabelClass}`}
+        className={`bg-gray-200 p-2 rounded-md flex flex-row gap-2 items-center justify-start ${customLabelClass}`}
       >
         {icon} {value}
       </p>
