@@ -7,12 +7,12 @@ import { AuthProvider } from "./context/AuthContext.tsx";
 import "./index.css";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <AuthProvider>
-    <React.StrictMode>
-      <BrowserRouter>
+  <BrowserRouter>
+    <AuthProvider>
+      <React.StrictMode>
         <Toaster />
         <App />
-      </BrowserRouter>
-    </React.StrictMode>
-  </AuthProvider>
+      </React.StrictMode>
+    </AuthProvider>
+  </BrowserRouter>
 );

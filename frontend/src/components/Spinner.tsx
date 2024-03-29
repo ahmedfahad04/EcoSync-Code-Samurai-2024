@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { BounceLoader } from "react-spinners";
+import { BarLoader } from "react-spinners";
 
 interface SpinnerProps {
   path: string; // Define the 'path' prop
@@ -15,7 +15,7 @@ const Spinner: React.FC<SpinnerProps> = (props) => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCount((prev) => --prev);
-    }, 1000);
+    }, 500);
 
     count === 0 &&
       navigate(path, {
@@ -34,10 +34,10 @@ const Spinner: React.FC<SpinnerProps> = (props) => {
 
   return (
     <div className="fixed flex-col inset-0 flex justify-center items-center bg-white bg-opacity-75">
-      <BounceLoader {...{ ...defaultLoaderProps }} />
-      <h1 className="text-center mt-5 text-xl">
+      <BarLoader {...{ ...defaultLoaderProps }} />
+      {/* <h1 className="text-center mt-5 text-xl">
         Redirecting you in {count} seconds!{" "}
-      </h1>
+      </h1> */}
     </div>
   );
 };

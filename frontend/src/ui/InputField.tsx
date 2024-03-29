@@ -9,6 +9,7 @@ interface InputFieldProps {
   name: string;
   value: string;
   label?: string;
+  error?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -19,6 +20,7 @@ const InputField: React.FC<InputFieldProps> = ({
   id,
   name,
   value,
+  error,
   label = false,
   onChange,
 }: InputFieldProps) => {
@@ -47,6 +49,9 @@ const InputField: React.FC<InputFieldProps> = ({
           name={name}
           value={value}
         />
+
+        {/* Error message */}
+        {error && <p className="text-sm text-red-500 mt-1">{error}</p>}
 
         {/* Icon for toggling password visibility */}
         {isPasswordVisible ? (
@@ -85,6 +90,9 @@ const InputField: React.FC<InputFieldProps> = ({
         name={name}
         value={value}
       />
+
+      {/* Error message */}
+      {error && <p className="text-sm text-red-500 mt-1">{error}</p>}
     </div>
   );
 };
