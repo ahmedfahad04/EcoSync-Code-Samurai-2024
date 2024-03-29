@@ -1,3 +1,5 @@
+// All permissions are predefined. Admin cannot create new permission via api. Each permission represents an endpoint of the API.
+
 export const permissionConstants = {
     // roles
     CREATE_ROLE: "CREATE_ROLE",
