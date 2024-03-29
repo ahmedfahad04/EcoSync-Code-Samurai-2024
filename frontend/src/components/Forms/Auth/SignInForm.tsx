@@ -54,6 +54,9 @@ const SignInForm: FC = () => {
           { withCredentials: true }
         )
         .then((res) => {
+          // save into loacal storage
+          localStorage.setItem("access_token", res.data.accessToken);
+
           setUser(res.data.user);
           navigate(location.state || "/");
           toast.success("Login successfull");

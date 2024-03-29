@@ -28,7 +28,7 @@ export enum TooltipPosition {
 }
 
 export enum ROLETYPE {
-  ROLE1 = 'Admin',
+  ROLE1 = 'System Admin',
   ROLE2 = 'STS Manager',
   ROLE3 = 'Landfil Manager'
 }

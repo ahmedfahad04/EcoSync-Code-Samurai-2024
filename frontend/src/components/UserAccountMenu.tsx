@@ -1,3 +1,4 @@
+import { useAuth } from "@/context/AuthContext";
 import { EllipsisVerticalIcon, PencilIcon } from "@heroicons/react/16/solid";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -6,17 +7,16 @@ import * as React from "react";
 
 export const AccountMenu: React.FC = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [showUpdateUserModal, setShowUpdateUserModal] = React.useState<boolean>(false);
   const open = Boolean(anchorEl);
+  const { logout } = useAuth();
 
   const handleEdit = () => {
     setAnchorEl(null); // Close the menu
-    // setShowUpdateModal(true); // Open the update modal
   };
 
-  const handleDelete = () => {
+  const handleLogout = () => {
     setAnchorEl(null); // Close the menu
-    // setShowDeleteModal(true); // Open the delete modal
+    logout();
   };
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -93,7 +93,7 @@ export const AccountMenu: React.FC = () => {
         <hr className="mx-2" />
 
         <MenuItem
-          onClick={handleDelete}
+          onClick={handleLogout}
           className="w-52 text-sm text-black flex items-center"
         >
           <LogOut className="mr-2  rotate-180 text-red-500" width={20} />

@@ -9,7 +9,7 @@ import {
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import logo from "../../public/ecosync-logo.png";
-import { AccountMenu } from "./AccountMenu";
+import { AccountMenu } from "./UserAccountMenu";
 
 const Sidebar = () => {
   const [open, setOpen] = useState(true);

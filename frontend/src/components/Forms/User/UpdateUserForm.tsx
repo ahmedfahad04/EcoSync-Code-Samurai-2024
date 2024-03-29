@@ -146,6 +146,7 @@ const UpdateUserForm: React.FC<UpdateUserFormProps> = ({
         </form>
       </div>
 
+      {/* only available to personal user */}
       {showChangePasswordModal && (
         <ChangePasswordModal
           isOpen={showChangePasswordModal}
