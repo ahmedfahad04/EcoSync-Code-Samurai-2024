@@ -59,9 +59,14 @@ async function findAll(query) {
 }
 
 async function update(user_id, userDto) {
-    const user = await usersRepository.findOneUserById(user_id);
+    let user = await usersRepository.findOneUserById(user_id);
 
     if (!user) throw new HttpError({ message: `user with id: ${user_id} not found` }, 404);
+    user = user.toJSON();
+
+    if (user.email == userDto.email) delete userDto.email;
+
+    if (user.phone_number == userDto.phone_number) delete userDto.phone_number;
 
     if (userDto.email) {
         const exists = await usersRepository.isUserExistByEmail(userDto.email);
