@@ -1,6 +1,5 @@
 import { IUsers } from "@/models/Users";
 import Chip from "@/ui/Chip";
-import { dummyUsers } from "@/utils/DummyData";
 import { formattedDate } from "@/utils/formatDate";
 import { Delete } from "@mui/icons-material";
 import { EditIcon } from "lucide-react";
@@ -10,20 +9,25 @@ import {
   type MRT_ColumnDef,
 } from "material-react-table";
 import { useMemo, useState } from "react";
+import useSWR from "swr"; // Import useSWR hook
 import UpdateUserModal from "../Modals/User/UpdateUserModal";
 
-const data = dummyUsers;
+const fetcher = (url) => fetch(url).then((res) => res.json()); // Fetcher function for SWR
 
 const NewUserTable = () => {
   const [showUpdateUserModal, setShowUpdateUserModal] =
     useState<boolean>(false);
-
   const [userData, setUserData] = useState<{
     name: string;
     role: string;
     email: string;
     phone: string;
   }>();
+
+  const { data: users } = useSWR<IUsers[]>(
+    "http://localhost:3000/api/users",
+    fetcher
+  ); // Fetch user data using useSWR
 
   const columns = useMemo<MRT_ColumnDef<IUsers>[]>(
     () => [
@@ -33,7 +37,7 @@ const NewUserTable = () => {
         size: 180,
       },
       {
-        accessorKey: "role",
+        accessorKey: "role.role_name",
         header: "ROLE",
         size: 150,
         Cell: ({ cell }) => {
@@ -45,11 +49,11 @@ const NewUserTable = () => {
         header: "EMAIL",
         size: 150,
       },
-      {
-        accessorKey: "phone",
-        header: "PHONE",
-        size: 150,
-      },
+      // {
+      //   accessorKey: "phone_number",
+      //   header: "PHONE",
+      //   size: 150,
+      // },
       {
         accessorKey: "createdAt",
         header: "CREATION DATE",
@@ -68,11 +72,11 @@ const NewUserTable = () => {
   return (
     <div>
       <p className="mb-5">
-        <span className="font-bold">{data.length}</span> in total
+        <span className="font-bold">{users ? users.length : 0}</span> in total
       </p>
       <MaterialReactTable
         columns={columns}
-        data={data}
+        data={users || []}
         enableRowActions
         // positionActionsColumn="last"
         enableStickyHeader
@@ -86,8 +90,8 @@ const NewUserTable = () => {
               setUserData({
                 name: row.original.name,
                 email: row.original.email,
-                phone: row.original.phone,
-                role: row.original.role,
+                phone: row.original.phone_number,
+                role: row.original.role?.role_name,
               });
               setShowUpdateUserModal(!showUpdateUserModal);
               closeMenu();
