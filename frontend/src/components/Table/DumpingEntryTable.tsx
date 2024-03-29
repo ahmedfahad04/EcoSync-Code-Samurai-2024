@@ -7,6 +7,7 @@ import {
   MaterialReactTable,
 } from "material-react-table";
 import { useEffect, useMemo, useState } from "react";
+import EditDumpingEntryModal from "../Modals/Landfill/EditDumpingEntryModal";
 
 const DumpingEntryTable = () => {
   const [showDumpingEntryEditModal, setShowDumpingEntryEditModal] =
@@ -106,13 +107,13 @@ const DumpingEntryTable = () => {
         // })}
       />
 
-      {/* {showDumpingEntryEditModal && (
+      {showDumpingEntryEditModal && (
         <EditDumpingEntryModal
           isOpen={showDumpingEntryEditModal}
           onClose={() => setShowDumpingEntryEditModal(false)}
           data={dumpingEntry}
         />
-      )} */}
+      )}
 
       {/* {showLandfillModal && (
         <ViewLandfillModal

@@ -103,14 +103,14 @@ const DepartureEntryTable = () => {
             table={table}
           />,
         ]}
-        muiTableBodyRowProps={({ row }) => ({
-          onClick: () => {
-            setDepartureEntry(row.original);
-            console.log(row.original);
-            // setShowLandfillModal(true);
-          },
-          sx: { cursor: "pointer" },
-        })}
+        // muiTableBodyRowProps={({ row }) => ({
+        //   onClick: () => {
+        //     setDepartureEntry(row.original);
+        //     console.log(row.original);
+        //     // setShowLandfillModal(true);
+        //   },
+        //   sx: { cursor: "pointer" },
+        // })}
       />
 
       {showDepartureEntryEditModal && (
