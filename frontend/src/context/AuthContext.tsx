@@ -25,7 +25,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     data: user,
     mutate,
     isValidating,
-  } = useSWR("http://localhost:3000/api/user/profile", fetcher);
+  } = useSWR("http://localhost:3000/api/profile", fetcher);
 
   const logout = async () => {
     try {
