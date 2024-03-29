@@ -1,4 +1,4 @@
-import { ILandfill } from "@/models/Landfill";
+import { IDumpingEntry, ILandfill } from "@/models/Landfill";
 import { IDepartureEntry, ISTS } from "@/models/STS";
 import { IUsers } from "@/models/Users";
 import { IVehicle } from "@/models/Vehicles";
@@ -428,5 +428,78 @@ export const dummyDepartureData: IDepartureEntry[] = [
     wasteVolume: 70,
     arrivalTime: "11:00:00",
     departureTime: "13:00:00",
+  },
+];
+
+export const dummyDumpingData: IDumpingEntry[] = [
+  {
+    STSName: "Dumping Station A",
+    vehicleNumber: "ABC123",
+    wasteVolume: "5 tons",
+    arrivalTime: "2024-03-29 08:00",
+    departureTime: "2024-03-29 09:00",
+  },
+  {
+    STSName: "Dumping Station B",
+    vehicleNumber: "XYZ456",
+    wasteVolume: "3.5 tons",
+    arrivalTime: "2024-03-29 08:30",
+    departureTime: "2024-03-29 09:45",
+  },
+  {
+    STSName: "Dumping Station C",
+    vehicleNumber: "DEF789",
+    wasteVolume: "7.2 tons",
+    arrivalTime: "2024-03-29 09:15",
+    departureTime: "2024-03-29 10:30",
+  },
+  {
+    STSName: "Dumping Station A",
+    vehicleNumber: "GHI123",
+    wasteVolume: "4.8 tons",
+    arrivalTime: "2024-03-29 10:00",
+    departureTime: "2024-03-29 11:15",
+  },
+  {
+    STSName: "Dumping Station B",
+    vehicleNumber: "JKL456",
+    wasteVolume: "6.1 tons",
+    arrivalTime: "2024-03-29 10:30",
+    departureTime: "2024-03-29 11:45",
+  },
+  {
+    STSName: "Dumping Station C",
+    vehicleNumber: "MNO789",
+    wasteVolume: "5.3 tons",
+    arrivalTime: "2024-03-29 11:15",
+    departureTime: "2024-03-29 12:30",
+  },
+  {
+    STSName: "Dumping Station A",
+    vehicleNumber: "PQR123",
+    wasteVolume: "3.9 tons",
+    arrivalTime: "2024-03-29 12:00",
+    departureTime: "2024-03-29 13:15",
+  },
+  {
+    STSName: "Dumping Station B",
+    vehicleNumber: "STU456",
+    wasteVolume: "4.5 tons",
+    arrivalTime: "2024-03-29 12:30",
+    departureTime: "2024-03-29 13:45",
+  },
+  {
+    STSName: "Dumping Station C",
+    vehicleNumber: "VWX789",
+    wasteVolume: "8.7 tons",
+    arrivalTime: "2024-03-29 13:15",
+    departureTime: "2024-03-29 14:30",
+  },
+  {
+    STSName: "Dumping Station A",
+    vehicleNumber: "YZA123",
+    wasteVolume: "6.4 tons",
+    arrivalTime: "2024-03-29 14:00",
+    departureTime: "2024-03-29 15:15",
   },
 ];
