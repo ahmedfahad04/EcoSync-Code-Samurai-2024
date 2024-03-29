@@ -15,8 +15,8 @@ services:
       - JWT_ACCESS_TOKEN_EXPIRY=6000000000
       - JWT_SECRET=f7a30d6b8e03626b78db0e6e958acf57
       - NODEMAILER_SERVICE=gmail
-      - NODEMAILER_USER=jubaerhosain1119@gmail.com
-      - NODEMAILER_PASSWORD=rntodlyuxtzfaofw
+      - NODEMAILER_USER=jubaer@gmail.com
+      - NODEMAILER_PASSWORD=password
       - ADMIN_PASSWORD=igloo1119
       - ADMIN_EMAIL=admin@gmail.com
     depends_on:
