@@ -1,6 +1,7 @@
 import "express-async-errors";
 import express from "express";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 
 import { initializeMySqlConnection } from "./src/configs/mysql.js";
 import { notFoundHandler } from "./src/middlewares/not-found-handler.middleware.js";
@@ -18,6 +19,13 @@ import { rbacRoutes } from "./src/api/rbac/rbac.routes.js";
 import { vehicleDepartureRoutes } from "./src/api/vehicle-departure/vehicle-departure.routes.js";
 
 const app = express();
+
+app.use(
+    cors({
+        origin: "http://localhost:5173",
+        credentials: true,
+    })
+);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
