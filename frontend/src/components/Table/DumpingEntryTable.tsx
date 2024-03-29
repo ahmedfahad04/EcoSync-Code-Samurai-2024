@@ -1,6 +1,5 @@
-import { dummyDepartureData } from "@/utils/DummyData";
-// import { dummyLandfill } from "@/utils/DummyData"; // Importing static data
-import { IDepartureEntry } from "@/models/STS";
+import { IDumpingEntry } from "@/models/Landfill";
+import { dummyDumpingData } from "@/utils/DummyData";
 import { EditIcon, Trash2Icon } from "lucide-react";
 import {
   MRT_ActionMenuItem,
@@ -8,19 +7,19 @@ import {
   MaterialReactTable,
 } from "material-react-table";
 import { useEffect, useMemo, useState } from "react";
-import EditDepartureEntryModal from "../Modals/STS/EditDepartureEntryModal";
+import EditDumpingEntryModal from "../Modals/Landfill/EditDumpingEntryModal";
 
-const DepartureEntryTable = () => {
-  const [showDepartureEntryEditModal, setShowDepartureEntryEditModal] =
+const DumpingEntryTable = () => {
+  const [showDumpingEntryEditModal, setShowDumpingEntryEditModal] =
     useState<boolean>(false);
-  //   const [showLandfillModal, setShowLandfillModal] = useState<boolean>(false);
 
-  const [departureEntry, setDepartureEntry] = useState<IDepartureEntry>();
-  const [data, setData] = useState<IDepartureEntry[]>([]);
+  const [dumpingEntry, setDumpingEntry] = useState<IDumpingEntry>();
+  const [data, setData] = useState<IDumpingEntry[]>([]);
 
   const handleRowDelete = (index: string, closeWindow: () => void) => {
     if (window.confirm("Are you sure?")) {
       const newData = [...data];
+
       //! api call to delete entry
       newData.splice(parseInt(index), 1);
       setData(newData);
@@ -30,25 +29,20 @@ const DepartureEntryTable = () => {
 
   useEffect(() => {
     //! fetch using useSWR
-    setData(dummyDepartureData); // Set static data from dummyLandfill
-  }, []); // Empty dependency array to run only once when component mounts
+    setData(dummyDumpingData);
+  }, []);
 
-  const columns = useMemo<MRT_ColumnDef<IDepartureEntry>[]>(
+  const columns = useMemo<MRT_ColumnDef<IDumpingEntry>[]>(
     () => [
+      {
+        accessorKey: "STSName",
+        header: "STS NAME",
+        size: 150,
+      },
       {
         accessorKey: "vehicleNumber",
         header: "VEHICLE NUMBER",
-        size: 150,
-      },
-      {
-        accessorKey: "landfillName",
-        header: "LANDFILL NAME",
         size: 180,
-      },
-      {
-        accessorKey: "trip",
-        header: "TRIP",
-        size: 150,
       },
       {
         accessorKey: "wasteVolume",
@@ -86,8 +80,8 @@ const DepartureEntryTable = () => {
             key="edit"
             label="Edit"
             onClick={() => {
-              setDepartureEntry(row.original);
-              setShowDepartureEntryEditModal(true);
+              setDumpingEntry(row.original);
+              setShowDumpingEntryEditModal(true);
               closeMenu();
             }}
             table={table}
@@ -105,7 +99,7 @@ const DepartureEntryTable = () => {
         ]}
         // muiTableBodyRowProps={({ row }) => ({
         //   onClick: () => {
-        //     setDepartureEntry(row.original);
+        //     setDumpingEntry(row.original);
         //     console.log(row.original);
         //     // setShowLandfillModal(true);
         //   },
@@ -113,11 +107,11 @@ const DepartureEntryTable = () => {
         // })}
       />
 
-      {showDepartureEntryEditModal && (
-        <EditDepartureEntryModal
-          isOpen={showDepartureEntryEditModal}
-          onClose={() => setShowDepartureEntryEditModal(false)}
-          data={departureEntry}
+      {showDumpingEntryEditModal && (
+        <EditDumpingEntryModal
+          isOpen={showDumpingEntryEditModal}
+          onClose={() => setShowDumpingEntryEditModal(false)}
+          data={dumpingEntry}
         />
       )}
 
@@ -125,11 +119,11 @@ const DepartureEntryTable = () => {
         <ViewLandfillModal
           isOpen={showLandfillModal}
           onClose={() => setShowLandfillModal(false)}
-          departureEntry={departureEntry}
+          dumpingEntry={dumpingEntry}
         />
       )} */}
     </div>
   );
 };
 
-export default DepartureEntryTable;
+export default DumpingEntryTable;
