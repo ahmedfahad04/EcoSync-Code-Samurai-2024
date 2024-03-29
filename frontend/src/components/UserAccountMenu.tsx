@@ -4,14 +4,19 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { LogOut } from "lucide-react";
 import * as React from "react";
+import UpdateUserModal from "./Modals/User/UpdateUserModal";
 
 export const AccountMenu: React.FC = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [showUpdateUserModal, setShowUpdateUserModal] =
+    React.useState<boolean>(false);
+
   const open = Boolean(anchorEl);
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
 
   const handleEdit = () => {
     setAnchorEl(null); // Close the menu
+    setShowUpdateUserModal(true);
   };
 
   const handleLogout = () => {
@@ -101,9 +106,19 @@ export const AccountMenu: React.FC = () => {
         </MenuItem>
       </Menu>
 
-      {/* {showUpdateUserModal && (
-        // view profile modal
-      )} */}
+      {showUpdateUserModal && (
+        <UpdateUserModal
+          isOpen={showUpdateUserModal}
+          onClose={() => setShowUpdateUserModal(false)}
+          userData={{
+            name: user?.name || "",
+            role: user?.role.role_name || "",
+            email: user?.email || "",
+            phone_number: user?.phone_number || "",
+            user_id: user?.user_id || "",
+          }}
+        />
+      )}
     </div>
   );
 };
