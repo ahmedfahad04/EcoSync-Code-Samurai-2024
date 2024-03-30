@@ -47,6 +47,14 @@ async function updateSts(req, res) {
     res.json({ message: "sts updated successfully" });
 }
 
+async function deleteSts(req, res) {
+    const { sts_id } = req.params;
+
+    await models.STS.destroy({ where: { sts_id } });
+
+    res.json({ message: "sts deleted successfully" });
+}
+
 async function addManager(req, res) {
     const { sts_id } = req.params;
     const { manager_id } = req.body;
@@ -148,6 +156,7 @@ export default {
     createSts,
     findAllSts,
     updateSts,
+    deleteSts,
     addManager,
     removeManager,
     addVehicleToSTS,

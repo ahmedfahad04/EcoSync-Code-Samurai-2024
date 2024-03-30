@@ -15,7 +15,7 @@ rbacRoutes.get("/permissions/:permission_id");
 rbacRoutes.get("/roles", rbacController.findAllRole);
 rbacRoutes.post("/roles", schemaValidator(createRoleSchema), rbacController.createOneRole);
 rbacRoutes.put("/roles/:role_id");
-rbacRoutes.delete("/roles/:role_id");
+rbacRoutes.delete("/roles/:role_id", rbacController.deleteRole);
 
 rbacRoutes.get("/roles/:role_id/permissions", rbacController.findAllPermissionOfRole);
 rbacRoutes.put("/roles/:role_id/permissions", schemaValidator(addPermissionToRoleSchema), rbacController.assignPermissionsToRole);

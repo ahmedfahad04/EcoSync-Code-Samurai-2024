@@ -13,7 +13,7 @@ stsRoutes.get("/", stsController.findAllSts);
 stsRoutes.get("/mine");
 stsRoutes.get("/:sts_id");
 stsRoutes.put("/:sts_id", schemaValidator(updateStsSchema), stsController.updateSts);
-stsRoutes.delete("/:sts_id");
+stsRoutes.delete("/:sts_id", stsController.deleteSts);
 
 stsRoutes.get("/:sts_id/managers");
 stsRoutes.put("/:sts_id/managers", schemaValidator(addManagerSchema), stsController.addManager);

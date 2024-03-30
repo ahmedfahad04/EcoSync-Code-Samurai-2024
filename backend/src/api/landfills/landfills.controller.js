@@ -56,7 +56,11 @@ async function updateLandfill(req, res) {
     res.json({ message: "landfill updated successfully" });
 }
 
-async function deleteLandfill(req, res) {}
+async function deleteLandfill(req, res) {
+    const { landfill_id } = req.params;
+    await models.Landfill.destroy({ where: { landfill_id } });
+    res.json({ message: "landfill deleted successfully" });
+}
 
 async function addManager(req, res) {
     const { landfill_id } = req.params;

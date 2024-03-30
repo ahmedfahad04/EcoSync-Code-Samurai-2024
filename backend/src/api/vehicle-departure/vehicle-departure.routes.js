@@ -13,4 +13,4 @@ vehicleDepartureRoutes.get(
 );
 vehicleDepartureRoutes.get("/:departure_id");
 vehicleDepartureRoutes.put("/:departure_id");
-vehicleDepartureRoutes.delete("/:departure_id");
+vehicleDepartureRoutes.delete("/:departure_id", vehicleDepartureController.deleteDepartureEntry);

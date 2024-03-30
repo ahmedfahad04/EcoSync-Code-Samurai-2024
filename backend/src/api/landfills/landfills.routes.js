@@ -22,7 +22,7 @@ landfillRoutes.post(
 );
 landfillRoutes.get("/", checkPermission(pc.FIND_ALL_LANDFILL), landfillsController.findAllLandfill);
 
-landfillRoutes.get("/mine")
+landfillRoutes.get("/mine");
 
 landfillRoutes.get("/:landfill_id", checkPermission(pc.FIND_ONE_LANDFILL), landfillsController.findOneLandfill);
 landfillRoutes.put(
@@ -31,11 +31,15 @@ landfillRoutes.put(
     schemaValidator(updateLandfillSchema),
     landfillsController.updateLandfill
 );
-landfillRoutes.delete("/:landfill_id", checkPermission(pc.DELETE_LANDFILL), landfillsController.deleteLandfill);
+landfillRoutes.delete(
+    "/:landfill_id",
+    // checkPermission(pc.DELETE_LANDFILL),
+    landfillsController.deleteLandfill
+);
 
 landfillRoutes.get(
     "/:landfill_id/managers",
-    checkPermission(pc.FIND_ALL_LANDFILL_MANAGER),
+    checkPermission(pc.FIND_ALL_MANAGER_OF_LANDFILL),
     landfillsController.findAllLandfillManager
 );
 landfillRoutes.put("/:landfill_id/managers", schemaValidator(addManagerSchema), landfillsController.addManager);
