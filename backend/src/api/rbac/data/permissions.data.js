@@ -29,6 +29,7 @@ export const permissionData = [
     // profile
     { permission_name: pc.FIND_PROFILE, description: "Unknown" },
     { permission_name: pc.UPDATE_PROFILE, description: "Unknown" },
+    { permission_name: pc.CHANGE_PASSWORD, description: "Unknown" },
 
     // vehicles
     { permission_name: pc.CREATE_VEHICLE, description: "Unknown" },
@@ -47,8 +48,13 @@ export const permissionData = [
     { permission_name: pc.UPDATE_STS, description: "Unknown" },
     { permission_name: pc.DELETE_STS, description: "Unknown" },
 
+    { permission_name: pc.FIND_ALL_MANAGER_OF_STS, description: "Unknown" },
     { permission_name: pc.ADD_MANAGER_TO_STS, description: "Unknown" },
     { permission_name: pc.REMOVE_MANAGER_FROM_STS, description: "Unknown" },
+
+    { permission_name: pc.FIND_ALL_VEHICLE_OF_STS, description: "Unknown" },
+    { permission_name: pc.ADD_VEHICLE_TO_STS, description: "Unknown" },
+    { permission_name: pc.REMOVE_VEHICLE_FROM_STS, description: "Unknown" },
 
     // vehicle-departure
     { permission_name: pc.CREATE_VEHICLE_DEPARTURE_ENTRY, description: "Unknown" },
@@ -64,9 +70,12 @@ export const permissionData = [
     { permission_name: pc.UPDATE_LANDFILL, description: "Unknown" },
     { permission_name: pc.DELETE_LANDFILL, description: "Unknown" },
 
+    { permission_name: pc.FIND_ALL_MANAGER_OF_LANDFILL, description: "Unknown" },
     { permission_name: pc.ADD_MANAGER_TO_LANDFILL, description: "Unknown" },
     { permission_name: pc.REMOVE_MANAGER_FROM_LANDFILL, description: "Unknown" },
 
+
+    { permission_name: pc.FIND_ALL_VEHICLE_DESTINATION_TO_LANDFILL, description: "Unknown" },
     { permission_name: pc.ADD_VEHICLE_DESTINATION_TO_LANDFILL, description: "Unknown" },
     { permission_name: pc.REMOVE_VEHICLE_DESTINATION_TO_LANDFILL, description: "Unknown" },
 

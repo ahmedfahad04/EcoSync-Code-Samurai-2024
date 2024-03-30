@@ -87,7 +87,8 @@ async function generateBill(req, res) {
     const landfill = await models.Landfill.findByPk(dumpingEntry.landfill_id);
     const sts = await models.STS.findByPk(dumpingEntry.sts_id);
 
-    const cpk_journey = vehicle.cpk_unloaded + (dumpingEntry.waste_volume / vehicle.capacity) * (vehicle.cpk_loaded - vehicle.cpk_unloaded);
+    const cpk_journey =
+        vehicle.cpk_unloaded + (dumpingEntry.waste_volume / vehicle.capacity) * (vehicle.cpk_loaded - vehicle.cpk_unloaded);
 
     const result = {
         waste_volume: dumpingEntry.waste_volume,
@@ -109,7 +110,14 @@ async function generateBill(req, res) {
     res.json(result);
 }
 
+async function deleteTruckDumpingEntry(req, res) {
+    const { dumping_id } = req.params;
+    await models.TruckDumpingEntry.destroy({ where: { dumping_id } });
+    res.json({ message: "dumping entry deleted successfully" });
+}
+
 export default {
     findAllTruckDumpingEntry,
+    deleteTruckDumpingEntry,
     generateBill,
 };

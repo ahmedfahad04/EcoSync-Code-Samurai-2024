@@ -1,5 +1,6 @@
 import { models, Op } from "../../configs/mysql.js";
 import { HttpError } from "../../utils/HttpError.js";
+import { roleConstants } from "./constants/roles.constants.js";
 
 async function findAllPermission(req, res) {
     const permissions = await models.Permission.findAll({
@@ -22,6 +23,21 @@ async function createOneRole(req, res) {
     role = role.toJSON();
 
     res.status(201).json(role);
+}
+
+async function deleteRole(req, res) {
+    // cannot delete predefined roles
+    const { role_id } = req.params;
+
+    const role = await models.Role.findByPk(role_id);
+    if (!role) throw new HttpError({ message: "role not found" }, 404);
+
+    const predefinedRoles = Object.values(roleConstants);
+    if (predefinedRoles.includes(role.role_name)) throw new HttpError({ message: "cannot delete predefined role" }, 403);
+
+    await models.Role.destroy({ where: { role_id } });
+
+    res.json({ message: "role deleted successfully" });
 }
 
 async function findAllRole(req, res) {
@@ -82,6 +98,7 @@ async function findAllPermissionOfRole(req, res) {
 export default {
     findAllPermission,
     createOneRole,
+    deleteRole,
     findAllRole,
     assignPermissionsToRole,
     findAllPermissionOfRole,

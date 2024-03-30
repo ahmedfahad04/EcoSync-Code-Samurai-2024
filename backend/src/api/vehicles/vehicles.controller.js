@@ -1,11 +1,18 @@
 import { models } from "../../configs/mysql.js";
 import { HttpError } from "../../utils/HttpError.js";
+import { VehicleTypes } from "./constants/vehicle.constants.js";
 
 async function createVehicle(req, res) {
     const vehicleDto = req.body;
 
     const existed = await models.Vehicle.findOne({ where: { vehicle_number: vehicleDto.vehicle_number } });
     if (existed) throw new HttpError({ vehicle_number: "vehicle already exists" }, 400);
+
+    if (vehicleDto.type == VehicleTypes.container_carrier) {
+        if (vehicleDto.capacity != 15) throw new HttpError({ capacity: "capacity must be 15 tons" });
+    } else {
+        if (vehicleDto.capacity == 15) throw new HttpError({ capacity: "capacity cannot be 15 tons" });
+    }
 
     let vehicle = await models.Vehicle.create(vehicleDto);
     vehicle = vehicle.toJSON();
@@ -34,6 +41,12 @@ async function updateVehicle(req, res) {
     if (vehicleDto.vehicle_number) {
         const existed = await models.Vehicle.findOne({ where: { vehicle_number: vehicleDto.vehicle_number } });
         if (existed) throw new HttpError({ vehicle_number: "vehicle number already exists" }, 400);
+    }
+
+    if (vehicleDto.type == VehicleTypes.container_carrier) {
+        if (vehicleDto.capacity != 15) throw new HttpError({ capacity: "capacity must be 15 tons" });
+    } else {
+        if (vehicleDto.capacity == 15) throw new HttpError({ capacity: "capacity cannot be 15 tons" });
     }
 
     await models.Vehicle.update(vehicleDto, { where: { vehicle_id } });

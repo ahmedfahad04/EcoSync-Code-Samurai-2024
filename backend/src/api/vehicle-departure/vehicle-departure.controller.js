@@ -75,6 +75,15 @@ async function findAllDepartureEntry(req, res) {
     res.status(200).json(entries);
 }
 
+async function deleteDepartureEntry(req, res) {
+    const { departure_id } = req.params;
+
+    await models.STSDepartureEntry.destroy({ where: { departure_id } });
+
+    res.json({ message: "Departure entry deleted" });
+}
+
 export default {
     findAllDepartureEntry,
+    deleteDepartureEntry,
 };
