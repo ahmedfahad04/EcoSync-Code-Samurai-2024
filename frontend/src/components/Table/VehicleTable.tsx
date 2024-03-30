@@ -12,6 +12,7 @@ import {
 import { useMemo, useState } from "react";
 import useSWR from "swr";
 import DeleteModal from "../Modals/DeleteModal";
+import UpdateVehicleModal from "../Modals/Vehicle/UpdateVehicleModal";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json()); // Fetcher function for SWR
 
@@ -48,6 +49,16 @@ const NewVehicleTable = () => {
         size: 150,
       },
       {
+        accessorKey: "cpk_loaded", //access nested data with dot notation
+        header: "FUEL COST (LOADED)",
+        size: 150,
+      },
+      {
+        accessorKey: "cpk_unloaded", //access nested data with dot notation
+        header: "FUEL COST (UNLOADED)",
+        size: 150,
+      },
+      {
         accessorKey: "createdAt", //access nested data with dot notation
         header: "REGISTERED DATE",
         size: 80,
@@ -76,11 +87,12 @@ const NewVehicleTable = () => {
         muiTableContainerProps={{ sx: { maxHeight: "500px" } }}
         renderRowActionMenuItems={({ closeMenu, row, table }) => [
           <MRT_ActionMenuItem //or just use a normal MUI MenuItem component
-            icon={<EditIcon />}
+            icon={<EditIcon className="text-blue-500" />}
             key="edit"
             label="Edit"
             onClick={() => {
-              alert(row.original.vehicle_number);
+              setSelectedVehicle(row.original);
+              setShowUpdateVehicleModal(!showUpdateVehicleModal);
               closeMenu();
             }}
             table={table}
@@ -99,6 +111,14 @@ const NewVehicleTable = () => {
           />,
         ]}
       />
+
+      {showUpdateVehicleModal && (
+        <UpdateVehicleModal
+          isOpen={showUpdateVehicleModal}
+          onClose={() => setShowUpdateVehicleModal(false)}
+          vehicleData={selectedVehicle}
+        />
+      )}
 
       {showDeleteVehicleModal && (
         <DeleteModal
