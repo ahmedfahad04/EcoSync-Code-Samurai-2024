@@ -25,9 +25,13 @@ async function updateVehicle(req, res) {
     const vehicle = await models.Vehicle.findByPk(vehicle_id);
     if (!vehicle) throw new HttpError({ message: "vehicle not found" }, 404);
 
+    if(vehicle.vehicle_number == vehicleDto.vehicle_number) {
+        delete vehicleDto.vehicle_number;
+    }
+
     if (vehicleDto.vehicle_number) {
         const existed = await models.Vehicle.findOne({ where: { vehicle_number: vehicleDto.vehicle_number } });
-        if (existed) throw new HttpError({ vehicle_number: "vehicle already exists" }, 400);
+        if (existed) throw new HttpError({ vehicle_number: "vehicle number already exists" }, 400);
     }
 
     await models.Vehicle.update(vehicleDto, { where: { vehicle_id } });
@@ -35,8 +39,20 @@ async function updateVehicle(req, res) {
     res.json({ message: "vehicle updated successfully" });
 }
 
+async function deleteVehicle(req, res) {
+    const { vehicle_id } = req.params;
+
+    const vehicle = await models.Vehicle.findByPk(vehicle_id);
+    if (!vehicle) throw new HttpError({ message: "vehicle not found" }, 404);
+
+    await models.Vehicle.destroy({ where: { vehicle_id } });
+
+    res.json({ message: "vehicle deleted successfully" });
+}
+
 export default {
     createVehicle,
     findAllVehicle,
     updateVehicle,
+    deleteVehicle,
 };

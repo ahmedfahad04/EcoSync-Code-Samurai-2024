@@ -22,5 +22,5 @@ export const updateVehicleSchema = Joi.object({
         .valid(...VehicleCapacities)
         .optional(),
     cpk_loaded: Joi.number().positive().optional(),
-    cpk_unloaded: Joi.number().positive().optional(),
+    cpk_unloaded: Joi.number().positive().optional().less(Joi.ref('cpk_loaded')),
 });

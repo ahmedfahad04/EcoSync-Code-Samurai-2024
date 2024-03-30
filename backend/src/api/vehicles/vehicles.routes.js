@@ -13,4 +13,4 @@ vehicleRoutes.get("/available")
 vehicleRoutes.get("/:vehicle_id");
 
 vehicleRoutes.put("/:vehicle_id", schemaValidator(updateVehicleSchema), vehiclesController.updateVehicle);
-vehicleRoutes.delete("/:vehicle_id");
+vehicleRoutes.delete("/:vehicle_id", vehiclesController.deleteVehicle);
