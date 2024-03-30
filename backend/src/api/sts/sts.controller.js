@@ -219,16 +219,9 @@ async function addTripEntry(req, res) {
 }
 
 async function findAllTripEntryOfSts(req, res) {
-    let {
-        page = 1,
-        limit = 10,
-        landfill_name,
-        vehicle_number,
-        sts_arrival_time = "1800-04-28T09:23:54.512Z",
-        sts_departure_time = "9026-04-28T09:23:54.512Z",
-        sort = "createdAt",
-        order = "DESC",
-    } = req.query;
+    const { sts_id } = req.params;
+
+    let { page = 1, limit = 10, landfill_name, vehicle_number, sort = "createdAt", order = "DESC" } = req.query;
 
     page = parseInt(page);
     limit = parseInt(limit);
@@ -257,12 +250,7 @@ async function findAllTripEntryOfSts(req, res) {
 
     let entries = await models.TripEntry.findAll({
         where: {
-            sts_arrival_time: {
-                [Op.gte]: sts_arrival_time,
-            },
-            sts_departure_time: {
-                [Op.lte]: sts_departure_time,
-            },
+            sts_id,
         },
         include: [includeLandfill, includeVehicle],
         offset: (page - 1) * limit,

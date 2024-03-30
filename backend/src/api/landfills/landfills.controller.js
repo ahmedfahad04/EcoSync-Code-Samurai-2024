@@ -50,7 +50,7 @@ async function findMyLandfills(req, res) {
                 attributes: [],
             },
             attributes: [],
-            required: true
+            required: true,
         },
     });
     landfills = landfills.map((landfill) => {
@@ -147,31 +147,6 @@ async function removeManager(req, res) {
     res.json({ message: "landfill manager removed successfully" });
 }
 
-async function addDumpingEntry(req, res) {
-    const { landfill_id } = req.params;
-    const entryDto = req.body;
-
-    const landfill = await models.Landfill.findByPk(landfill_id);
-    if (!landfill) throw new HttpError({ landfill_id: "landfill not found" }, 404);
-
-    const vehicle = await models.Vehicle.findByPk(entryDto.vehicle_id);
-    if (!vehicle) throw new HttpError({ vehicle_id: "vehicle not found" }, 404);
-
-    if (entryDto.waste_volume > vehicle.capacity)
-        throw new HttpError({ waste_volume: `waste volume exceeds vehicle capacity: ${vehicle.capacity} tons` }, 400);
-
-    // validate if three entries in this day
-
-    const sts = await models.STS.findByPk(entryDto.sts_id);
-    if (!sts) throw new HttpError({ sts_id: "sts not found" }, 404);
-
-    entryDto.landfill_id = landfill_id;
-    let dumpingEntry = await models.TruckDumpingEntry.create(entryDto);
-    dumpingEntry = dumpingEntry.toJSON();
-
-    res.status(201).json(dumpingEntry);
-}
-
 async function attachVehicleToLandfill(req, res) {
     const { landfill_id } = req.params;
     const { vehicle_id } = req.body;
@@ -192,8 +167,59 @@ async function attachVehicleToLandfill(req, res) {
     res.json({ message: "vehicle attached successfully" });
 }
 
-async function removeVehicleFromLandfill(req, res) {
-    
+async function removeVehicleFromLandfill(req, res) {}
+
+async function findAllTripOfLandfill(req, res) {
+    const { landfill_id } = req.params;
+
+    let { page = 1, limit = 10, sts_name, vehicle_number, sort = "createdAt", order = "DESC" } = req.query;
+
+    page = parseInt(page);
+    limit = parseInt(limit);
+
+    const includeSTS = {
+        model: models.STS,
+    };
+    if (sts_name) {
+        includeSTS.where = {
+            landfill_name: {
+                [Op.like]: `%${landfill_name}%`,
+            },
+        };
+    }
+
+    const includeVehicle = {
+        model: models.Vehicle,
+    };
+    if (vehicle_number) {
+        includeVehicle.where = {
+            vehicle_number: {
+                [Op.like]: `%${vehicle_number}%`,
+            },
+        };
+    }
+
+    let entries = await models.TripEntry.findAll({
+        where: {
+            landfill_id,
+        },
+        include: [includeSTS, includeVehicle],
+        offset: (page - 1) * limit,
+        limit: limit,
+        order: [[sort, order]],
+    });
+
+    entries = entries.map((entry) => {
+        const en = entry.toJSON();
+
+        en.sts = en.st;
+        delete en.st;
+
+        en.sts.gps_coordinate = JSON.parse(en.sts.gps_coordinate);
+        return en;
+    });
+
+    res.status(200).json(entries);
 }
 
 export default {
@@ -206,7 +232,7 @@ export default {
     addManager,
     findAllLandfillManager,
     removeManager,
-    addDumpingEntry,
     attachVehicleToLandfill,
     removeVehicleFromLandfill,
+    findAllTripOfLandfill,
 };
