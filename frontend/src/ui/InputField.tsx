@@ -11,6 +11,7 @@ interface InputFieldProps {
   label?: string;
   error?: string;
   disabled?: boolean;
+  customPasswordClass?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -24,7 +25,7 @@ const InputField: React.FC<InputFieldProps> = ({
   error,
   disabled,
   label = false,
-
+  customPasswordClass,
   onChange,
 }: InputFieldProps) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
@@ -60,12 +61,12 @@ const InputField: React.FC<InputFieldProps> = ({
         {/* Icon for toggling password visibility */}
         {isPasswordVisible ? (
           <ShowPasswordIcon
-            className="absolute top-2/4 right-4 transform -translate-y-1/2"
+            className={`right-3 top-9 -bottom-10 absolute ${customPasswordClass}`}
             onClick={togglePasswordVisibility}
           />
         ) : (
           <HidePasswordIcon
-            className="absolute top-2/4 right-4 transform -translate-y-1/2"
+            className={`right-3 top-9 -bottom-10 absolute ${customPasswordClass}`}
             onClick={togglePasswordVisibility}
           />
         )}

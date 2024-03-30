@@ -33,10 +33,28 @@ const OTPPage = () => {
     // Set a timer to re-enable the button after 30 seconds
     setTimeout(() => {
       setResendDisabled(false);
-    }, 30000);
-    // Add logic to resend OTP
-    // For demonstration purposes, let's just reset the timer to 30 seconds
-    setTimer(30);
+    }, 10000);
+
+    try {
+      httpClient
+        .post(`${BASE_URL}/auth/reset-password/initiate`, {
+          email: localStorage.getItem("verification-mail"),
+        })
+        .then((res) => {
+          console.log("EMAIL SENT: ", res);
+          toast.success("OTP sent into email");
+
+          navigate("/otp-verification");
+        })
+        .catch((err) => {
+          console.log("Error in email sent: ", err);
+        });
+    } catch (error) {
+      console.error("Error sending email:", error);
+      alert("Failed to send email. Please try again later.");
+    }
+
+    setTimer(10);
   };
 
   const handleSubmit = (e: { preventDefault: () => void }) => {
@@ -132,6 +150,7 @@ const OTPPage = () => {
                       // autoComplete="new-password"
                       customInputClass=" bg-[#F3F4F6] border-2 border-gray-200 active:border-none h-12 rounded-md"
                       name={password}
+                      customPasswordClass="top-3"
                     />
                   </div>
                 </div>
@@ -151,6 +170,7 @@ const OTPPage = () => {
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
                       customInputClass=" bg-[#F3F4F6] border-2 border-gray-200 active:border-none h-12 rounded-md"
+                      customPasswordClass="top-3"
                     />
                   </div>
                 </div>
