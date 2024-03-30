@@ -44,6 +44,7 @@ export const permissionData = [
     // sts
     { permission_name: pc.CREATE_STS, description: "Unknown" },
     { permission_name: pc.FIND_ALL_STS, description: "Unknown" },
+    { permission_name: pc.FIND_ALL_MY_STS, description: "Unknown" },
     { permission_name: pc.FIND_ONE_STS, description: "Unknown" },
     { permission_name: pc.UPDATE_STS, description: "Unknown" },
     { permission_name: pc.DELETE_STS, description: "Unknown" },
@@ -59,6 +60,8 @@ export const permissionData = [
     // trips
     { permission_name: pc.CREATE_VEHICLE_DEPARTURE_TRIP_ENTRY, description: "Unknown" },
     { permission_name: pc.FIND_ALL_TRIP_ENTRY, description: "Unknown" },
+    { permission_name: pc.FIND_ALL_TRIP_ENTRY_OF_STS, description: "Unknown" },
+    { permission_name: pc.FIND_ALL_TRIP_ENTRY_OF_LANDFILL, description: "Unknown" },
     { permission_name: pc.FIND_ONE_TRIP_ENTRY, description: "Unknown" },
     { permission_name: pc.UPDATE_TRIP_ENTRY, description: "Unknown" },
     { permission_name: pc.DELETE_TRIP_ENTRY, description: "Unknown" },
@@ -69,6 +72,7 @@ export const permissionData = [
     // landfill
     { permission_name: pc.CREATE_LANDFILL, description: "Unknown" },
     { permission_name: pc.FIND_ALL_LANDFILL, description: "Unknown" },
+    { permission_name: pc.FIND_ALL_MY_LANDFILL, description: "Unknown" },
     { permission_name: pc.FIND_ONE_LANDFILL, description: "Unknown" },
     { permission_name: pc.UPDATE_LANDFILL, description: "Unknown" },
     { permission_name: pc.DELETE_LANDFILL, description: "Unknown" },
