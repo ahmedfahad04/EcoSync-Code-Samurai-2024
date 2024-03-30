@@ -8,8 +8,8 @@ export const findAllTripEntryQuerySchema = Joi.object({
     landfill_name: Joi.string().trim().optional(),
     sort: Joi.string().trim().valid("createdAt").optional(),
     order: Joi.string().trim().valid("ASC", "DESC").optional(),
-    arrival_time: Joi.date().optional(),
-    departure_time: Joi.date().optional(),
+    sts_arrival_time: Joi.date().optional(),
+    sts_departure_time: Joi.date().optional(),
     waste_volume_start: Joi.number().optional(),
     waste_volume_end: Joi.number().optional(),
 }).required();

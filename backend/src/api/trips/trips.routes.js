@@ -7,7 +7,7 @@ import { findAllTripEntryQuerySchema } from "./trips.validator.schema.js";
 
 export const tripsRoutes = express.Router();
 
-tripsRoutes.get("/", schemaValidator(findAllTripEntryQuerySchema), tripsController.findAllTripEntry);
+tripsRoutes.get("/", schemaValidator(findAllTripEntryQuerySchema, "query"), tripsController.findAllTripEntry);
 tripsRoutes.get("/:trip_id", tripsController.findOneTripEntry);
 tripsRoutes.put("/:trip_id", tripsController.updateTripEntry);
 tripsRoutes.delete("/:trip_id", tripsController.deleteTripEntry);

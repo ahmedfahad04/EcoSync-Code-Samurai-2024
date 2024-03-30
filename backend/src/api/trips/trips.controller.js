@@ -8,8 +8,12 @@ async function findAllTripEntry(req, res) {
         sts_name,
         landfill_name,
         vehicle_number,
-        arrival_time = "1800-04-28T09:23:54.512Z",
-        departure_time = "9026-04-28T09:23:54.512Z",
+        sts_arrival_time = "1800-04-28T09:23:54.512Z",
+        sts_departure_time = "9026-04-28T09:23:54.512Z",
+        landfill_arrival_time = "1800-04-28T09:23:54.512Z",
+        landfill_departure_time = "9026-04-28T09:23:54.512Z",
+        sort = "createdAt",
+        order = "DESC",
     } = req.query;
 
     page = parseInt(page);
@@ -50,20 +54,25 @@ async function findAllTripEntry(req, res) {
 
     let entries = await models.TripEntry.findAll({
         where: {
-            arrival_time: {
-                [Op.gte]: arrival_time,
+            sts_arrival_time: {
+                [Op.gte]: sts_arrival_time,
             },
-            departure_time: {
-                [Op.lte]: departure_time,
+            sts_departure_time: {
+                [Op.lte]: sts_departure_time,
             },
         },
         include: [includeSTS, includeLandfill, includeVehicle],
         offset: (page - 1) * limit,
         limit: limit,
+        order: [[sort, order]],
     });
 
     entries = entries.map((entry) => {
         const en = entry.toJSON();
+        
+        en.sts = en.st;
+        delete en.st;
+        
         en.sts.gps_coordinate = JSON.parse(en.sts.gps_coordinate);
         en.landfill.gps_coordinate = JSON.parse(en.landfill.gps_coordinate);
         return en;
@@ -141,9 +150,7 @@ async function deleteTripEntry(req, res) {
     res.json({ message: "dumping entry deleted successfully" });
 }
 
-async function addDumpingEntry(req, res) {
-    
-}
+async function addDumpingEntry(req, res) {}
 
 export default {
     findAllTripEntry,

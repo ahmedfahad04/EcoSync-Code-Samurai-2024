@@ -7,7 +7,9 @@ import { startup } from "./mysql.startup.js";
 const sequelize = new Sequelize(config.mysql.database_url, {
     logging: false,
     timestamps: false,
-    freezeTableName: true,
+    // define: {
+    //     freezeTableName: true,
+    // },
 });
 
 import User from "../models/User.js";
