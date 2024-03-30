@@ -11,5 +11,3 @@ truckDumpingRoutes.get("/:dumping_id");
 truckDumpingRoutes.put("/:dumping_id");
 truckDumpingRoutes.delete("/:dumping_id", truckDumpingController.deleteTruckDumpingEntry);
 truckDumpingRoutes.get("/:dumping_id/bills", truckDumpingController.generateBill);
-
-
