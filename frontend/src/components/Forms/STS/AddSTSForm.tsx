@@ -9,16 +9,16 @@ import MapLocation from "./MapLocation";
 const AddSTSFrom = ({ onClose }: { onClose: () => void }) => {
   const [isLoading, setIsLoading] = useState<boolean>();
   const [formData, setFormData] = useState({
-    STSName: "",
-    wardNumber: "",
+    sts_name: "",
+    ward_number: "",
     capacity: "",
     latitude: "",
     longitude: "",
   });
 
   const [errors, setErrors] = useState({
-    STSName: "",
-    wardNumber: "",
+    sts_name: "",
+    ward_number: "",
     capacity: "",
     latitude: "",
     longitude: "",
@@ -39,9 +39,9 @@ const AddSTSFrom = ({ onClose }: { onClose: () => void }) => {
         .post(
           `${BASE_URL}${API_END_POINTS.STS}`,
           {
-            sts_name: formData.STSName,
+            sts_name: formData.sts_name,
             gps_coordinate: [formData.latitude, formData.longitude],
-            ward_number: formData.wardNumber,
+            ward_number: formData.ward_number,
             capacity: formData.capacity,
           },
           { withCredentials: true }
@@ -77,20 +77,20 @@ const AddSTSFrom = ({ onClose }: { onClose: () => void }) => {
       <div className="flex flex-col justify-start items-start">
         <form className="mt-5 w-full">
           <InputField
-            id="STSName"
-            name="STSName"
+            id="sts_name"
+            name="sts_name"
             placeholder="Nikunjo STS"
-            value={formData.STSName}
+            value={formData.sts_name}
             label={"STS Name"}
             onChange={handleChange}
             customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
           />
 
           <InputField
-            id="wardNumber"
-            name="wardNumber"
+            id="ward_number"
+            name="ward_number"
             placeholder="28"
-            value={formData.wardNumber}
+            value={formData.ward_number}
             label={"Ward Number"}
             onChange={handleChange}
             customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"

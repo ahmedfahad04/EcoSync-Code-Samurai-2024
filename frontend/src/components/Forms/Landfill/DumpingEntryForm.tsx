@@ -18,20 +18,20 @@ const DumpingEntryForm: React.FC<DumpingEntryFormProps> = ({
   const [stsData, setSTSData] = useState<string[]>([]);
   const [vehicles, setVehicles] = useState<string[]>([]);
 
-  const { STSName, vehicle_number, wasteVolume, arrivalTime, departureTime } =
+  const { sts_name, vehicle_number, wasteVolume, arrivalTime, departureTime } =
     data || {};
 
   const [formData, setFormData] = useState(
     mode === "Edit"
       ? {
-          STSName: STSName || "",
+          sts_name: sts_name || "",
           vehicle_number: vehicle_number || "",
           wasteVolume: wasteVolume || "",
           arrival: arrivalTime || "",
           departure: departureTime || "",
         }
       : {
-          STSName: "",
+          sts_name: "",
           vehicle_number: "",
           wasteVolume: "",
           arrival: "",
@@ -58,7 +58,7 @@ const DumpingEntryForm: React.FC<DumpingEntryFormProps> = ({
 
   // fetch data
   useEffect(() => {
-    const STSData = dummySTS.map((l) => l.STSName);
+    const STSData = dummySTS.map((l) => l.sts_name);
     const vehicle_numbers = dummyVehicles.map((v) => v.vehicle_number); // Corrected variable name
 
     setSTSData(STSData);
@@ -84,14 +84,14 @@ const DumpingEntryForm: React.FC<DumpingEntryFormProps> = ({
 
           {/* landfillId should be returned as selected option */}
           <Dropdown
-            name={mode == "Edit" ? formData.STSName : "Select STS"}
+            name={mode == "Edit" ? formData.sts_name : "Select STS"}
             options={stsData}
             label="STS Name"
             customClass="mt-5 bg-slate-300/6"
             onSelect={(selectedOption) =>
               setFormData((prevFormData) => ({
                 ...prevFormData,
-                STSName: selectedOption,
+                sts_name: selectedOption,
               }))
             }
           />

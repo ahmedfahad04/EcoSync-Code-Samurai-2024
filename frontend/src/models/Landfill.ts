@@ -8,7 +8,7 @@ export interface ILandfill {
 }
 
 export interface IDumpingEntry {
-    STSName: string;
+    sts_name: string;
     vehicle_number: string;
     wasteVolume: string;
     arrivalTime: string;

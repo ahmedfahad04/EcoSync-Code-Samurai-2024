@@ -20,13 +20,13 @@ const ViewSTSForm: React.FC<ViewSTSFormProps> = ({ stsData }) => {
       </header>
 
       <div className="flex flex-col text-md gap-4 mt-5">
-        <Label title={"STS Name"} value={stsData?.STSName} />
+        <Label title={"STS Name"} value={stsData?.sts_name} />
 
         {/* ward & capacity */}
 
         <div className="w-full flex flex-row justify-between items-center gap-5">
           <div className="w-2/4">
-            <Label title={"Ward Number"} value={stsData?.wardNumber} />
+            <Label title={"Ward Number"} value={stsData?.ward_number} />
           </div>
 
           <div className="w-2/4">
@@ -36,11 +36,11 @@ const ViewSTSForm: React.FC<ViewSTSFormProps> = ({ stsData }) => {
         {/* lat and long */}
         <div className="w-full flex flex-row justify-between items-center gap-5">
           <div className="w-2/4">
-            <Label title={"Latitude"} value={stsData?.latitude} />
+            <Label title={"Latitude"} value={stsData?.gps_coordinate[0]} />
           </div>
 
           <div className="w-2/4">
-            <Label title={"Longitude"} value={stsData?.longitude} />
+            <Label title={"Longitude"} value={stsData?.gps_coordinate[1]} />
           </div>
         </div>
 

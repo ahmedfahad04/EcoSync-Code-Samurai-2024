@@ -1,7 +1,9 @@
 export interface ISTS {
-    STSName: string;
-    wardNumber: number;
+    sts_id: string;
+    sts_name: string;
+    ward_number: number;
     capacity: number;
+    gps_coordinate: number[];
     latitude: string;
     longitude: string;
 }

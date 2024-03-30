@@ -35,7 +35,7 @@ const DumpingEntryTable = () => {
   const columns = useMemo<MRT_ColumnDef<IDumpingEntry>[]>(
     () => [
       {
-        accessorKey: "STSName",
+        accessorKey: "sts_name",
         header: "STS NAME",
         size: 150,
       },
