@@ -11,9 +11,11 @@ import {
 } from "material-react-table";
 import { useMemo, useState } from "react";
 import useSWR from "swr"; // Import useSWR hook
+import AvatarWithDescription from "../AvatarWithDescription";
 import AssignRoleModal from "../Modals/User/AssignRoleModal";
 import DeleteUser from "../Modals/User/DeleteUser";
 import UpdateUserModal from "../Modals/User/UpdateUserModal";
+import avatar from "../../../public/avatar.png";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json()); // Fetcher function for SWR
 
@@ -46,6 +48,15 @@ const NewUserTable = () => {
         accessorKey: "name",
         header: "USER",
         size: 180,
+        Cell: ({ cell }) => {
+          return (
+            <AvatarWithDescription
+              avatar={avatar}
+              title={cell.getValue<string>()}
+              customTitleClass="font-medium"
+            />
+          );
+        },
       },
       {
         accessorKey: "role.role_name",
