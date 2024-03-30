@@ -10,7 +10,7 @@ interface AddSTSModalProps {
 
 const AddSTSModal: React.FC<AddSTSModalProps> = ({
   isOpen,
-  customClass = "w-[500px] flex flex-col justify-center item-center",
+  customClass = "w-[600px] flex flex-col justify-center item-center",
   onClose,
 }) => {
   return (

@@ -1,6 +1,7 @@
 import InputField from "@/ui/InputField";
 import { InfoIcon } from "lucide-react";
 import { useState } from "react";
+import MapLocation from "./MapLocation";
 
 const AddSTSFrom = () => {
   const [formData, setFormData] = useState({
@@ -92,6 +93,9 @@ const AddSTSFrom = () => {
           </div>
 
           {/*!! add map */}
+          <div className="mt-3 border-2 border-black cursor-text">
+            <MapLocation formData={formData} setFormData={setFormData} />
+          </div>
 
           <div className="flex flex-auto justify-end items-end ">
             <button
