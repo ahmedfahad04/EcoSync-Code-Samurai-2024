@@ -9,7 +9,7 @@ export const vehicleRoutes = express.Router();
 vehicleRoutes.post("/", schemaValidator(createVehicleSchema), vehiclesController.createVehicle);
 vehicleRoutes.get("/", vehiclesController.findAllVehicle);
 
-vehicleRoutes.get("/available")
+vehicleRoutes.get("/available", vehiclesController.findAllAvailableVehicle);
 vehicleRoutes.get("/:vehicle_id");
 
 vehicleRoutes.put("/:vehicle_id", schemaValidator(updateVehicleSchema), vehiclesController.updateVehicle);

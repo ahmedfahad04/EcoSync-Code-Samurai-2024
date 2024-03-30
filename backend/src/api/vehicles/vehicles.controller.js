@@ -18,6 +18,8 @@ async function findAllVehicle(req, res) {
     res.json(vehicles);
 }
 
+async function findAllAvailableVehicle() {}
+
 async function updateVehicle(req, res) {
     const { vehicle_id } = req.params;
     const vehicleDto = req.body;
@@ -25,7 +27,7 @@ async function updateVehicle(req, res) {
     const vehicle = await models.Vehicle.findByPk(vehicle_id);
     if (!vehicle) throw new HttpError({ message: "vehicle not found" }, 404);
 
-    if(vehicle.vehicle_number == vehicleDto.vehicle_number) {
+    if (vehicle.vehicle_number == vehicleDto.vehicle_number) {
         delete vehicleDto.vehicle_number;
     }
 
@@ -53,6 +55,7 @@ async function deleteVehicle(req, res) {
 export default {
     createVehicle,
     findAllVehicle,
+    findAllAvailableVehicle,
     updateVehicle,
     deleteVehicle,
 };
