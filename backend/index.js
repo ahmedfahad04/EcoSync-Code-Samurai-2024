@@ -16,7 +16,6 @@ import { stsRoutes } from "./src/api/sts/sts.routes.js";
 import { landfillRoutes } from "./src/api/landfills/landfills.routes.js";
 import { tripsRoutes } from "./src/api/trips/trips.routes.js";
 import { rbacRoutes } from "./src/api/rbac/rbac.routes.js";
-import { vehicleDepartureRoutes } from "./src/api/vehicle-departure/vehicle-departure.routes.js";
 
 const app = express();
 
@@ -40,7 +39,6 @@ app.use("/api/vehicles", vehicleRoutes);
 app.use("/api/sts", stsRoutes);
 app.use("/api/landfills", landfillRoutes);
 app.use("/api/trips", tripsRoutes);
-app.use("/api/vehicle-departure", vehicleDepartureRoutes);
 
 app.use(notFoundHandler);
 app.use(globalErrorHandler);

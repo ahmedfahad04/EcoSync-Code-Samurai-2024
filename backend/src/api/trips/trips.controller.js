@@ -121,6 +121,12 @@ async function generateBill(req, res) {
 
     if (!tripEntry) throw new HttpError({ message: "invalid trip entry" }, 404);
 
+
+
+    if (!tripEntry.landfill_arrival_time || !tripEntry.landfill_dumping_time) {
+        throw new HttpError({ message: "Trip is not dumped yet" }, 400);
+    }
+
     const vehicle = await models.Vehicle.findByPk(tripEntry.vehicle_id);
     const landfill = await models.Landfill.findByPk(tripEntry.landfill_id);
     const sts = await models.STS.findByPk(tripEntry.sts_id);
@@ -142,6 +148,7 @@ async function generateBill(req, res) {
         },
         sts_name: sts.toJSON().sts_name,
         landfill_name: landfill.toJSON().landfill_name,
+        dumping_time: tripEntry.landfill_dumping_time,
         createdAt: new Date().toString(),
     };
 
