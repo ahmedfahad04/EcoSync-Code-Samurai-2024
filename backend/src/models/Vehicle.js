@@ -53,6 +53,7 @@ export default (options) => {
                 key: "landfill_id",
             },
             comment: "A number of trucks with varying load capacity are attached to each landfill",
+            comment: "don't need this field according to updated requirements right? as vehicles are assigned to sts",
         },
     });
 

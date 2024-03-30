@@ -20,6 +20,12 @@ async function createVehicle(req, res) {
     res.status(201).json(vehicle);
 }
 
+async function findOneVehicle(req, res) {
+    const { vehicle_id } = req.params;
+    const vehicle = await models.Vehicle.findByPk(vehicle_id);
+    res.json(vehicle);
+}
+
 async function findAllVehicle(req, res) {
     const vehicles = await models.Vehicle.findAll();
     res.json(vehicles);
@@ -67,6 +73,7 @@ async function deleteVehicle(req, res) {
 
 export default {
     createVehicle,
+    findOneVehicle,
     findAllVehicle,
     findAllAvailableVehicle,
     updateVehicle,

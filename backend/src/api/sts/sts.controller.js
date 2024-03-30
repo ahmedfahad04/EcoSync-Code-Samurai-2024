@@ -19,6 +19,18 @@ async function createSts(req, res) {
     res.status(201).json(sts);
 }
 
+async function findOneSts(req, res) {
+    const { sts_id } = req.params;
+    let sts = await models.STS.findByPk(sts_id);
+
+    if (!sts) throw new HttpError({ message: "sts not found" }, 400);
+
+    sts = sts.toJSON();
+    sts.gps_coordinate = JSON.parse(sts.gps_coordinate);
+
+    res.json(sts);
+}
+
 async function findAllSts(req, res) {
     let sts = await models.STS.findAll();
     sts = sts.map((st) => {
@@ -28,7 +40,28 @@ async function findAllSts(req, res) {
     res.json(sts);
 }
 
-async function findMySts(req, res) {}
+async function findMySts(req, res) {
+    const sub = req.user?.sub;
+    let sts = await models.STS.findAll({
+        include: {
+            model: models.User,
+            through: {
+                model: models.UserSTS_Manager,
+                where: {
+                    user_id: sub || "user_id",
+                },
+                attributes: [],
+            },
+            attributes: [],
+            required: true,
+        },
+    });
+    sts = sts.map((st) => {
+        st.gps_coordinate = JSON.parse(st.gps_coordinate);
+        return st;
+    });
+    res.json(sts);
+}
 
 async function updateSts(req, res) {
     const { sts_id } = req.params;
@@ -57,6 +90,33 @@ async function deleteSts(req, res) {
     res.json({ message: "sts deleted successfully" });
 }
 
+async function findAllStsManager(req, res) {
+    const { sts_id } = req.params;
+    const sts = await models.STS.findByPk(sts_id);
+    if (!sts) throw new HttpError({ message: "sts not found" }, 404);
+
+    let managers = await models.User.findAll({
+        include: {
+            model: models.STS,
+            through: {
+                model: models.UserSTS_Manager,
+                attributes: [],
+                where: { sts_id },
+            },
+            attributes: [],
+            required: true,
+        },
+    });
+
+    managers = managers.map((manager) => {
+        const m = manager.toJSON();
+        delete m.password;
+        return m;
+    });
+
+    res.json(managers);
+}
+
 async function addManager(req, res) {
     const { sts_id } = req.params;
     const { manager_id } = req.body;
@@ -82,7 +142,11 @@ async function addManager(req, res) {
     res.json({ message: "sts manager added successfully" });
 }
 
-async function removeManager(req, res) {}
+async function removeManager(req, res) {
+    const { sts_id, manager_id } = req.params;
+    await models.UserSTS_Manager.destroy({ where: { sts_id, user_id: manager_id } });
+    res.json({ message: "sts manager removed successfully" });
+}
 
 async function addVehicleToSTS(req, res) {
     const { sts_id } = req.params;
@@ -156,10 +220,12 @@ async function addVehicleDepartureEntry(req, res) {
 
 export default {
     createSts,
+    findOneSts,
     findAllSts,
     findMySts,
     updateSts,
     deleteSts,
+    findAllStsManager,
     addManager,
     removeManager,
     addVehicleToSTS,

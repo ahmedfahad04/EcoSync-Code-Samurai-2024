@@ -9,6 +9,12 @@ async function findAllPermission(req, res) {
     res.json(permissions);
 }
 
+async function findOnePermission(req, res) {
+    const { permission_id } = req.params;
+    const permission = await models.Permission.findByPk(permission_id);
+    res.json(permission);
+}
+
 async function createOneRole(req, res) {
     const roleDto = req.body;
 
@@ -23,6 +29,26 @@ async function createOneRole(req, res) {
     role = role.toJSON();
 
     res.status(201).json(role);
+}
+
+async function findOneRole(req, res) {
+    const { role_id } = req.params;
+    const role = await models.Role.findByPk(role_id);
+    res.json(role);
+}
+
+async function updateRole(req, res) {
+    const { role_id } = req.params;
+    const roleDto = req.body;
+
+    if (roleDto.role_name) {
+        const exist = await models.Role.findOne({ where: { role_name: roleDto.role_name } });
+        if (exist) throw new HttpError({ message: "role_name already exists" }, 400);
+    }
+
+    await models.Role.update(roleDto, { where: { role_id } });
+
+    res.json({ message: "role updated successfully" });
 }
 
 async function deleteRole(req, res) {
@@ -95,11 +121,23 @@ async function findAllPermissionOfRole(req, res) {
     res.json(permissions);
 }
 
+async function removePermissionFromRole(req, res) {
+    const { role_id, permission_id } = req.params;
+
+    await models.RolePermission.destroy({ where: { role_id, permission_id } });
+
+    res.json({ message: "permission removed successfully" });
+}
+
 export default {
     findAllPermission,
+    findOnePermission,
     createOneRole,
+    findOneRole,
+    updateRole,
     deleteRole,
     findAllRole,
     assignPermissionsToRole,
     findAllPermissionOfRole,
+    removePermissionFromRole,
 };

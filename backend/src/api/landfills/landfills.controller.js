@@ -37,8 +37,28 @@ async function findAllLandfill(req, res) {
     res.status(200).json(landfills);
 }
 
-async function findMyLandfills() {
-
+async function findMyLandfills(req, res) {
+    const sub = req.user?.sub;
+    let landfills = await models.Landfill.findAll({
+        include: {
+            model: models.User,
+            through: {
+                model: models.UserLandfill_Manager,
+                where: {
+                    user_id: sub || "user_id",
+                },
+                attributes: [],
+            },
+            attributes: [],
+            required: true
+        },
+    });
+    landfills = landfills.map((landfill) => {
+        const site = landfill.toJSON();
+        site.gps_coordinate = JSON.parse(site.gps_coordinate);
+        return site;
+    });
+    res.status(200).json(landfills);
 }
 
 async function updateLandfill(req, res) {
@@ -172,7 +192,9 @@ async function attachVehicleToLandfill(req, res) {
     res.json({ message: "vehicle attached successfully" });
 }
 
-async function removeVehicleFromLandfill(req, res) {}
+async function removeVehicleFromLandfill(req, res) {
+    
+}
 
 export default {
     createLandfill,

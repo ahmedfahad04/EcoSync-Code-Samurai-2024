@@ -47,6 +47,7 @@ landfillRoutes.delete("/:landfill_id/managers/:manager_id", landfillsController.
 
 landfillRoutes.post("/:landfill_id/truck-dumping", schemaValidator(addDumpingEntrySchema), landfillsController.addDumpingEntry);
 
+// may would be removed
 landfillRoutes.get("/:landfill_id/vehicles");
 landfillRoutes.put("/:landfill_id/vehicles", schemaValidator(attachVehicleSchema), landfillsController.attachVehicleToLandfill);
 landfillRoutes.delete("/:landfill_id/vehicles", landfillsController.removeVehicleFromLandfill);

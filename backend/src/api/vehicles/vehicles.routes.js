@@ -10,7 +10,7 @@ vehicleRoutes.post("/", schemaValidator(createVehicleSchema), vehiclesController
 vehicleRoutes.get("/", vehiclesController.findAllVehicle);
 
 vehicleRoutes.get("/available", vehiclesController.findAllAvailableVehicle);
-vehicleRoutes.get("/:vehicle_id");
+vehicleRoutes.get("/:vehicle_id", vehiclesController.findOneVehicle);
 
 vehicleRoutes.put("/:vehicle_id", schemaValidator(updateVehicleSchema), vehiclesController.updateVehicle);
 vehicleRoutes.delete("/:vehicle_id", vehiclesController.deleteVehicle);

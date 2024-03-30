@@ -11,13 +11,13 @@ export const stsRoutes = express.Router();
 stsRoutes.post("/", schemaValidator(createStsSchema), stsController.createSts);
 stsRoutes.get("/", stsController.findAllSts);
 stsRoutes.get("/mine", stsController.findMySts);
-stsRoutes.get("/:sts_id");
+stsRoutes.get("/:sts_id", stsController.findOneSts);
 stsRoutes.put("/:sts_id", schemaValidator(updateStsSchema), stsController.updateSts);
 stsRoutes.delete("/:sts_id", stsController.deleteSts);
 
-stsRoutes.get("/:sts_id/managers");
+stsRoutes.get("/:sts_id/managers", stsController.findAllStsManager);
 stsRoutes.put("/:sts_id/managers", schemaValidator(addManagerSchema), stsController.addManager);
-stsRoutes.delete("/:sts_id/managers/manager_id", stsController.removeManager);
+stsRoutes.delete("/:sts_id/managers/:manager_id", stsController.removeManager);
 
 stsRoutes.get(
     "/:sts_id/vehicles",
