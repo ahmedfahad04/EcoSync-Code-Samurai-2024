@@ -1,13 +1,6 @@
 "use strict";
 
-export const VehicleTypes = {
-    open_truck: "Open Truck",
-    dump_truck: "Dump Truck",
-    compactor: "Compactor",
-    container_carrier: "Container Carrier",
-};
-
-export const VehicleCapacities = [3, 5, 7];
+import { VehicleTypes } from "../api/vehicles/constants/vehicle.constants.js";
 
 export default (options) => {
     const { sequelize, DataTypes, Sequelize } = options;
@@ -33,9 +26,6 @@ export default (options) => {
         capacity: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            validate: {
-                isIn: [VehicleCapacities],
-            },
             comment: "capacity in tons",
         },
         cpk_loaded: {

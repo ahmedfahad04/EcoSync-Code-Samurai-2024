@@ -1,5 +1,5 @@
 import { Joi } from "../../utils/Joi.js";
-import { VehicleTypes, VehicleCapacities } from "../../models/Vehicle.js";
+import { VehicleTypes, VehicleCapacities } from "./constants/vehicle.constants.js";
 
 export const createVehicleSchema = Joi.object({
     vehicle_number: Joi.string().trim().required(),
