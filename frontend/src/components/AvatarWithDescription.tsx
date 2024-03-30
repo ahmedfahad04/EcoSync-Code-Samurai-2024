@@ -33,7 +33,9 @@ const AvatarWithDescription: React.FC<AvatarDescriptionProps> = ({
 
       <div className="ml-4 mt-1 text-sm">
         <p className={customTitleClass}>{title}</p>
-        <p className={`text-[#9AA2B1] ${customSubTitleClass}`}>{subTitle}</p>
+        {subTitle && (
+          <p className={`text-[#9AA2B1] ${customSubTitleClass}`}>{subTitle}</p>
+        )}
       </div>
     </div>
   );
