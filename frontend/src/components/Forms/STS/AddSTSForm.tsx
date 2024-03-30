@@ -93,7 +93,10 @@ const AddSTSFrom = () => {
           </div>
 
           {/*!! add map */}
-          <MapLocation/>
+          <div className="mt-3 border-2 border-black cursor-text">
+            <MapLocation formData={formData} setFormData={setFormData} />
+          </div>
+
           <div className="flex flex-auto justify-end items-end ">
             <button
               type="submit"
