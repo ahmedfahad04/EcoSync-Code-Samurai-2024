@@ -28,7 +28,24 @@ async function findAllSts(req, res) {
     res.json(sts);
 }
 
-async function updateSts(req, res) {}
+async function updateSts(req, res) {
+    const { sts_id } = req.params;
+    const stsDto = req.body;
+
+    const sts = await models.STS.findByPk(sts_id);
+    if (!sts) throw new HttpError({ message: "sts not found" });
+
+    if (sts.sts_name == stsDto.sts_name) delete stsDto.sts_name;
+
+    if (stsDto.sts_name) {
+        const exist = await models.STS.findOne({ where: { sts_name: stsDto.sts_name } });
+        if (exist) throw new HttpError({ sts_name: "sts_name already exist" }, 400);
+    }
+
+    await models.STS.update(stsDto, { where: { sts_id } });
+
+    res.json({ message: "sts updated successfully" });
+}
 
 async function addManager(req, res) {
     const { sts_id } = req.params;
