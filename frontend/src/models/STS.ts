@@ -7,7 +7,7 @@ export interface ISTS {
 }
 
 export interface IDepartureEntry {
-    vehicleNumber: string;
+    vehicle_number: string;
     landfillName: string;
     trip: string;
     wasteVolume: string;

@@ -40,7 +40,7 @@ const DumpingEntryTable = () => {
         size: 150,
       },
       {
-        accessorKey: "vehicleNumber",
+        accessorKey: "vehicle_number",
         header: "VEHICLE NUMBER",
         size: 180,
       },

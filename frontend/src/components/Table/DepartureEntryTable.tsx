@@ -36,7 +36,7 @@ const DepartureEntryTable = () => {
   const columns = useMemo<MRT_ColumnDef<IDepartureEntry>[]>(
     () => [
       {
-        accessorKey: "vehicleNumber",
+        accessorKey: "vehicle_number",
         header: "VEHICLE NUMBER",
         size: 150,
       },

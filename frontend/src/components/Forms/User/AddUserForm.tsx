@@ -84,7 +84,7 @@ const AddVechileForm = ({ onClose }: { onClose: () => {} }) => {
 
   const handleOnUpload = (data: { image: File }) => {
     console.log(data.image.size);
-  };
+};
 
   return (
     <div className=" w-full mt-5">

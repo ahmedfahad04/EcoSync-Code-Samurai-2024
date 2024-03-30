@@ -20,7 +20,7 @@ const AddVehicle: React.FC<AddVehicleModalProps> = ({
       headline={"Add New Vehicle"}
       customClass={customClass}
     >
-      <AddVechileForm />
+      <AddVechileForm onClose={onClose} />
     </ModalLayout>
   );
 };

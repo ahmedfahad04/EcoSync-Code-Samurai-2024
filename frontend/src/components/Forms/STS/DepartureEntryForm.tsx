@@ -21,7 +21,7 @@ const DepartureEntryForm: React.FC<DepartureEntryFormProps> = ({
 
   const {
     landfillName,
-    vehicleNumber,
+    vehicle_number,
     trip,
     wasteVolume,
     arrivalTime,
@@ -32,7 +32,7 @@ const DepartureEntryForm: React.FC<DepartureEntryFormProps> = ({
     mode === "Edit"
       ? {
           landfillName: landfillName || "",
-          vehicleNumber: vehicleNumber || "",
+          vehicle_number: vehicle_number || "",
           trip: trip || "",
           wasteVolume: wasteVolume || "",
           arrival: arrivalTime || "",
@@ -40,7 +40,7 @@ const DepartureEntryForm: React.FC<DepartureEntryFormProps> = ({
         }
       : {
           landfillName: "",
-          vehicleNumber: "",
+          vehicle_number: "",
           trip: "",
           wasteVolume: "",
           arrival: "",
@@ -67,10 +67,10 @@ const DepartureEntryForm: React.FC<DepartureEntryFormProps> = ({
   useEffect(() => {
     console.log("DEPT: ", formData);
     const landfillNames = dummyLandfill.map((l) => l.landfillName);
-    const vehicleNumbers = dummyVehicles.map((v) => v.vehicleNumber); // Corrected variable name
+    const vehicle_numbers = dummyVehicles.map((v) => v.vehicle_number); // Corrected variable name
 
     setLandfills(landfillNames);
-    setVehicles(vehicleNumbers); // Corrected variable name
+    setVehicles(vehicle_numbers); // Corrected variable name
   }, []);
 
   return (
@@ -105,14 +105,14 @@ const DepartureEntryForm: React.FC<DepartureEntryFormProps> = ({
           />
 
           <Dropdown
-            name={mode == "Edit" ? formData.vehicleNumber : "Select Vehicle"}
+            name={mode == "Edit" ? formData.vehicle_number : "Select Vehicle"}
             options={vehicles}
             label="Vehicle Number"
             customClass="mt-5 bg-slate-300/6"
             onSelect={(selectedOption) =>
               setFormData((prevFormData) => ({
                 ...prevFormData,
-                vehicleNumber: selectedOption,
+                vehicle_number: selectedOption,
               }))
             }
           />
