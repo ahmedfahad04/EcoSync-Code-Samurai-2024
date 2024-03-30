@@ -2,7 +2,7 @@
 
 export default (options) => {
     const { sequelize, DataTypes, Sequelize } = options;
-    const STSDepatureEntry = sequelize.define("sts_departure_entris", {
+    const STSDepartureEntry = sequelize.define("sts_departure_entries", {
         departure_id: {
             type: DataTypes.UUID,
             defaultValue: Sequelize.UUIDV4,
@@ -54,17 +54,17 @@ export default (options) => {
         },
     });
 
-    STSDepatureEntry.associate = (models) => {
-        STSDepatureEntry.belongsTo(models.STS, {
+    STSDepartureEntry.associate = (models) => {
+        STSDepartureEntry.belongsTo(models.STS, {
             foreignKey: "sts_id",
         });
-        STSDepatureEntry.belongsTo(models.Landfill, {
+        STSDepartureEntry.belongsTo(models.Landfill, {
             foreignKey: "landfill_id",
         });
-        STSDepatureEntry.belongsTo(models.Vehicle, {
+        STSDepartureEntry.belongsTo(models.Vehicle, {
             foreignKey: "vehicle_id",
         });
     };
 
-    return STSDepatureEntry;
+    return STSDepartureEntry;
 };
