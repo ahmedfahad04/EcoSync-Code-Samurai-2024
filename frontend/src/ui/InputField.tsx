@@ -60,12 +60,12 @@ const InputField: React.FC<InputFieldProps> = ({
         {/* Icon for toggling password visibility */}
         {isPasswordVisible ? (
           <ShowPasswordIcon
-            className="absolute top-2/3 right-4 transform -translate-y-1/2"
+            className="absolute top-2/4 right-4 transform -translate-y-1/2"
             onClick={togglePasswordVisibility}
           />
         ) : (
           <HidePasswordIcon
-            className="absolute top-2/3 right-4 transform -translate-y-1/2"
+            className="absolute top-2/4 right-4 transform -translate-y-1/2"
             onClick={togglePasswordVisibility}
           />
         )}

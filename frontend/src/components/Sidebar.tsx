@@ -119,30 +119,38 @@ const Sidebar = () => {
 
       {/* bottom user name */}
       <div
-        className={`border-t flex p-3 ${
-          open ? "" : "justify-center items-center"
+        className={` flex flex-row justify-between ${
+          open ? "" : "justify-between items-center"
         }`}
       >
-        <img
-          src="https://picsum.photos/id/236/200/300"
-          alt="avater"
-          className={`w-10 h-10 rounded-full ${open ? "" : "w-5 h-5 p-0"} `}
-        />
-        <div
-          className={`flex flex-row justify-between items-center overflow-hidden  ${
-            open ? "w-32 ml-3" : "w-0"
-          }`}
-        >
-          {/* have eto fix the logo alignment */}
-          <div className="leading-4 flex flex-row justify-between items-center w-full">
-            <div>
-              <h4 className="font-semibold">{user?.name}</h4>
-              <span className="text-xs text-gray-600">{user?.email}</span>
-            </div>
-            <div>
-              <AccountMenu />
+        
+        <div className="flex flex-row">
+          <img
+            src="https://picsum.photos/id/236/200/300"
+            alt="avater"
+            className={`w-10 h-10 rounded-full ${open ? "" : "w-5 h-5 p-0"} `}
+          />
+          <div
+            className={`flex flex-row justify-between items-center overflow-hidden  ${
+              open ? "w-32 ml-3" : "w-0"
+            }`}
+          >
+            {/* have eto fix the logo alignment */}
+            <div className="leading-4 flex flex-row justify-between items-center w-full">
+              <div>
+                <h4 className="font-semibold text-xs">{user?.name}</h4>
+                <span className="text-xs text-gray-600">{user?.email}</span>
+              </div>
             </div>
           </div>
+        </div>
+
+        <div
+          className={`flex justify-center items-center ${
+            !open ? "invisible" : ""
+          }`}
+        >
+          <AccountMenu />
         </div>
       </div>
     </div>
