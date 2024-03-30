@@ -58,7 +58,7 @@ const SignInForm: FC = () => {
           localStorage.setItem("access_token", res.data.accessToken);
 
           setUser(res.data.user);
-          navigate(location.state || "/");
+          navigate(location.state || "/dashboard");
           toast.success("Login successfull");
         })
         .catch((err) => {
@@ -148,8 +148,8 @@ const SignInForm: FC = () => {
                       id={value}
                       name={field.name}
                       placeholder={field.placeholder}
-                      label={field.key}
-                      customInputClass=" bg-[#F3F4F6] border-none active:border-none h-12 rounded-md"
+                      label={field.name}
+                      customInputClass={`bg-[#F3F4F6] border-2 border-gray-200 active:border-none h-12 rounded-md `}
                     />
                   )}
                 />
