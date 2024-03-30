@@ -1,5 +1,6 @@
 import { API_END_POINTS, BASE_URL } from "@/constants/Service";
 import { ISTS } from "@/models/STS";
+import { PersonOutline } from "@mui/icons-material";
 import { ArrowUpFromDotIcon, EditIcon, Trash2Icon } from "lucide-react";
 import {
   MRT_ActionMenuItem,
@@ -8,6 +9,7 @@ import {
 } from "material-react-table";
 import { useMemo, useState } from "react";
 import useSWR from "swr";
+import AssignSTSManagerModal from "../Modals/STS/AssignSTSManagerModal";
 import DepartureEntryModal from "../Modals/STS/DepartureEntryModal";
 import EditSTSModal from "../Modals/STS/EditSTSModal";
 import ViewSTSModal from "../Modals/STS/ViewSTSModal";
@@ -18,6 +20,8 @@ const STSTable = () => {
   const [showEditSTSModal, setShowEditSTSModal] = useState<boolean>(false);
   const [showSTSModal, setShowSTSModal] = useState<boolean>(false);
   const [showDepartureEntryModal, setShowDepartureEntryModal] =
+    useState<boolean>(false);
+  const [showAssignSTSManagerModal, setShowAssignSTSManagerModal] =
     useState<boolean>(false);
   const [STSData, setSTSData] = useState<ISTS>();
   const [data, setData] = useState<ISTS[]>([]);
@@ -53,22 +57,17 @@ const STSTable = () => {
       {
         accessorKey: "capacity",
         header: "CAPACITY (TON)",
-        size: 150,
+        size: 100,
       },
       {
         accessorKey: "gps_coordinate",
-        header: "LATITUDE",
-        size: 150,
+        header: "GPS Coordinates",
+        size: 190,
         Cell: ({ cell }) => {
-          return cell.getValue<number[]>()[0];
-        },
-      },
-      {
-        accessorKey: "gps_coordinate",
-        header: "LONGITUDE",
-        size: 150,
-        Cell: ({ cell }) => {
-          return cell.getValue<number[]>()[1];
+          const lat = cell.getValue<number[]>()[0].toString();
+          const lng = cell.getValue<number[]>()[1].toString();
+          // https://www.google.com/maps?q=<latitude>,<longitude>
+          return lat + ", " + lng;
         },
       },
     ],
@@ -82,18 +81,32 @@ const STSTable = () => {
       </p>
       <MaterialReactTable
         columns={columns}
-        data={sts || ""}
+        data={sts || []}
         enableRowActions
         enableStickyHeader
         muiTableContainerProps={{ sx: { maxHeight: "500px" } }}
         renderRowActionMenuItems={({ closeMenu, row, table }) => [
           <MRT_ActionMenuItem
             icon={<ArrowUpFromDotIcon className="text-green-500" />}
-            key="edit"
+            key="departure entry"
             label="Add Departure Entry"
             onClick={() => {
               setSTSData(row.original);
               setShowDepartureEntryModal(true);
+              closeMenu();
+            }}
+            table={table}
+            className="bg-blue-200"
+          />,
+
+          <MRT_ActionMenuItem
+            icon={<PersonOutline className="text-violet-500" />}
+            key="assign manager"
+            label="Assign STS Manager"
+            onClick={() => {
+              setSTSData(row.original);
+
+              setShowAssignSTSManagerModal(true);
               closeMenu();
             }}
             table={table}
@@ -138,6 +151,14 @@ const STSTable = () => {
           isOpen={showEditSTSModal}
           onClose={() => setShowEditSTSModal(false)}
           stsData={STSData}
+        />
+      )}
+
+      {showAssignSTSManagerModal && (
+        <AssignSTSManagerModal
+          isOpen={showAssignSTSManagerModal}
+          sts={STSData}
+          onClose={() => setShowAssignSTSManagerModal(false)}
         />
       )}
 
