@@ -1,53 +1,51 @@
 import express from "express";
 
 import landfillsController from "./landfills.controller.js";
-import { checkAuthentication, checkPermission } from "../../middlewares/auth.middleware.js";
+import { checkPermission } from "../../middlewares/auth.middleware.js";
 import { schemaValidator } from "../../middlewares/validation.middleware.js";
 import { permissionConstants as pc } from "../rbac/constants/permissions.constants.js";
-import {
-    addManagerSchema,
-    addDumpingEntrySchema,
-    createLandfillSchema,
-    updateLandfillSchema,
-    attachVehicleSchema,
-} from "./landfills.validator.schema.js";
+import { addManagerSchema, createLandfillSchema, updateLandfillSchema } from "./landfills.validator.schema.js";
 
 export const landfillRoutes = express.Router();
 
 landfillRoutes.post(
     "/",
-    // checkPermission(pc.CREATE_LANDFILL),
+    checkPermission(pc.CREATE_LANDFILL),
     schemaValidator(createLandfillSchema),
     landfillsController.createLandfill
 );
 landfillRoutes.get("/", checkPermission(pc.FIND_ALL_LANDFILL), landfillsController.findAllLandfill);
 
-landfillRoutes.get("/mine", landfillsController.findMyLandfills);
+landfillRoutes.get("/mine", checkPermission(pc.FIND_ALL_MY_LANDFILL), landfillsController.findMyLandfills);
 
 landfillRoutes.get("/:landfill_id", checkPermission(pc.FIND_ONE_LANDFILL), landfillsController.findOneLandfill);
 landfillRoutes.put(
     "/:landfill_id",
-    // checkPermission(pc.UPDATE_LANDFILL),
+    checkPermission(pc.UPDATE_LANDFILL),
     schemaValidator(updateLandfillSchema),
     landfillsController.updateLandfill
 );
-landfillRoutes.delete(
-    "/:landfill_id",
-    // checkPermission(pc.DELETE_LANDFILL),
-    landfillsController.deleteLandfill
-);
+landfillRoutes.delete("/:landfill_id", checkPermission(pc.DELETE_LANDFILL), landfillsController.deleteLandfill);
 
 landfillRoutes.get(
     "/:landfill_id/managers",
     checkPermission(pc.FIND_ALL_MANAGER_OF_LANDFILL),
     landfillsController.findAllLandfillManager
 );
-landfillRoutes.put("/:landfill_id/managers", schemaValidator(addManagerSchema), landfillsController.addManager);
-landfillRoutes.delete("/:landfill_id/managers/:manager_id", landfillsController.removeManager);
+landfillRoutes.put(
+    "/:landfill_id/managers",
+    checkPermission(pc.ADD_MANAGER_TO_LANDFILL),
+    schemaValidator(addManagerSchema),
+    landfillsController.addManager
+);
+landfillRoutes.delete(
+    "/:landfill_id/managers/:manager_id",
+    checkPermission(pc.REMOVE_MANAGER_FROM_LANDFILL),
+    landfillsController.removeManager
+);
 
-// may would be removed
-landfillRoutes.get("/:landfill_id/vehicles");
-landfillRoutes.put("/:landfill_id/vehicles", schemaValidator(attachVehicleSchema), landfillsController.attachVehicleToLandfill);
-landfillRoutes.delete("/:landfill_id/vehicles", landfillsController.removeVehicleFromLandfill);
-
-landfillRoutes.get("/:landfill_id/trips", landfillsController.findAllTripOfLandfill);
+landfillRoutes.get(
+    "/:landfill_id/trips",
+    checkPermission(pc.FIND_ALL_TRIP_ENTRY_OF_LANDFILL),
+    landfillsController.findAllTripOfLandfill
+);

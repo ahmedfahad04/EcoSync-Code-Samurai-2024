@@ -58,9 +58,9 @@ export const rolePermissionData = [
             pc.ADD_VEHICLE_TO_STS,
             pc.REMOVE_VEHICLE_FROM_STS,
 
-            // vehicle-departure
-            pc.FIND_ALL_VEHICLE_DEPARTURE_ENTRY,
-            pc.FIND_ONE_VEHICLE_DEPARTURE_ENTRY,
+            // trips
+            pc.FIND_ALL_TRIP_ENTRY,
+            pc.FIND_ONE_TRIP_ENTRY,
 
             // landfill
             pc.CREATE_LANDFILL,
@@ -72,35 +72,25 @@ export const rolePermissionData = [
             pc.FIND_ALL_MANAGER_OF_LANDFILL,
             pc.ADD_MANAGER_TO_LANDFILL,
             pc.REMOVE_MANAGER_FROM_LANDFILL,
-
-            pc.FIND_ALL_VEHICLE_DESTINATION_TO_LANDFILL,
-            pc.ADD_VEHICLE_DESTINATION_TO_LANDFILL,
-            pc.REMOVE_VEHICLE_DESTINATION_TO_LANDFILL,
-
-            // truck-dumping
-            pc.FIND_ALL_TRUCK_DUMPING_ENTRY,
-            pc.FIND_ONE_TRUCK_DUMPING_ENTRY,
-
-            // billing
-            pc.FIND_ALL_BILL,
         ],
     },
     {
         role_name: rc.STSManager,
         permission_names: [
-            pc.FIND_ALL_PERMISSION_OF_ROLE,
-
             pc.FIND_PROFILE,
             pc.UPDATE_PROFILE,
             pc.CHANGE_PASSWORD,
 
+            pc.FIND_ALL_PERMISSION_OF_ROLE,
+
+            pc.FIND_ALL_MY_STS,
             pc.FIND_ALL_VEHICLE_OF_STS,
 
-            pc.CREATE_VEHICLE_DEPARTURE_ENTRY,
-            pc.FIND_ALL_VEHICLE_DEPARTURE_ENTRY,
-            pc.FIND_ONE_VEHICLE_DEPARTURE_ENTRY,
-            pc.UPDATE_VEHICLE_DEPARTURE_ENTRY,
-            pc.DELETE_VEHICLE_DEPARTURE_ENTRY,
+            pc.CREATE_VEHICLE_DEPARTURE_TRIP_ENTRY,
+            pc.FIND_ALL_TRIP_ENTRY_OF_STS,
+            pc.FIND_ONE_TRIP_ENTRY,
+            pc.UPDATE_TRIP_ENTRY,
+            pc.DELETE_TRIP_ENTRY,
 
             pc.FIND_ALL_LANDFILL,
         ],
@@ -108,22 +98,17 @@ export const rolePermissionData = [
     {
         role_name: rc.LandfillManager,
         permission_names: [
-            pc.FIND_ALL_PERMISSION_OF_ROLE,
-
             pc.FIND_PROFILE,
             pc.UPDATE_PROFILE,
             pc.CHANGE_PASSWORD,
 
-            pc.FIND_ALL_VEHICLE_DESTINATION_TO_LANDFILL,
+            pc.FIND_ALL_PERMISSION_OF_ROLE,
 
-            pc.CREATE_TRUCK_DUMPING_ENTRY,
-            pc.FIND_ALL_TRUCK_DUMPING_ENTRY,
-            pc.FIND_ONE_TRUCK_DUMPING_ENTRY,
-            pc.UPDATE_TRUCK_DUMPING_ENTRY,
-            pc.DELETE_TRUCK_DUMPING_ENTRY,
+            pc.FIND_ALL_MY_LANDFILL,
 
+            pc.FIND_ALL_TRIP_ENTRY_OF_LANDFILL,
+            pc.UPDATE_TRIP_WITH_DUMPING_ENTRY,
             pc.GENERATE_BILL_FOR_DUMPING_ENTRY,
-            pc.FIND_ALL_BILL,
         ],
     },
 ];

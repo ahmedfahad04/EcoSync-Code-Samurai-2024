@@ -16,7 +16,20 @@ export const authRoutes = express.Router();
 authRoutes.post("/login", checkLoginPermission, schemaValidator(loginSchema), authController.login);
 authRoutes.delete("/logout", authController.logout);
 
-authRoutes.post("/reset-password/initiate", schemaValidator(initiateResetPasswordSchema), authController.initiateResetPassword);
-authRoutes.post("/reset-password/confirm", schemaValidator(confirmResetPasswordSchema), authController.confirmResetPassword);
+authRoutes.post(
+    "/reset-password/initiate",
+    schemaValidator(initiateResetPasswordSchema),
+    authController.initiateResetPassword
+);
+authRoutes.post(
+    "/reset-password/confirm",
+    schemaValidator(confirmResetPasswordSchema),
+    authController.confirmResetPassword
+);
 
-authRoutes.post("/change-password", checkPermission(pc.CHANGE_PASSWORD), schemaValidator(changePasswordSchema), authController.changePassword);
+authRoutes.post(
+    "/change-password",
+    checkPermission(pc.CHANGE_PASSWORD),
+    schemaValidator(changePasswordSchema),
+    authController.changePassword
+);

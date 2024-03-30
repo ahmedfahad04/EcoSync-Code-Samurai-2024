@@ -121,8 +121,6 @@ async function generateBill(req, res) {
 
     if (!tripEntry) throw new HttpError({ message: "invalid trip entry" }, 404);
 
-
-
     if (!tripEntry.landfill_arrival_time || !tripEntry.landfill_dumping_time) {
         throw new HttpError({ message: "Trip is not dumped yet" }, 400);
     }
@@ -157,7 +155,17 @@ async function generateBill(req, res) {
 
 async function deleteTripEntry(req, res) {
     const { trip_id } = req.params;
+
+    // cannot delete after dumping
+    const tripEntry = await models.TripEntry.findByPk(trip_id);
+    if (!tripEntry) throw new HttpError({ message: "trip not found" }, 404);
+
+    if (tripEntry.landfill_arrival_time || tripEntry.landfill_dumping_time) {
+        throw new HttpError({ message: "Trip dumped already. cannot delete it." }, 403);
+    }
+
     await models.TripEntry.destroy({ where: { trip_id } });
+
     res.json({ message: "dumping entry deleted successfully" });
 }
 
