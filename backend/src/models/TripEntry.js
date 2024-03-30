@@ -1,0 +1,1 @@
+// use same table for departure and dumping entry?? with flag 'dumped, landfill_id after dump', 'is_bill_paid`
