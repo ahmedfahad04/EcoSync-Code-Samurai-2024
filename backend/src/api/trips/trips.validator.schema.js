@@ -13,3 +13,8 @@ export const findAllTripEntryQuerySchema = Joi.object({
     waste_volume_start: Joi.number().optional(),
     waste_volume_end: Joi.number().optional(),
 }).required();
+
+export const updateTripWithDumpingEntrySchema = Joi.object({
+    landfill_arrival_time: Joi.date().required(),
+    landfill_dumping_time: Joi.date().required()
+});

@@ -154,8 +154,17 @@ async function deleteTripEntry(req, res) {
     res.json({ message: "dumping entry deleted successfully" });
 }
 
-// move this to landfill
-async function addDumpingEntry(req, res) {}
+async function updateTripWithDumpingEntry(req, res) {
+    const { trip_id } = req.params;
+    const dumpDto = req.body;
+
+    const trip = await models.TripEntry.findByPk(trip_id);
+    if (!trip) throw new HttpError({ message: "Trip not found" }, 404);
+
+    await models.TripEntry.update(dumpDto, { where: { trip_id } });
+
+    res.json({ message: "updated trip with dumping entry" });
+}
 
 export default {
     findAllTripEntry,
@@ -163,5 +172,5 @@ export default {
     updateTripEntry,
     deleteTripEntry,
     generateBill,
-    addDumpingEntry,
+    updateTripWithDumpingEntry,
 };
