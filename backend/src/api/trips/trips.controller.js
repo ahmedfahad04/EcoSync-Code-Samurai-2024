@@ -1,7 +1,7 @@
 import { models, Op } from "../../configs/mysql.js";
 import { HttpError } from "../../utils/HttpError.js";
 
-async function findAllTruckDumpingEntry(req, res) {
+async function findAllTripEntry(req, res) {
     let {
         page = 1,
         limit = 10,
@@ -48,7 +48,7 @@ async function findAllTruckDumpingEntry(req, res) {
         };
     }
 
-    let entries = await models.TruckDumpingEntry.findAll({
+    let entries = await models.TripEntry.findAll({
         where: {
             arrival_time: {
                 [Op.gte]: arrival_time,
@@ -72,9 +72,9 @@ async function findAllTruckDumpingEntry(req, res) {
     res.status(200).json(entries);
 }
 
-async function findOneTruckDumpingEntry(req, res) {
+async function findOneTripEntry(req, res) {
     const { dumping_id } = req.params;
-    let entry = await models.TruckDumpingEntry.findByPk(dumping_id, {
+    let entry = await models.TripEntry.findByPk(dumping_id, {
         include: [
             {
                 model: models.STS,
@@ -97,14 +97,14 @@ async function findOneTruckDumpingEntry(req, res) {
     res.json(entry);
 }
 
-async function updateTruckDumpingEntry(req, res) {
+async function updateTripEntry(req, res) {
     res.json("update not implemented");
 }
 
 async function generateBill(req, res) {
     const { dumping_id } = req.params;
 
-    const dumpingEntry = await models.TruckDumpingEntry.findByPk(dumping_id);
+    const dumpingEntry = await models.TripEntry.findByPk(dumping_id);
 
     if (!dumpingEntry) throw new HttpError({ message: "invalid dumping entry" }, 404);
 
@@ -135,16 +135,21 @@ async function generateBill(req, res) {
     res.json(result);
 }
 
-async function deleteTruckDumpingEntry(req, res) {
+async function deleteTripEntry(req, res) {
     const { dumping_id } = req.params;
-    await models.TruckDumpingEntry.destroy({ where: { dumping_id } });
+    await models.TripEntry.destroy({ where: { dumping_id } });
     res.json({ message: "dumping entry deleted successfully" });
 }
 
+async function addDumpingEntry(req, res) {
+    
+}
+
 export default {
-    findAllTruckDumpingEntry,
-    findOneTruckDumpingEntry,
-    updateTruckDumpingEntry,
-    deleteTruckDumpingEntry,
+    findAllTripEntry,
+    findOneTripEntry,
+    updateTripEntry,
+    deleteTripEntry,
     generateBill,
+    addDumpingEntry,
 };

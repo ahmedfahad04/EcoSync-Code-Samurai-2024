@@ -36,4 +36,4 @@ stsRoutes.delete(
     stsController.removeVehicleFromSts
 );
 
-stsRoutes.post("/:sts_id/vehicle-departure", schemaValidator(addVehicleDepartureEntrySchema), stsController.addVehicleDepartureEntry);
+stsRoutes.post("/:sts_id/trips", schemaValidator(addVehicleDepartureEntrySchema), stsController.addVehicleDepartureEntry);
