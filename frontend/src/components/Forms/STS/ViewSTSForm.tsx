@@ -2,7 +2,6 @@ import { API_END_POINTS, BASE_URL } from "@/constants/Service";
 import { ISTS } from "@/models/STS";
 import { IUsers } from "@/models/Users";
 import Label from "@/ui/Label";
-import { dummyUsers } from "@/utils/DummyData";
 import { InfoIcon } from "lucide-react";
 import useSWR from "swr";
 
@@ -66,7 +65,7 @@ const ViewSTSForm: React.FC<ViewSTSFormProps> = ({ stsData }) => {
             STS Managers
           </label>
           <div className="flex flex-col justify-start items-start gap-2 w-full">
-            {/* {managers
+            {managers
               ?.filter((user) => user.name)
               .map((manager, index) => (
                 <div key={index} className="flex text-sm mr-4 w-full">
@@ -74,8 +73,8 @@ const ViewSTSForm: React.FC<ViewSTSFormProps> = ({ stsData }) => {
                     {manager.name}
                   </p>
                 </div>
-              ))} */}
-              {dummyUsers
+              ))}
+            {/* {dummyUsers
               ?.filter((user) => user.role == 'STS Manager')
               .map((manager, index) => (
                 <div key={index} className="flex text-sm mr-4 w-full">
@@ -83,7 +82,7 @@ const ViewSTSForm: React.FC<ViewSTSFormProps> = ({ stsData }) => {
                     {manager.name}
                   </p>
                 </div>
-              ))}
+              ))} */}
           </div>
         </div>
       </div>
