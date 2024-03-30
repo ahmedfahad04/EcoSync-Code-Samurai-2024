@@ -43,6 +43,12 @@ async function updateVehicle(req, res) {
         if (existed) throw new HttpError({ vehicle_number: "vehicle number already exists" }, 400);
     }
 
+    if (vehicleDto.type == VehicleTypes.container_carrier) {
+        if (vehicleDto.capacity != 15) throw new HttpError({ capacity: "capacity must be 15 tons" });
+    } else {
+        if (vehicleDto.capacity == 15) throw new HttpError({ capacity: "capacity cannot be 15 tons" });
+    }
+
     await models.Vehicle.update(vehicleDto, { where: { vehicle_id } });
 
     res.json({ message: "vehicle updated successfully" });
