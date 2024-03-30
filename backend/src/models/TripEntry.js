@@ -58,7 +58,7 @@ export default (options) => {
             type: DataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: false,
-            comment: "Can be true only after dumping",
+            comment: "Can be true only after dumping, by Landfill Manager",
         },
     });
 
