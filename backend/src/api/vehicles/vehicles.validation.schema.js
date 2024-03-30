@@ -24,3 +24,7 @@ export const updateVehicleSchema = Joi.object({
     cpk_loaded: Joi.number().positive().optional(),
     cpk_unloaded: Joi.number().positive().optional().less(Joi.ref('cpk_loaded')),
 });
+
+export const addVehicleToStsSchema = Joi.object({
+    vehicle_id: Joi.string().trim().required(),
+});

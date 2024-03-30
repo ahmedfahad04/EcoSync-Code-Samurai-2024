@@ -21,10 +21,10 @@ async function createSts(req, res) {
 
 async function findAllSts(req, res) {
     let sts = await models.STS.findAll();
-    sts = sts.map(st => {
+    sts = sts.map((st) => {
         st.gps_coordinate = JSON.parse(st.gps_coordinate);
         return st;
-    })
+    });
     res.json(sts);
 }
 
@@ -57,6 +57,21 @@ async function addManager(req, res) {
 
 async function removeManager(req, res) {}
 
+async function addVehicleToSTS(req, res) {
+    const { sts_id } = req.params;
+    const { vehicle_id } = req.body;
+
+    const sts = await models.STS.findByPk(sts_id);
+    if (!sts) throw new HttpError({ sts_id: "sts not found" }, 404);
+
+    const vehicle = await models.Vehicle.findByPk(vehicle_id);
+    if (!vehicle) throw new HttpError({ vehicle_id: "vehicle not found" }, 404);
+
+    await models.Vehicle.update({ sts_id }, { where: { vehicle_id } });
+
+    res.json({ message: "vehicle added successfully" });
+}
+
 async function addVehicleDepartureEntry(req, res) {
     const { sts_id } = req.params;
     const entryDto = req.body;
@@ -67,7 +82,8 @@ async function addVehicleDepartureEntry(req, res) {
     const vehicle = await models.Vehicle.findByPk(entryDto.vehicle_id);
     if (!vehicle) throw new HttpError({ vehicle_id: "vehicle not found" }, 404);
 
-    // validate if vehicle is available or not?? or use /vehicles/available
+    // validate if vehicle is belongs to this sts or not
+    if (vehicle.sts_id != sts_id) throw new HttpError({ vehicle_id: "vehicle not belongs to this sts" }, 400);
 
     if (entryDto.waste_volume > vehicle.capacity)
         throw new HttpError({ waste_volume: `waste volume exceeds vehicle capacity: ${vehicle.capacity} tons` }, 400);
@@ -75,7 +91,11 @@ async function addVehicleDepartureEntry(req, res) {
     const count = await stsRepository.countTotalTrip(entryDto.vehicle_id, entryDto.departure_time);
     if (count >= 3) throw new HttpError({ vehicle_id: "a vehicle can have maximum of 3 trips per day" }, 400);
 
-    const isTripNumberExist = await stsRepository.isTripNumberExistForCurrentDay(entryDto.vehicle_id, entryDto.departure_time, entryDto.trip_number);
+    const isTripNumberExist = await stsRepository.isTripNumberExistForCurrentDay(
+        entryDto.vehicle_id,
+        entryDto.departure_time,
+        entryDto.trip_number
+    );
     if (isTripNumberExist) throw new HttpError({ trip_number: "trip number already exists for today" }, 400);
 
     const landfill = await models.Landfill.findByPk(entryDto.landfill_id);
@@ -94,5 +114,6 @@ export default {
     updateSts,
     addManager,
     removeManager,
+    addVehicleToSTS,
     addVehicleDepartureEntry,
 };
