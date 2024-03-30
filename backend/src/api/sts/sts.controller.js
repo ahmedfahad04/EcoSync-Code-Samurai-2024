@@ -1,4 +1,4 @@
-import { models } from "../../configs/mysql.js";
+import { models, Op } from "../../configs/mysql.js";
 import { roleConstants } from "../rbac/constants/roles.constants.js";
 import { HttpError } from "../../utils/HttpError.js";
 import usersRepository from "../users/users.repository.js";
@@ -182,7 +182,7 @@ async function removeVehicleFromSts(req, res) {
     res.json({ message: "vehicle has been removed successfully" });
 }
 
-async function addVehicleDepartureEntry(req, res) {
+async function addTripEntry(req, res) {
     const { sts_id } = req.params;
     const entryDto = req.body;
 
@@ -218,6 +218,67 @@ async function addVehicleDepartureEntry(req, res) {
     res.status(201).json(departureEntry);
 }
 
+async function findAllTripEntryOfSts(req, res) {
+    let {
+        page = 1,
+        limit = 10,
+        landfill_name,
+        vehicle_number,
+        sts_arrival_time = "1800-04-28T09:23:54.512Z",
+        sts_departure_time = "9026-04-28T09:23:54.512Z",
+        sort = "createdAt",
+        order = "DESC",
+    } = req.query;
+
+    page = parseInt(page);
+    limit = parseInt(limit);
+
+    const includeLandfill = {
+        model: models.Landfill,
+    };
+    if (landfill_name) {
+        includeLandfill.where = {
+            landfill_name: {
+                [Op.like]: `%${landfill_name}%`,
+            },
+        };
+    }
+
+    const includeVehicle = {
+        model: models.Vehicle,
+    };
+    if (vehicle_number) {
+        includeVehicle.where = {
+            vehicle_number: {
+                [Op.like]: `%${vehicle_number}%`,
+            },
+        };
+    }
+
+    let entries = await models.TripEntry.findAll({
+        where: {
+            sts_arrival_time: {
+                [Op.gte]: sts_arrival_time,
+            },
+            sts_departure_time: {
+                [Op.lte]: sts_departure_time,
+            },
+        },
+        include: [includeLandfill, includeVehicle],
+        offset: (page - 1) * limit,
+        limit: limit,
+        order: [[sort, order]],
+    });
+
+    entries = entries.map((entry) => {
+        const en = entry.toJSON();
+        en.landfill.gps_coordinate = JSON.parse(en.landfill.gps_coordinate);
+        return en;
+    });
+
+    res.status(200).json(entries);
+}
+
 export default {
     createSts,
     findOneSts,
@@ -231,5 +292,6 @@ export default {
     addVehicleToSTS,
     findAllVehicleOfSts,
     removeVehicleFromSts,
-    addVehicleDepartureEntry,
+    addTripEntry,
+    findAllTripEntryOfSts,
 };
