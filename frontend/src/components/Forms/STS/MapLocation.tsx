@@ -19,6 +19,7 @@ const LocationMap = ({
         });
       },
     });
+
     return null;
   };
 
