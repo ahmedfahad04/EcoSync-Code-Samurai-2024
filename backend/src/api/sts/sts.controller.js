@@ -72,6 +72,25 @@ async function addVehicleToSTS(req, res) {
     res.json({ message: "vehicle added successfully" });
 }
 
+async function findAllVehicleOfSts(req, res) {
+    const { sts_id } = req.params;
+    const vehicles = await models.Vehicle.findAll({ where: { sts_id } });
+    res.json(vehicles);
+}
+
+async function removeVehicleFromSts(req, res) {
+    const { sts_id, vehicle_id } = req.params;
+
+    const vehicle = await models.Vehicle.findByPk(vehicle_id);
+    if (!vehicle) throw new HttpError({ vehicle_id: "vehicle not found" }, 404);
+
+    if (vehicle.sts_id != sts_id) throw new HttpError({ message: "vehicle not assigned to this sts" }, 400);
+
+    await models.Vehicle.update({ sts_id: null }, { where: { vehicle_id } });
+
+    res.json({ message: "vehicle has been removed successfully" });
+}
+
 async function addVehicleDepartureEntry(req, res) {
     const { sts_id } = req.params;
     const entryDto = req.body;
@@ -115,5 +134,7 @@ export default {
     addManager,
     removeManager,
     addVehicleToSTS,
+    findAllVehicleOfSts,
+    removeVehicleFromSts,
     addVehicleDepartureEntry,
 };

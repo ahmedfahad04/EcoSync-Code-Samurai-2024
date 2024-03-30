@@ -19,13 +19,21 @@ stsRoutes.get("/:sts_id/managers");
 stsRoutes.put("/:sts_id/managers", schemaValidator(addManagerSchema), stsController.addManager);
 stsRoutes.delete("/:sts_id/managers/manager_id", stsController.removeManager);
 
-stsRoutes.get("/:sts_id/vehicles", checkPermission(pc.FIND_ALL_VEHICLE_OF_STS));
+stsRoutes.get(
+    "/:sts_id/vehicles",
+    // checkPermission(pc.FIND_ALL_VEHICLE_OF_STS),
+    stsController.findAllVehicleOfSts
+);
 stsRoutes.put(
     "/:sts_id/vehicles",
     // checkPermission(pc.ADD_VEHICLE_TO_STS),
     schemaValidator(addVehicleToStsSchema),
     stsController.addVehicleToSTS
 );
-stsRoutes.delete("/:sts_id/vehicles", checkPermission(pc.REMOVE_VEHICLE_FROM_STS));
+stsRoutes.delete(
+    "/:sts_id/vehicles/:vehicle_id",
+    // checkPermission(pc.REMOVE_VEHICLE_FROM_STS),
+    stsController.removeVehicleFromSts
+);
 
 stsRoutes.post("/:sts_id/vehicle-departure", schemaValidator(addVehicleDepartureEntrySchema), stsController.addVehicleDepartureEntry);
