@@ -69,10 +69,10 @@ async function findAllTripEntry(req, res) {
 
     entries = entries.map((entry) => {
         const en = entry.toJSON();
-        
+
         en.sts = en.st;
         delete en.st;
-        
+
         en.sts.gps_coordinate = JSON.parse(en.sts.gps_coordinate);
         en.landfill.gps_coordinate = JSON.parse(en.landfill.gps_coordinate);
         return en;
@@ -82,8 +82,8 @@ async function findAllTripEntry(req, res) {
 }
 
 async function findOneTripEntry(req, res) {
-    const { dumping_id } = req.params;
-    let entry = await models.TripEntry.findByPk(dumping_id, {
+    const { trip_id } = req.params;
+    let entry = await models.TripEntry.findByPk(trip_id, {
         include: [
             {
                 model: models.STS,
@@ -100,6 +100,10 @@ async function findOneTripEntry(req, res) {
     if (!entry) throw new HttpError({ message: "No entry found" }, 404);
 
     entry = entry.toJSON();
+
+    entry.sts = entry.st;
+    delete entry.st;
+
     entry.sts.gps_coordinate = JSON.parse(entry.sts.gps_coordinate);
     entry.landfill.gps_coordinate = JSON.parse(entry.landfill.gps_coordinate);
 
@@ -111,21 +115,21 @@ async function updateTripEntry(req, res) {
 }
 
 async function generateBill(req, res) {
-    const { dumping_id } = req.params;
+    const { trip_id } = req.params;
 
-    const dumpingEntry = await models.TripEntry.findByPk(dumping_id);
+    const tripEntry = await models.TripEntry.findByPk(trip_id);
 
-    if (!dumpingEntry) throw new HttpError({ message: "invalid dumping entry" }, 404);
+    if (!tripEntry) throw new HttpError({ message: "invalid trip entry" }, 404);
 
-    const vehicle = await models.Vehicle.findByPk(dumpingEntry.vehicle_id);
-    const landfill = await models.Landfill.findByPk(dumpingEntry.landfill_id);
-    const sts = await models.STS.findByPk(dumpingEntry.sts_id);
+    const vehicle = await models.Vehicle.findByPk(tripEntry.vehicle_id);
+    const landfill = await models.Landfill.findByPk(tripEntry.landfill_id);
+    const sts = await models.STS.findByPk(tripEntry.sts_id);
 
     const cpk_journey =
-        vehicle.cpk_unloaded + (dumpingEntry.waste_volume / vehicle.capacity) * (vehicle.cpk_loaded - vehicle.cpk_unloaded);
+        vehicle.cpk_unloaded + (tripEntry.waste_volume / vehicle.capacity) * (vehicle.cpk_loaded - vehicle.cpk_unloaded);
 
     const result = {
-        waste_volume: dumpingEntry.waste_volume,
+        waste_volume: tripEntry.waste_volume,
         distance: 20,
         cost_per_kilo: cpk_journey,
         total_cost: cpk_journey * 20,
@@ -145,11 +149,12 @@ async function generateBill(req, res) {
 }
 
 async function deleteTripEntry(req, res) {
-    const { dumping_id } = req.params;
-    await models.TripEntry.destroy({ where: { dumping_id } });
+    const { trip_id } = req.params;
+    await models.TripEntry.destroy({ where: { trip_id } });
     res.json({ message: "dumping entry deleted successfully" });
 }
 
+// move this to landfill
 async function addDumpingEntry(req, res) {}
 
 export default {
