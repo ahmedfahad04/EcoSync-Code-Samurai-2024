@@ -94,7 +94,7 @@ const AddVechileForm = ({ onClose }: { onClose: () => void }) => {
 
         <Dropdown
           name="Select Capacity (Ton)"
-          options={["3", "5", "7"]}
+          options={["3", "5", "7", "15"]}
           label="Vehicle Capacity"
           customClass="mt-3 bg-slate-300/6"
           onSelect={(selectedOption) =>

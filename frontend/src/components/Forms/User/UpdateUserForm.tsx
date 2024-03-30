@@ -187,8 +187,8 @@ const UpdateUserForm: React.FC<UpdateUserFormProps> = ({
             {isLoading ? (
               <button
                 type="button"
-                onClick={handleUpdateUser}
                 className="p-2 bg-red-800 hover:bg-red-600  text-white rounded-md mt-8"
+                disabled={true}
               >
                 Updating...
               </button>

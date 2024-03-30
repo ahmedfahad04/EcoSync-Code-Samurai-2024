@@ -1,8 +1,11 @@
+import { API_END_POINTS, BASE_URL } from "@/constants/Service";
 import { ISTS } from "@/models/STS";
 import InputField from "@/ui/InputField";
+import { httpClient } from "@/utils/httpClient";
 import { InfoIcon } from "lucide-react";
 import { useState } from "react";
-import STSManagerDropdown from "../../STSManagerDropdown";
+import toast from "react-hot-toast";
+import MapLocation from "./MapLocation";
 
 interface EditSTSFormProps {
   stsData: ISTS | undefined;
@@ -10,23 +13,23 @@ interface EditSTSFormProps {
 }
 
 const EditSTSForm: React.FC<EditSTSFormProps> = ({ stsData, onClose }) => {
-  const { STSName, wardNumber, capacity, latitude, longitude } = stsData || {
-    STSName: "",
-    wardNumber: "",
+  const [isLoading, setIsLoading] = useState<boolean>();
+
+  const { sts_name, ward_number, capacity, latitude, longitude } = stsData || {
+    sts_name: "",
+    ward_number: "",
     capacity: "",
     latitude: "",
     longitude: "",
   };
 
   const [formData, setFormData] = useState({
-    STSName: STSName,
-    wardNumber: wardNumber,
+    sts_name: sts_name,
+    ward_number: ward_number,
     capacity: capacity,
     latitude: latitude,
     longitude: longitude,
   });
-
-  const [stsManager, setSTSManagers] = useState([]);
 
   const handleChange = (e: { target: { name: any; value: any } }) => {
     const { name, value } = e.target;
@@ -37,10 +40,33 @@ const EditSTSForm: React.FC<EditSTSFormProps> = ({ stsData, onClose }) => {
   };
 
   const handeSaveChanges = () => {
-    //! api call
-    console.log("Form Data:", formData);
-    console.log("MANAGERS: ", stsManager);
-    onClose();
+    if (Object.values(formData).every((value) => value !== "")) {
+      setIsLoading(true);
+
+      // to update other info
+      httpClient
+        .put(`${BASE_URL}${API_END_POINTS.STS}/${stsData?.sts_id}`, {
+          sts_name: formData.sts_name,
+          ward_number: formData.ward_number,
+          capacity: formData.capacity,
+          gps_coordinate: [formData.latitude, formData.longitude],
+        })
+        .then((res) => {
+          console.log("RES", res);
+          toast.success("STS updated Successfully");
+          onClose();
+        })
+        .catch((err) => {
+          const errMsg = err.request.responseText.split(":")[1];
+          const trimmedErrMsg = errMsg.substr(1, errMsg.length - 3);
+          console.log("ERR", trimmedErrMsg);
+          toast.error(trimmedErrMsg);
+        });
+
+      setIsLoading(false);
+    } else {
+      toast.error("Please fill all required fields");
+    }
   };
 
   return (
@@ -59,21 +85,21 @@ const EditSTSForm: React.FC<EditSTSFormProps> = ({ stsData, onClose }) => {
       <div className="flex flex-col justify-start items-start">
         <form className="mt-5 w-full">
           <InputField
-            id="STSName"
-            name="STSName"
+            id="sts_name"
+            name="sts_name"
             placeholder="Nikunjo STS"
-            value={formData.STSName}
+            value={formData.sts_name}
             label={"STS Name"}
             onChange={handleChange}
             customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
           />
 
           <InputField
-            id="wardNumber"
-            name="wardNumber"
+            id="ward_number"
+            name="ward_number"
             type="number"
             placeholder="28"
-            value={formData.wardNumber}
+            value={formData.ward_number}
             label={"Ward Number"}
             onChange={handleChange}
             customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
@@ -84,19 +110,18 @@ const EditSTSForm: React.FC<EditSTSFormProps> = ({ stsData, onClose }) => {
             name="capacity"
             type="number"
             placeholder="300"
-            value={formData.capacity}
+            value={formData.capacity.toString()}
             label={"STS Capacity (in tonnes)"}
             onChange={handleChange}
             customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
           />
 
           {/* sts dropdown */}
-          <div className="mt-3">
+          {/* <div className="mt-3">
             <STSManagerDropdown
-              managers={stsManager}
               setManager={setSTSManagers}
             />
-          </div>
+          </div> */}
 
           <div className="w-full flex flex-row justify-center items-center gap-5">
             <InputField
@@ -120,16 +145,28 @@ const EditSTSForm: React.FC<EditSTSFormProps> = ({ stsData, onClose }) => {
           </div>
 
           {/*!! add map */}
+          <div className="mt-3 border-2 border-black cursor-text flex flex-col justify-center items-center">
+            <p className="text-red-500">Click on map for Lat & Lng</p>
+            <MapLocation formData={formData} setFormData={setFormData} />
+          </div>
 
-          <div className="flex flex-auto justify-end items-end ">
+          {isLoading ? (
             <button
-              type="submit"
+              type="button"
+              className="p-2 bg-red-800 hover:bg-red-600  text-white rounded-md mt-8"
+              disabled={true}
+            >
+              Updating...
+            </button>
+          ) : (
+            <button
+              type="button"
               onClick={handeSaveChanges}
-              className="p-2 bg-green-500 hover:bg-green-600  text-white rounded-md mt-8"
+              className="p-2 bg-red-500 hover:bg-red-600  text-white rounded-md mt-8"
             >
               Save Changes
             </button>
-          </div>
+          )}
         </form>
       </div>
     </div>

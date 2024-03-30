@@ -28,7 +28,7 @@ const ModalLayout: React.FC<AddVehicleModalProps> = ({
         {headline}
       </ModalHeader>
       <hr className="my-3" />
-      <ModalBody customClass="pb-9 flex flex-col justify-center items-center">
+      <ModalBody customClass="pb-9 flex flex-col justify-center items-center w-full">
         {children}
       </ModalBody>
     </Modal>

@@ -20,7 +20,7 @@ const AddSTSModal: React.FC<AddSTSModalProps> = ({
       headline={"Add New STS"}
       customClass={customClass}
     >
-      <AddSTSFrom />
+      <AddSTSFrom onClose={onClose} />
     </ModalLayout>
   );
 };

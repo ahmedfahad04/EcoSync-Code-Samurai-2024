@@ -4,5 +4,6 @@ export enum API_END_POINTS {
     LOGIN = '/auth/login',
     LOGOUT = '/auth/logout',
     USER = '/users',
-    VEHICLE = '/vehicles'
+    VEHICLE = '/vehicles',
+    STS = '/sts',
 }
