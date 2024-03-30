@@ -45,21 +45,11 @@ export default (options) => {
             },
             comment: "A number of trucks with varying load capacity are attached to each sts",
         },
-        landfill_id: {
-            type: DataTypes.UUID,
-            allowNull: true,
-            references: {
-                model: "landfills",
-                key: "landfill_id",
-            },
-            comment: "A number of trucks with varying load capacity are attached to each landfill",
-            comment: "don't need this field according to updated requirements right? as vehicles are assigned to sts",
-        },
     });
 
     Vehicle.associate = (models) => {
-        Vehicle.belongsTo(models.Landfill, {
-            foreignKey: "landfill_id",
+        Vehicle.belongsTo(models.STS, {
+            foreignKey: "sts_id",
         });
 
         Vehicle.hasMany(models.STSDepartureEntry, {
