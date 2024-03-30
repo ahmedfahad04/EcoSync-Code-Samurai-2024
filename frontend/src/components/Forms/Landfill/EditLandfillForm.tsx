@@ -14,25 +14,25 @@ const EditLandfillForm: React.FC<EditLandfillFormProps> = ({
   onClose,
 }) => {
   const {
-    landfillName,
-    openingTime,
-    endingTime,
+    landfill_name,
+    opening_time,
+    closing_time,
     capacity,
     latitude,
     longitude,
   } = landfillData || {
-    landfillName: "",
-    openingTime: "",
-    endingTime: "",
+    landfill_name: "",
+    opening_time: "",
+    closing_time: "",
     capacity: "",
     latitude: "",
     longitude: "",
   };
 
   const [formData, setFormData] = useState({
-    landfillName: landfillName,
-    openingTime: openingTime,
-    endingTime: endingTime,
+    landfill_name: landfill_name,
+    opening_time: opening_time,
+    closing_time: closing_time,
     capacity: capacity,
     latitude: latitude,
     longitude: longitude,
@@ -71,10 +71,10 @@ const EditLandfillForm: React.FC<EditLandfillFormProps> = ({
       <div className="flex flex-col justify-start items-start">
         <form className="mt-5 w-full">
           <InputField
-            id="landfillName"
-            name="landfillName"
+            id="landfill_name"
+            name="landfill_name"
             placeholder="Nikunjo Landfill"
-            value={formData.landfillName}
+            value={formData.landfill_name}
             label={"Landfill Name"}
             onChange={handleChange}
             customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
@@ -93,21 +93,21 @@ const EditLandfillForm: React.FC<EditLandfillFormProps> = ({
 
           <div className="w-full flex flex-row justify-center items-center gap-5">
             <InputField
-              id="openingTime"
-              name="openingTime"
+              id="opening_time"
+              name="opening_time"
               type="time"
               placeholder="10:00"
-              value={formData.openingTime}
+              value={formData.opening_time}
               label={"Opening Time"}
               onChange={handleChange}
               customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
             />
             <InputField
-              id="endingTime"
-              name="endingTime"
+              id="closing_time"
+              name="closing_time"
               type="time"
               placeholder="14:00"
-              value={formData.endingTime}
+              value={formData.closing_time}
               label={"Ending Time"}
               onChange={handleChange}
               customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"

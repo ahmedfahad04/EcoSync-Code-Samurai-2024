@@ -3,7 +3,7 @@ import { ISTS } from "@/models/STS";
 import InputField from "@/ui/InputField";
 import { httpClient } from "@/utils/httpClient";
 import { InfoIcon } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import MapLocation from "./MapLocation";
 
@@ -15,7 +15,7 @@ interface EditSTSFormProps {
 const EditSTSForm: React.FC<EditSTSFormProps> = ({ stsData, onClose }) => {
   const [isLoading, setIsLoading] = useState<boolean>();
 
-  const { sts_name, ward_number, capacity, latitude, longitude } = stsData || {
+  const { sts_name, ward_number, capacity, gps_coordinate } = stsData || {
     sts_name: "",
     ward_number: "",
     capacity: "",
@@ -27,8 +27,8 @@ const EditSTSForm: React.FC<EditSTSFormProps> = ({ stsData, onClose }) => {
     sts_name: sts_name,
     ward_number: ward_number,
     capacity: capacity,
-    latitude: latitude,
-    longitude: longitude,
+    latitude: gps_coordinate[0],
+    longitude: gps_coordinate[1],
   });
 
   const handleChange = (e: { target: { name: any; value: any } }) => {
@@ -68,6 +68,10 @@ const EditSTSForm: React.FC<EditSTSFormProps> = ({ stsData, onClose }) => {
       toast.error("Please fill all required fields");
     }
   };
+
+  useEffect(() => {
+    console.log("GPS ", gps_coordinate[0]);
+  }, []);
 
   return (
     <div className=" w-full mt-5">
@@ -115,13 +119,6 @@ const EditSTSForm: React.FC<EditSTSFormProps> = ({ stsData, onClose }) => {
             onChange={handleChange}
             customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
           />
-
-          {/* sts dropdown */}
-          {/* <div className="mt-3">
-            <STSManagerDropdown
-              setManager={setSTSManagers}
-            />
-          </div> */}
 
           <div className="w-full flex flex-row justify-center items-center gap-5">
             <InputField
