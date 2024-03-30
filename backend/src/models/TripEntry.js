@@ -47,10 +47,12 @@ export default (options) => {
         departure_time: {
             type: DataTypes.DATE,
             allowNull: false,
+            comment: "Time when leaving sts with waste",
         },
         dumping_time: {
             type: DataTypes.DATE,
             allowNull: true,
+            comment: "Time when dumping waste in landfill. There would be value only after dumping, by Landfill manager",
         },
         is_bill_paid: {
             type: DataTypes.BOOLEAN,
