@@ -51,7 +51,7 @@ const AddSTSFrom = ({ onClose }: { onClose: () => void }) => {
           onClose();
         })
         .catch((err) => {
-          console.log("ERR: ", err);
+          console.log("ERR: ", err); //! will start here
           toast.error(err.response.data.email);
         });
 
