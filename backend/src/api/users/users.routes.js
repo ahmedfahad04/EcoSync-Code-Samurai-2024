@@ -17,5 +17,6 @@ usersRoutes.get("/:user_id", usersController.findOne);
 
 usersRoutes.put("/:user_id", schemaValidator(updateUserSchema), usersController.update);
 usersRoutes.put("/:user_id/roles", schemaValidator(addRoleSchema), usersController.addRole);
+usersRoutes.delete("/:user_id/roles", usersController.removeRole);
 
 usersRoutes.delete("/:user_id", usersController.deleteUser);

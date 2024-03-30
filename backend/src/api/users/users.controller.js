@@ -48,6 +48,10 @@ async function addRole(req, res) {
     res.json({ message: "role updated successfully" });
 }
 
+async function removeRole(req, res) {
+    // after removing role assign default Unassigned role
+}
+
 export default {
     create,
     findOne,
@@ -56,4 +60,5 @@ export default {
     deleteUser,
     findAvailableRoles,
     addRole,
+    removeRole
 };
