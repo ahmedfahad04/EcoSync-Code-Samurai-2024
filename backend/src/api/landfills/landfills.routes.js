@@ -16,7 +16,7 @@ export const landfillRoutes = express.Router();
 
 landfillRoutes.post(
     "/",
-    checkPermission(pc.CREATE_LANDFILL),
+    // checkPermission(pc.CREATE_LANDFILL),
     schemaValidator(createLandfillSchema),
     landfillsController.createLandfill
 );
@@ -27,7 +27,7 @@ landfillRoutes.get("/mine")
 landfillRoutes.get("/:landfill_id", checkPermission(pc.FIND_ONE_LANDFILL), landfillsController.findOneLandfill);
 landfillRoutes.put(
     "/:landfill_id",
-    checkPermission(pc.UPDATE_LANDFILL),
+    // checkPermission(pc.UPDATE_LANDFILL),
     schemaValidator(updateLandfillSchema),
     landfillsController.updateLandfill
 );

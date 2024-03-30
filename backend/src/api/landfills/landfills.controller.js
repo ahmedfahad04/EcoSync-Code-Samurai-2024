@@ -37,7 +37,24 @@ async function findAllLandfill(req, res) {
     res.status(200).json(landfills);
 }
 
-async function updateLandfill(req, res) {}
+async function updateLandfill(req, res) {
+    const { landfill_id } = req.params;
+    const landfillDto = req.body;
+
+    const landfill = await models.Landfill.findByPk(landfill_id);
+    if (!landfill) throw new HttpError({ message: "landfill not found" });
+
+    if (landfill.landfill_name == landfillDto.landfill_name) delete landfillDto.landfill_name;
+
+    if (landfillDto.landfill_name) {
+        const exist = await models.Landfill.findOne({ where: { landfill_name: landfillDto.landfill_name } });
+        if (exist) throw new HttpError({ landfill_name: "landfill_name already exist" }, 400);
+    }
+
+    await models.Landfill.update(landfillDto, { where: { landfill_id } });
+
+    res.json({ message: "landfill updated successfully" });
+}
 
 async function deleteLandfill(req, res) {}
 
@@ -57,7 +74,8 @@ async function addManager(req, res) {
 
     if (!user) throw new HttpError({ manager_id: "invalid manager_id" }, 400);
 
-    if (user.role?.role_name != roleConstants.LandfillManager) throw new HttpError({ manager_id: "user must be a landfill manager" }, 400);
+    if (user.role?.role_name != roleConstants.LandfillManager)
+        throw new HttpError({ manager_id: "user must be a landfill manager" }, 400);
 
     const user_landfill = { user_id: manager_id, landfill_id: landfill_id };
 
