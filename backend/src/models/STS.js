@@ -46,11 +46,7 @@ export default (options) => {
             foreignKey: "sts_id",
         });
 
-        STS.hasMany(models.STSDepartureEntry, {
-            foreignKey: "sts_id",
-        });
-
-        STS.hasMany(models.TruckDumpingEntry, {
+        STS.hasMany(models.TripEntry, {
             foreignKey: "sts_id",
         });
     };

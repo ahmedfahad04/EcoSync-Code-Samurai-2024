@@ -4,3 +4,5 @@ cannot change bill after paying...
 add permission get route for sts manager
 
 // use same table for departure and dumping entry?? with flag 'dumped, landfill_id after dump', 'is_bill_paid`
+
+// there may be a way of receiving waste in STS from near regions

@@ -14,7 +14,7 @@ import { profileRoutes } from "./src/api/profile/profile.routes.js";
 import { vehicleRoutes } from "./src/api/vehicles/vehicles.routes.js";
 import { stsRoutes } from "./src/api/sts/sts.routes.js";
 import { landfillRoutes } from "./src/api/landfills/landfills.routes.js";
-import { truckDumpingRoutes } from "./src/api/truck-dumping/truck-dumping.routes.js";
+import { tripsRoutes } from "./src/api/trips/trips.routes.js";
 import { rbacRoutes } from "./src/api/rbac/rbac.routes.js";
 import { vehicleDepartureRoutes } from "./src/api/vehicle-departure/vehicle-departure.routes.js";
 
@@ -39,7 +39,7 @@ app.use("/api/profile", profileRoutes);
 app.use("/api/vehicles", vehicleRoutes);
 app.use("/api/sts", stsRoutes);
 app.use("/api/landfills", landfillRoutes);
-app.use("/api/truck-dumping", truckDumpingRoutes);
+app.use("/api/trips", tripsRoutes);
 app.use("/api/vehicle-departure", vehicleDepartureRoutes);
 
 app.use(notFoundHandler);
