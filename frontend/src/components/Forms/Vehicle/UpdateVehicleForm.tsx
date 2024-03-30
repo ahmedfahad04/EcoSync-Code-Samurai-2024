@@ -1,23 +1,41 @@
 import { API_END_POINTS, BASE_URL } from "@/constants/Service";
+import { IVehicle } from "@/models/Vehicles";
 import Dropdown from "@/ui/Dropdown";
 import InputField from "@/ui/InputField";
 import { httpClient } from "@/utils/httpClient";
 import { InfoIcon } from "lucide-react";
-import { useState } from "react";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
 
-const AddVechileForm = ({ onClose }: { onClose: () => void }) => {
+interface UpdateVehicleFormProps {
+  vehicleData: IVehicle | undefined;
+  onClose: () => void;
+}
+
+const UpdateVehicleForm: React.FC<UpdateVehicleFormProps> = ({
+  vehicleData,
+  onClose,
+}) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  const { vehicle_number, type, capacity, cpk_loaded, cpk_unloaded } =
+    vehicleData || {
+      vehicle_number: "",
+      type: "",
+      capacity: "",
+      cpk_loaded: "",
+      cpk_unloaded: "",
+    };
+
   const [formData, setFormData] = useState({
-    vehicle_number: "",
-    type: "",
-    capacity: "",
-    cpk_loaded: "",
-    cpk_unloaded: "",
+    vehicle_number: vehicle_number,
+    type: type,
+    capacity: capacity,
+    cpk_loaded: cpk_loaded,
+    cpk_unloaded: cpk_unloaded,
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e: { target: { name: any; value: any } }) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
@@ -25,29 +43,37 @@ const AddVechileForm = ({ onClose }: { onClose: () => void }) => {
     }));
   };
 
-  const handleCreate = () => {
+  const handleUpdateVehicle = () => {
     setIsLoading(true);
     if (Object.values(formData).every((value) => value !== "")) {
       httpClient
-        .post(`${BASE_URL}${API_END_POINTS.VEHICLE}`, formData, {
-          withCredentials: true,
-        })
+        .put(
+          `${BASE_URL}${API_END_POINTS.VEHICLE}/${vehicleData?.vehicle_id}`,
+          {
+            type: formData.type,
+            capacity: formData.capacity,
+            cpk_loaded: formData.cpk_loaded,
+            cpk_unloaded: formData.cpk_unloaded,
+          },
+          {
+            withCredentials: true,
+          }
+        )
         .then((res) => {
           console.log("VEHICLE : ", res);
-          toast.success("Vehicle created successfully");
-          onClose();
+          toast.success("Vehicle updated successfully");
         })
         .catch((err) => {
-          const errMsg = err.request.responseText.split(":")[0];
-          if (errMsg.includes("cpk_unload")) {
-            console.log("Unloaded cost should be LESS than Loaded Cost ");
-            toast.error("Unloaded cost should be LESS than Loaded Cost");
-          }
+          console.log("ERR Ve: ", err.request.responseText.split(":")[1]);
+          toast.error("Failed to Update vehicle");
+        })
+        .finally(() => {
+          setIsLoading(false);
+          onClose();
         });
     } else {
       toast.error("Please fill all required fields");
     }
-    setIsLoading(false);
   };
 
   return (
@@ -71,11 +97,12 @@ const AddVechileForm = ({ onClose }: { onClose: () => void }) => {
           value={formData.vehicle_number}
           label={"Vehicle Number"}
           onChange={handleChange}
-          customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
+          disabled={true}
+          customInputClass="bg-gray-400 text-white rounded-md h-10 w-[400px]"
         />
 
         <Dropdown
-          name="Select Truck Type"
+          name={type}
           options={[
             "Open Truck",
             "Dump Truck",
@@ -93,7 +120,7 @@ const AddVechileForm = ({ onClose }: { onClose: () => void }) => {
         />
 
         <Dropdown
-          name="Select Capacity (Ton)"
+          name={capacity}
           options={["3", "5", "7"]}
           label="Vehicle Capacity"
           customClass="mt-3 bg-slate-300/6"
@@ -110,7 +137,7 @@ const AddVechileForm = ({ onClose }: { onClose: () => void }) => {
           name="cpk_loaded"
           type="number"
           placeholder="250"
-          value={formData.cpk_loaded}
+          value={formData.cpk_loaded.toString()}
           label={"Fuel Cost Loaded (per km /-)"}
           onChange={handleChange}
           customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
@@ -121,7 +148,7 @@ const AddVechileForm = ({ onClose }: { onClose: () => void }) => {
           name="cpk_unloaded"
           placeholder="180"
           type="number"
-          value={formData.cpk_unloaded}
+          value={formData.cpk_unloaded.toString()}
           label={"Fuel Cost Unloaded (per km /-)"}
           onChange={handleChange}
           customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
@@ -131,20 +158,20 @@ const AddVechileForm = ({ onClose }: { onClose: () => void }) => {
           <div className="flex flex-auto justify-end items-end ">
             <button
               type="button"
-              onClick={handleCreate}
+              onClick={handleUpdateVehicle}
               className="p-2 bg-green-800 hover:bg-secondary hover:text-green-200 text-white rounded-md mt-8"
             >
-              Creating...
+              Updating...
             </button>
           </div>
         ) : (
           <div className="flex flex-auto justify-end items-end ">
             <button
               type="button"
-              onClick={handleCreate}
+              onClick={handleUpdateVehicle}
               className="p-2 bg-primary hover:bg-secondary hover:text-black text-white rounded-md mt-8"
             >
-              Create
+              Update
             </button>
           </div>
         )}
@@ -153,4 +180,4 @@ const AddVechileForm = ({ onClose }: { onClose: () => void }) => {
   );
 };
 
-export default AddVechileForm;
+export default UpdateVehicleForm;
