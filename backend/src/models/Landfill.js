@@ -57,12 +57,8 @@ export default (options) => {
             through: models.UserLandfill_Manager,
             foreignKey: "landfill_id",
         });
-
-        Landfill.hasMany(models.STSDepartureEntry, {
-            foreignKey: "landfill_id",
-        });
         
-        Landfill.hasMany(models.TruckDumpingEntry, {
+        Landfill.hasMany(models.TripEntry, {
             foreignKey: "landfill_id",
         });
     };

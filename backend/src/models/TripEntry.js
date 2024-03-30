@@ -44,12 +44,22 @@ export default (options) => {
             },
             comment: "Trip number for the specific truck (1 to 3, indicating the order within the day).",
         },
-        departure_time: {
+        sts_arrival_time: {
+            type: DataTypes.DATE,
+            allowNull: false,
+            comment: "Time when arrives in sts",
+        },
+        sts_departure_time: {
             type: DataTypes.DATE,
             allowNull: false,
             comment: "Time when leaving sts with waste",
         },
-        dumping_time: {
+        landfill_arrival_time: {
+            type: DataTypes.DATE,
+            allowNull: true,
+            comment: "Time when arrives landfill with waste",
+        },
+        landfill_dumping_time: {
             type: DataTypes.DATE,
             allowNull: true,
             comment: "Time when dumping waste in landfill. There would be value only after dumping, by Landfill manager",

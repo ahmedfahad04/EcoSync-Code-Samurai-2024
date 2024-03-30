@@ -198,12 +198,12 @@ async function addVehicleDepartureEntry(req, res) {
     if (entryDto.waste_volume > vehicle.capacity)
         throw new HttpError({ waste_volume: `waste volume exceeds vehicle capacity: ${vehicle.capacity} tons` }, 400);
 
-    const count = await stsRepository.countTotalTrip(entryDto.vehicle_id, entryDto.departure_time);
+    const count = await stsRepository.countTotalTrip(entryDto.vehicle_id, entryDto.sts_departure_time);
     if (count >= 3) throw new HttpError({ vehicle_id: "a vehicle can have maximum of 3 trips per day" }, 400);
 
     const isTripNumberExist = await stsRepository.isTripNumberExistForCurrentDay(
         entryDto.vehicle_id,
-        entryDto.departure_time,
+        entryDto.sts_departure_time,
         entryDto.trip_number
     );
     if (isTripNumberExist) throw new HttpError({ trip_number: "trip number already exists for today" }, 400);
@@ -212,7 +212,7 @@ async function addVehicleDepartureEntry(req, res) {
     if (!landfill) throw new HttpError({ landfill_id: "landfill not found" }, 404);
 
     entryDto.sts_id = sts_id;
-    let departureEntry = await models.STSDepartureEntry.create(entryDto);
+    let departureEntry = await models.TripEntry.create(entryDto);
     departureEntry = departureEntry.toJSON();
 
     res.status(201).json(departureEntry);
