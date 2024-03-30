@@ -1,10 +1,22 @@
+import { API_END_POINTS, BASE_URL } from "@/constants/Service";
 import InputField from "@/ui/InputField";
+import { httpClient } from "@/utils/httpClient";
 import { InfoIcon } from "lucide-react";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import MapLocation from "./MapLocation";
 
-const AddSTSFrom = () => {
+const AddSTSFrom = ({ onClose }: { onClose: () => void }) => {
+  const [isLoading, setIsLoading] = useState<boolean>();
   const [formData, setFormData] = useState({
+    STSName: "",
+    wardNumber: "",
+    capacity: "",
+    latitude: "",
+    longitude: "",
+  });
+
+  const [errors, setErrors] = useState({
     STSName: "",
     wardNumber: "",
     capacity: "",
@@ -21,8 +33,32 @@ const AddSTSFrom = () => {
   };
 
   const handleCreate = () => {
-    //! api call
-    console.log("Form Data:", formData);
+    if (Object.values(formData).every((value) => value !== "")) {
+      setIsLoading(true);
+      httpClient
+        .post(
+          `${BASE_URL}${API_END_POINTS.STS}`,
+          {
+            sts_name: formData.STSName,
+            gps_coordinate: [formData.latitude, formData.longitude],
+            ward_number: formData.wardNumber,
+            capacity: formData.capacity,
+          },
+          { withCredentials: true }
+        )
+        .then(() => {
+          toast.success("STS created Successfully");
+          onClose();
+        })
+        .catch((err) => {
+          console.log("ERR: ", err);
+          toast.error(err.response.data.email);
+        });
+
+      setIsLoading(false);
+    } else {
+      toast.error("Please fill all required fields");
+    }
   };
 
   return (
@@ -93,19 +129,32 @@ const AddSTSFrom = () => {
           </div>
 
           {/*!! add map */}
-          <div className="mt-3 border-2 border-black cursor-text">
+          <div className="mt-3 border-2 border-black cursor-text flex flex-col justify-center items-center">
+            <p className="text-red-500">Click on map for Lat & Lng</p>
             <MapLocation formData={formData} setFormData={setFormData} />
           </div>
 
-          <div className="flex flex-auto justify-end items-end ">
-            <button
-              type="submit"
-              onClick={handleCreate}
-              className="p-2 bg-primary hover:bg-secondary hover:text-black text-white rounded-md mt-8"
-            >
-              Create
-            </button>
-          </div>
+          {isLoading ? (
+            <div className="flex flex-auto justify-end items-end ">
+              <button
+                type="button"
+                onClick={handleCreate}
+                className="p-2 bg-green-800 hover:bg-secondary hover:text-green-200 text-white rounded-md mt-8"
+              >
+                Creating...
+              </button>
+            </div>
+          ) : (
+            <div className="flex flex-auto justify-end items-end ">
+              <button
+                type="button"
+                onClick={handleCreate}
+                className="p-2 bg-primary hover:bg-secondary hover:text-black text-white rounded-md mt-8"
+              >
+                Create
+              </button>
+            </div>
+          )}
         </form>
       </div>
     </div>
