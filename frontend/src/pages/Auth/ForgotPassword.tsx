@@ -1,6 +1,9 @@
+import { BASE_URL } from "@/constants/Service";
+import { httpClient } from "@/utils/httpClient";
 import { ArrowLeft } from "@mui/icons-material";
 import { FileLock2Icon, MailIcon } from "lucide-react";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 const ForgotPassword = () => {
@@ -10,31 +13,25 @@ const ForgotPassword = () => {
   const handleSendEmail = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
-    alert(email);
-    navigate("/confirmation");
+    try {
+      httpClient
+        .post(`${BASE_URL}/auth/reset-password/initiate`, {
+          email: email,
+        })
+        .then((res) => {
+          console.log("EMAIL SENT: ", res);
+          toast.success("Email Sent!");
 
-    // Send API request here
-    // try {
-    //   const response = await fetch("YOUR_API_ENDPOINT_HERE", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({ email }),
-    //   });
-
-    //   // Check if request was successful
-    //   if (response.ok) {
-    //     // Handle success, maybe redirect to a confirmation page
-    //     navigate("/confirmation");
-    //   } else {
-    //     // Handle error, maybe display an error message
-    //     alert("Failed to send email. Please try again later.");
-    //   }
-    // } catch (error) {
-    //   console.error("Error sending email:", error);
-    //   alert("Failed to send email. Please try again later.");
-    // }
+          localStorage.setItem("verification-mail", email);
+          navigate("/otp-verification");
+        })
+        .catch((err) => {
+          console.log("Error in email sent: ", err);
+        });
+    } catch (error) {
+      console.error("Error sending email:", error);
+      alert("Failed to send email. Please try again later.");
+    }
   };
 
   return (
@@ -82,6 +79,7 @@ const ForgotPassword = () => {
                 <button
                   type="submit"
                   className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-secondary hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  onClick={handleSendEmail}
                 >
                   <MailIcon className="h-5 w-5 mr-2" /> Send Email
                 </button>
@@ -89,7 +87,7 @@ const ForgotPassword = () => {
             </form>
             <div
               className="mt-6 flex flex-1 gap-2 justify-center items-center cursor-pointer"
-              onClick={() => navigate("/login")}
+              onClick={() => navigate("/auth/signin")}
             >
               <ArrowLeft sx={{ color: "black" }} />
               <p>Back to Login</p>
