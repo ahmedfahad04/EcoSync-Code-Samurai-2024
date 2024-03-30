@@ -17,12 +17,12 @@ const NewVehicleTable = () => {
   const columns = useMemo<MRT_ColumnDef<IVehicle>[]>(
     () => [
       {
-        accessorKey: "vehicleNumber", //access nested data with dot notation
+        accessorKey: "vehicle_number", //access nested data with dot notation
         header: "VEHICLE NUMBER",
         size: 180,
       },
       {
-        accessorKey: "vehicleType", //access nested data with dot notation
+        accessorKey: "type", //access nested data with dot notation
         header: "TYPE",
         size: 150,
         Cell: ({ cell }) => {
@@ -30,7 +30,7 @@ const NewVehicleTable = () => {
         },
       },
       {
-        accessorKey: "vehicleCapacity", //access nested data with dot notation
+        accessorKey: "capacity", //access nested data with dot notation
         header: "CAPACITY",
         size: 150,
       },
@@ -67,7 +67,7 @@ const NewVehicleTable = () => {
             key="edit"
             label="Edit"
             onClick={() => {
-              alert(row.original.vehicleNumber);
+              alert(row.original.vehicle_number);
               closeMenu();
             }}
             table={table}

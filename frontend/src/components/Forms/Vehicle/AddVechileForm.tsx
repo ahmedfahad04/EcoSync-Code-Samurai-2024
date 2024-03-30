@@ -5,7 +5,7 @@ import { useState } from "react";
 
 const AddVechileForm = () => {
   const [formData, setFormData] = useState({
-    vehicleNumber: "",
+    vehicle_number: "",
     truckType: "",
     capacity: "",
     cpk_loaded: "",
@@ -40,10 +40,10 @@ const AddVechileForm = () => {
       {/* form */}
       <form className="mt-10 w-full">
         <InputField
-          id="vehicleNumber"
-          name="vehicleNumber"
+          id="vehicle_number"
+          name="vehicle_number"
           placeholder="DHAKA-D-11-9999"
-          value={formData.vehicleNumber}
+          value={formData.vehicle_number}
           label={"Vehicle Number"}
           onChange={handleChange}
           customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"

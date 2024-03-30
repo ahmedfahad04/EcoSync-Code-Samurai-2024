@@ -18,21 +18,21 @@ const DumpingEntryForm: React.FC<DumpingEntryFormProps> = ({
   const [stsData, setSTSData] = useState<string[]>([]);
   const [vehicles, setVehicles] = useState<string[]>([]);
 
-  const { STSName, vehicleNumber, wasteVolume, arrivalTime, departureTime } =
+  const { STSName, vehicle_number, wasteVolume, arrivalTime, departureTime } =
     data || {};
 
   const [formData, setFormData] = useState(
     mode === "Edit"
       ? {
           STSName: STSName || "",
-          vehicleNumber: vehicleNumber || "",
+          vehicle_number: vehicle_number || "",
           wasteVolume: wasteVolume || "",
           arrival: arrivalTime || "",
           departure: departureTime || "",
         }
       : {
           STSName: "",
-          vehicleNumber: "",
+          vehicle_number: "",
           wasteVolume: "",
           arrival: "",
           departure: "",
@@ -59,10 +59,10 @@ const DumpingEntryForm: React.FC<DumpingEntryFormProps> = ({
   // fetch data
   useEffect(() => {
     const STSData = dummySTS.map((l) => l.STSName);
-    const vehicleNumbers = dummyVehicles.map((v) => v.vehicleNumber); // Corrected variable name
+    const vehicle_numbers = dummyVehicles.map((v) => v.vehicle_number); // Corrected variable name
 
     setSTSData(STSData);
-    setVehicles(vehicleNumbers); // Corrected variable name
+    setVehicles(vehicle_numbers); // Corrected variable name
   }, []);
 
   return (
@@ -97,14 +97,14 @@ const DumpingEntryForm: React.FC<DumpingEntryFormProps> = ({
           />
 
           <Dropdown
-            name={mode == "Edit" ? formData.vehicleNumber : "Select Vehicle"}
+            name={mode == "Edit" ? formData.vehicle_number : "Select Vehicle"}
             options={vehicles}
             label="Vehicle Number"
             customClass="mt-5 bg-slate-300/6"
             onSelect={(selectedOption) =>
               setFormData((prevFormData) => ({
                 ...prevFormData,
-                vehicleNumber: selectedOption,
+                vehicle_number: selectedOption,
               }))
             }
           />
