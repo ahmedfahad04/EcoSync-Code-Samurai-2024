@@ -11,6 +11,6 @@ vehicleDepartureRoutes.get(
     schemaValidator(findAllDepartureEntryQuerySchema, "query"),
     vehicleDepartureController.findAllDepartureEntry
 );
-vehicleDepartureRoutes.get("/:departure_id");
-vehicleDepartureRoutes.put("/:departure_id");
+vehicleDepartureRoutes.get("/:departure_id", vehicleDepartureController.findOneDepartureEntry);
+vehicleDepartureRoutes.put("/:departure_id", vehicleDepartureController.updateDepartureEntry);
 vehicleDepartureRoutes.delete("/:departure_id", vehicleDepartureController.deleteDepartureEntry);

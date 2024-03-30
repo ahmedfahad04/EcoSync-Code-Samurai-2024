@@ -88,6 +88,8 @@ async function findOneTruckDumpingEntry(req, res) {
         ],
     });
 
+    if (!entry) throw new HttpError({ message: "No entry found" }, 404);
+
     entry = entry.toJSON();
     entry.sts.gps_coordinate = JSON.parse(entry.sts.gps_coordinate);
     entry.landfill.gps_coordinate = JSON.parse(entry.landfill.gps_coordinate);
@@ -95,7 +97,9 @@ async function findOneTruckDumpingEntry(req, res) {
     res.json(entry);
 }
 
-async function updateTruckDumpingEntry(req, res) {}
+async function updateTruckDumpingEntry(req, res) {
+    res.json("update not implemented");
+}
 
 async function generateBill(req, res) {
     const { dumping_id } = req.params;
