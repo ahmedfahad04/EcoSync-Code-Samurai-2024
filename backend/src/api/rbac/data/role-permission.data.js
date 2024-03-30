@@ -5,6 +5,10 @@ export const rolePermissionData = [
     {
         role_name: rc.SystemAdmin,
         permission_names: [
+            pc.FIND_PROFILE,
+            pc.UPDATE_PROFILE,
+            pc.CHANGE_PASSWORD,
+
             // role
             pc.CREATE_ROLE,
             pc.FIND_ALL_ROLE,
@@ -46,8 +50,13 @@ export const rolePermissionData = [
             pc.UPDATE_STS,
             pc.DELETE_STS,
 
+            pc.FIND_ALL_MANAGER_OF_STS,
             pc.ADD_MANAGER_TO_STS,
             pc.REMOVE_MANAGER_FROM_STS,
+
+            pc.FIND_ALL_VEHICLE_OF_STS,
+            pc.ADD_VEHICLE_TO_STS,
+            pc.REMOVE_VEHICLE_FROM_STS,
 
             // vehicle-departure
             pc.FIND_ALL_VEHICLE_DEPARTURE_ENTRY,
@@ -60,9 +69,11 @@ export const rolePermissionData = [
             pc.UPDATE_LANDFILL,
             pc.DELETE_LANDFILL,
 
+            pc.FIND_ALL_MANAGER_OF_LANDFILL,
             pc.ADD_MANAGER_TO_LANDFILL,
             pc.REMOVE_MANAGER_FROM_LANDFILL,
 
+            pc.FIND_ALL_VEHICLE_DESTINATION_TO_LANDFILL,
             pc.ADD_VEHICLE_DESTINATION_TO_LANDFILL,
             pc.REMOVE_VEHICLE_DESTINATION_TO_LANDFILL,
 
@@ -81,16 +92,17 @@ export const rolePermissionData = [
 
             pc.FIND_PROFILE,
             pc.UPDATE_PROFILE,
+            pc.CHANGE_PASSWORD,
 
-            pc.FIND_ALL_VEHICLE,
-            pc.FIND_ALL_AVAILABLE_VEHICLE,
-            pc.FIND_ONE_VEHICLE,
+            pc.FIND_ALL_VEHICLE_OF_STS,
 
             pc.CREATE_VEHICLE_DEPARTURE_ENTRY,
             pc.FIND_ALL_VEHICLE_DEPARTURE_ENTRY,
             pc.FIND_ONE_VEHICLE_DEPARTURE_ENTRY,
             pc.UPDATE_VEHICLE_DEPARTURE_ENTRY,
             pc.DELETE_VEHICLE_DEPARTURE_ENTRY,
+
+            pc.FIND_ALL_LANDFILL,
         ],
     },
     {
@@ -100,6 +112,9 @@ export const rolePermissionData = [
 
             pc.FIND_PROFILE,
             pc.UPDATE_PROFILE,
+            pc.CHANGE_PASSWORD,
+
+            pc.FIND_ALL_VEHICLE_DESTINATION_TO_LANDFILL,
 
             pc.CREATE_TRUCK_DUMPING_ENTRY,
             pc.FIND_ALL_TRUCK_DUMPING_ENTRY,

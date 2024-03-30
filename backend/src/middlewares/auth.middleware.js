@@ -51,6 +51,7 @@ export const checkAuthentication = async (req, res, next) => {
     }
 }
 
+// authentication needed
 export const checkPermission = (permission) => {
     return [
         checkAuthentication,
@@ -66,4 +67,8 @@ export const checkPermission = (permission) => {
             return next();
         },
     ];
+}
+
+export const checkLoginPermission = (req, res, next) => {
+    next();
 }
