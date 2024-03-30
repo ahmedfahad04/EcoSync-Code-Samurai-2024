@@ -54,6 +54,7 @@ const EditSTSForm: React.FC<EditSTSFormProps> = ({ stsData, onClose }) => {
         .then((res) => {
           console.log("RES", res);
           toast.success("STS updated Successfully");
+          onClose();
         })
         .catch((err) => {
           const errMsg = err.request.responseText.split(":")[1];
@@ -66,7 +67,6 @@ const EditSTSForm: React.FC<EditSTSFormProps> = ({ stsData, onClose }) => {
     } else {
       toast.error("Please fill all required fields");
     }
-    onClose();
   };
 
   return (
