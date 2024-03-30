@@ -16,14 +16,13 @@ interface AssignRoleModalProps {
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json()); // Fetcher function for SWR
 
-// Inside AssignRoleModal component
-
 const AssignRoleModal: React.FC<AssignRoleModalProps> = ({
   isOpen,
   customClass = "w-[500px] flex flex-col justify-center item-center",
   user,
   onClose,
 }) => {
+  
   const { data: roles, error: rolesError } = useSWR<IRole[]>(
     `${BASE_URL}/rbac/roles`,
     fetcher

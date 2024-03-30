@@ -84,7 +84,7 @@ const AddVechileForm = ({ onClose }: { onClose: () => {} }) => {
 
   const handleOnUpload = (data: { image: File }) => {
     console.log(data.image.size);
-};
+  };
 
   return (
     <div className=" w-full mt-5">
@@ -150,6 +150,7 @@ const AddVechileForm = ({ onClose }: { onClose: () => {} }) => {
             onChange={handleChange}
             error={errors.password}
             customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
+            customPasswordClass="top-7"
           />
 
           {isLoading ? (

@@ -41,7 +41,7 @@ const DepartureEntryTable = () => {
         size: 150,
       },
       {
-        accessorKey: "landfillName",
+        accessorKey: "landfill_name",
         header: "LANDFILL NAME",
         size: 180,
       },

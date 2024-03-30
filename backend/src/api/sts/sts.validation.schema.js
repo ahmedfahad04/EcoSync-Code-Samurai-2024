@@ -23,6 +23,6 @@ export const addVehicleDepartureEntrySchema = Joi.object({
     landfill_id: Joi.string().trim().required(),
     waste_volume: Joi.number().required(),
     trip_number: Joi.number().integer().required().valid(1, 2, 3),
-    arrival_time: Joi.date().required(),
-    departure_time: Joi.date().required()
+    sts_arrival_time: Joi.date().required(),
+    sts_departure_time: Joi.date().required()
 });

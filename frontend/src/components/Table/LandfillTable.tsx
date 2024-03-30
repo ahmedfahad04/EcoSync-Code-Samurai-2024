@@ -1,6 +1,6 @@
 import { ILandfill } from "@/models/Landfill";
-import { dummyLandfill } from "@/utils/DummyData";
 // import { dummyLandfill } from "@/utils/DummyData"; // Importing static data
+import { API_END_POINTS, BASE_URL } from "@/constants/Service";
 import { ArrowUpFromDotIcon, EditIcon, Trash2Icon } from "lucide-react";
 import {
   MRT_ActionMenuItem,
@@ -8,9 +8,13 @@ import {
   MaterialReactTable,
 } from "material-react-table";
 import { useEffect, useMemo, useState } from "react";
+import useSWR from "swr";
 import DumpingEntryModal from "../Modals/Landfill/DumpingEntryModal";
 import EditLandfillModal from "../Modals/Landfill/EditLandfillModal";
 import ViewLandfillModal from "../Modals/Landfill/ViewLandfillModal";
+
+const fetcher = (url: string) =>
+  fetch(url, { credentials: "include" }).then((res) => res.json()); // Fetcher function for SWR
 
 const LandfillTable = () => {
   const [showDumpingEntryModal, setShowDumpingEntryModal] =
@@ -19,7 +23,15 @@ const LandfillTable = () => {
     useState<boolean>(false);
   const [showLandfillModal, setShowLandfillModal] = useState<boolean>(false);
   const [LandfillData, setLandfillData] = useState<ILandfill>();
-  const [data, setData] = useState<ILandfill[]>([]);
+
+  const { data: landfill } = useSWR<ILandfill[]>(
+    `${BASE_URL}${API_END_POINTS.LANDFILL}`,
+    fetcher
+  );
+
+  useEffect(() => {
+    console.log("DATA: ", landfill);
+  }, [landfill]);
 
   const handleRowDelete = (index: string, closeWindow: () => void) => {
     if (window.confirm("Are you sure?")) {
@@ -31,25 +43,20 @@ const LandfillTable = () => {
     }
   };
 
-  useEffect(() => {
-    //! fetch using useSWR
-    setData(dummyLandfill); // Set static data from dummyLandfill
-  }, []); // Empty dependency array to run only once when component mounts
-
   const columns = useMemo<MRT_ColumnDef<ILandfill>[]>(
     () => [
       {
-        accessorKey: "landfillName",
+        accessorKey: "landfill_name",
         header: "Landfill NAME",
         size: 180,
       },
       {
-        accessorKey: "openingTime",
+        accessorKey: "opening_time",
         header: "OPENING TIME",
         size: 150,
       },
       {
-        accessorKey: "endingTime",
+        accessorKey: "closing_time",
         header: "ENDING TIME",
         size: 150,
       },
@@ -59,14 +66,15 @@ const LandfillTable = () => {
         size: 150,
       },
       {
-        accessorKey: "latitude",
-        header: "LATITUDE",
-        size: 150,
-      },
-      {
-        accessorKey: "longitude",
-        header: "LONGITUDE",
-        size: 150,
+        accessorKey: "gps_coordinate",
+        header: "GPS Coordinates",
+        size: 190,
+        Cell: ({ cell }) => {
+          const lat = cell.getValue<number[]>()[0].toString();
+          const lng = cell.getValue<number[]>()[1].toString();
+          // https://www.google.com/maps?q=<latitude>,<longitude>
+          return lat + ", " + lng;
+        },
       },
     ],
     []
@@ -75,11 +83,11 @@ const LandfillTable = () => {
   return (
     <div>
       <p className="mb-5">
-        <span className="font-bold">{data.length}</span> in total
+        <span className="font-bold">{landfill?.length}</span> in total
       </p>
       <MaterialReactTable
         columns={columns}
-        data={data}
+        data={landfill || []}
         enableRowActions
         enableStickyHeader
         muiTableContainerProps={{ sx: { maxHeight: "500px" } }}

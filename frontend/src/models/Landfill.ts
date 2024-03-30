@@ -1,10 +1,13 @@
 export interface ILandfill {
-    landfillName: string;
-    openingTime: string;
-    endingTime: string;
+    landfill_id: string;
+    landfill_name: string;
+    opening_time: string;
+    closing_time: string;
     capacity: string;
     latitude: string;
     longitude: string;
+    gps_coordinate: string;
+    current_waste_volume: string;
 }
 
 export interface IDumpingEntry {

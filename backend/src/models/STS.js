@@ -28,6 +28,12 @@ export default (options) => {
             allowNull: false,
             comment: "Capacity in tons",
         },
+        current_waste_volume: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            defaultValue: 0,
+            comment: "Update current waste after each departure? or dumping?"
+        },
     });
 
     STS.associate = (models) => {
@@ -36,11 +42,11 @@ export default (options) => {
             foreignKey: "sts_id",
         });
 
-        STS.hasMany(models.STSDepartureEntry, {
+        STS.hasMany(models.Vehicle, {
             foreignKey: "sts_id",
         });
 
-        STS.hasMany(models.TruckDumpingEntry, {
+        STS.hasMany(models.TripEntry, {
             foreignKey: "sts_id",
         });
     };

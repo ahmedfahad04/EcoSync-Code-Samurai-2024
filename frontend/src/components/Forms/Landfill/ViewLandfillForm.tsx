@@ -22,7 +22,7 @@ const ViewLandfillForm: React.FC<ViewLandfillFormProps> = ({
       </header>
 
       <div className="flex flex-col text-md gap-4 mt-5">
-        <Label title={"Landfill Name"} value={landfillData?.landfillName} />
+        <Label title={"Landfill Name"} value={landfillData?.landfill_name} />
         <Label title={"Landfill Capacity"} value={landfillData?.capacity} />
 
         {/* open & end */}
@@ -31,7 +31,7 @@ const ViewLandfillForm: React.FC<ViewLandfillFormProps> = ({
           <div className="w-2/4">
             <Label
               title={"Opening Time"}
-              value={landfillData?.openingTime}
+              value={landfillData?.opening_time}
               icon={
                 <ClockIcon width={18} height={18} className="text-gray-500" />
               }
@@ -41,7 +41,7 @@ const ViewLandfillForm: React.FC<ViewLandfillFormProps> = ({
           <div className="w-2/4">
             <Label
               title={"Ending Time"}
-              value={landfillData?.endingTime}
+              value={landfillData?.closing_time}
               icon={
                 <ClockIcon width={18} height={18} className="text-gray-500" />
               }

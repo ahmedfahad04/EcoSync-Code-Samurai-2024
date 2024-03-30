@@ -51,8 +51,9 @@ const AddSTSFrom = ({ onClose }: { onClose: () => void }) => {
           onClose();
         })
         .catch((err) => {
-          console.log("ERR: ", err);
-          toast.error(err.response.data.email);
+          const errMsg = err.request.responseText.split(":")[1];
+          const trimmedErrMsg = errMsg.substr(1, errMsg.length - 3);
+          toast.error(trimmedErrMsg);
         });
 
       setIsLoading(false);

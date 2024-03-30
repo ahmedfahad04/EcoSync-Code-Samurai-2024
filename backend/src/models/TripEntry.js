@@ -2,11 +2,19 @@
 
 export default (options) => {
     const { sequelize, DataTypes, Sequelize } = options;
-    const STSDepatureEntry = sequelize.define("sts_departure_entris", {
-        departure_id: {
+    const TripEntry = sequelize.define("trip_entries", {
+        trip_id: {
             type: DataTypes.UUID,
             defaultValue: Sequelize.UUIDV4,
             primaryKey: true,
+        },
+        vehicle_id: {
+            type: DataTypes.UUID,
+            allowNull: false,
+            references: {
+                model: "vehicles",
+                key: "vehicle_id",
+            },
         },
         sts_id: {
             type: DataTypes.UUID,
@@ -24,14 +32,6 @@ export default (options) => {
                 key: "landfill_id",
             },
         },
-        vehicle_id: {
-            type: DataTypes.UUID,
-            allowNull: false,
-            references: {
-                model: "vehicles",
-                key: "vehicle_id",
-            },
-        },
         waste_volume: {
             type: DataTypes.FLOAT,
             allowNull: false,
@@ -44,27 +44,45 @@ export default (options) => {
             },
             comment: "Trip number for the specific truck (1 to 3, indicating the order within the day).",
         },
-        arrival_time: {
+        sts_arrival_time: {
             type: DataTypes.DATE,
             allowNull: false,
+            comment: "Time when arrives in sts",
         },
-        departure_time: {
+        sts_departure_time: {
             type: DataTypes.DATE,
             allowNull: false,
+            comment: "Time when leaving sts with waste",
+        },
+        landfill_arrival_time: {
+            type: DataTypes.DATE,
+            allowNull: true,
+            comment: "Time when arrives landfill with waste",
+        },
+        landfill_dumping_time: {
+            type: DataTypes.DATE,
+            allowNull: true,
+            comment: "Time when dumping waste in landfill. There would be value only after dumping, by Landfill manager",
+        },
+        is_bill_paid: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false,
+            comment: "Can be true only after dumping, by Landfill Manager",
         },
     });
 
-    STSDepatureEntry.associate = (models) => {
-        STSDepatureEntry.belongsTo(models.STS, {
+    TripEntry.associate = (models) => {
+        TripEntry.belongsTo(models.STS, {
             foreignKey: "sts_id",
         });
-        STSDepatureEntry.belongsTo(models.Landfill, {
+        TripEntry.belongsTo(models.Landfill, {
             foreignKey: "landfill_id",
         });
-        STSDepatureEntry.belongsTo(models.Vehicle, {
+        TripEntry.belongsTo(models.Vehicle, {
             foreignKey: "vehicle_id",
         });
     };
 
-    return STSDepatureEntry;
+    return TripEntry;
 };

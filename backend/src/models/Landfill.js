@@ -28,6 +28,12 @@ export default (options) => {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
+        current_waste_volume: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            defaultValue: 0,
+            comment: "Update current waste after each departure? or dumping?"
+        },
         opening_time: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -51,16 +57,8 @@ export default (options) => {
             through: models.UserLandfill_Manager,
             foreignKey: "landfill_id",
         });
-
-        Landfill.hasMany(models.Vehicle, {
-            foreignKey: "landfill_id",
-        });
-
-        Landfill.hasMany(models.STSDepartureEntry, {
-            foreignKey: "landfill_id",
-        });
         
-        Landfill.hasMany(models.TruckDumpingEntry, {
+        Landfill.hasMany(models.TripEntry, {
             foreignKey: "landfill_id",
         });
     };
