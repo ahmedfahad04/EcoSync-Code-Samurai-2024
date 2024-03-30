@@ -11,12 +11,27 @@ export const usersRoutes = express.Router();
 
 usersRoutes.post("/", checkPermission(pc.CREATE_USER), schemaValidator(createUserSchema), usersController.create);
 
-usersRoutes.get("/", schemaValidator(findAllQuerySchema, "query"), usersController.findAll);
-usersRoutes.get("/roles", usersController.findAvailableRoles);
-usersRoutes.get("/:user_id", usersController.findOne);
+usersRoutes.get(
+    "/",
+    checkPermission(pc.FIND_ALL_USER),
+    schemaValidator(findAllQuerySchema, "query"),
+    usersController.findAll
+);
+usersRoutes.get("/roles", checkPermission(pc.FIND_ALL_ROLE), usersController.findAvailableRoles);
+usersRoutes.get("/:user_id", checkPermission(pc.FIND_ONE_USER), usersController.findOne);
 
-usersRoutes.put("/:user_id", schemaValidator(updateUserSchema), usersController.update);
-usersRoutes.put("/:user_id/roles", schemaValidator(addRoleSchema), usersController.addRole);
-usersRoutes.delete("/:user_id/roles", usersController.removeRole);
+usersRoutes.put(
+    "/:user_id",
+    checkPermission(pc.UPDATE_USER),
+    schemaValidator(updateUserSchema),
+    usersController.update
+);
+usersRoutes.delete("/:user_id", checkPermission(pc.DELETE_USER), usersController.deleteUser);
 
-usersRoutes.delete("/:user_id", usersController.deleteUser);
+usersRoutes.put(
+    "/:user_id/roles",
+    checkPermission(pc.ADD_ROLE_TO_USER),
+    schemaValidator(addRoleSchema),
+    usersController.addRole
+);
+usersRoutes.delete("/:user_id/roles", checkPermission(pc.REMOVE_ROLE_FROM_USER), usersController.removeRole);
