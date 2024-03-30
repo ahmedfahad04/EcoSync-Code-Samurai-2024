@@ -64,16 +64,41 @@ async function findAllTruckDumpingEntry(req, res) {
 
     entries = entries.map((entry) => {
         const en = entry.toJSON();
-        en.sts = en.st;
-        delete en.st;
-
         en.sts.gps_coordinate = JSON.parse(en.sts.gps_coordinate);
         en.landfill.gps_coordinate = JSON.parse(en.landfill.gps_coordinate);
-
         return en;
     });
 
     res.status(200).json(entries);
+}
+
+async function findOneTruckDumpingEntry(req, res) {
+    const { dumping_id } = req.params;
+    let entry = await models.TruckDumpingEntry.findByPk(dumping_id, {
+        include: [
+            {
+                model: models.STS,
+            },
+            {
+                model: models.Landfill,
+            },
+            {
+                model: models.Vehicle,
+            },
+        ],
+    });
+
+    if (!entry) throw new HttpError({ message: "No entry found" }, 404);
+
+    entry = entry.toJSON();
+    entry.sts.gps_coordinate = JSON.parse(entry.sts.gps_coordinate);
+    entry.landfill.gps_coordinate = JSON.parse(entry.landfill.gps_coordinate);
+
+    res.json(entry);
+}
+
+async function updateTruckDumpingEntry(req, res) {
+    res.json("update not implemented");
 }
 
 async function generateBill(req, res) {
@@ -118,6 +143,8 @@ async function deleteTruckDumpingEntry(req, res) {
 
 export default {
     findAllTruckDumpingEntry,
+    findOneTruckDumpingEntry,
+    updateTruckDumpingEntry,
     deleteTruckDumpingEntry,
     generateBill,
 };

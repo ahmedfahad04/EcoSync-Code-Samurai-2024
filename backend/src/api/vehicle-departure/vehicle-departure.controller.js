@@ -1,4 +1,5 @@
 import { models, Op } from "../../configs/mysql.js";
+import { HttpError } from "../../utils/HttpError.js";
 
 async function findAllDepartureEntry(req, res) {
     let {
@@ -75,6 +76,35 @@ async function findAllDepartureEntry(req, res) {
     res.status(200).json(entries);
 }
 
+async function findOneDepartureEntry(req, res) {
+    const { departure_id } = req.params;
+    let entry = await models.STSDepartureEntry.findByPk(departure_id, {
+        include: [
+            {
+                model: models.STS,
+            },
+            {
+                model: models.Landfill,
+            },
+            {
+                model: models.Vehicle,
+            },
+        ],
+    });
+
+    if (!entry) throw new HttpError({ message: "No entry found" }, 404);
+
+    entry = entry.toJSON();
+    entry.sts.gps_coordinate = JSON.parse(entry.sts.gps_coordinate);
+    entry.landfill.gps_coordinate = JSON.parse(entry.landfill.gps_coordinate);
+
+    res.json(entry);
+}
+
+async function updateDepartureEntry(req, res) {
+    res.json("not implemented");
+}
+
 async function deleteDepartureEntry(req, res) {
     const { departure_id } = req.params;
 
@@ -85,5 +115,7 @@ async function deleteDepartureEntry(req, res) {
 
 export default {
     findAllDepartureEntry,
+    findOneDepartureEntry,
+    updateDepartureEntry,
     deleteDepartureEntry,
 };

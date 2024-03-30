@@ -7,7 +7,7 @@ import { schemaValidator } from "../../middlewares/validation.middleware.js";
 export const truckDumpingRoutes = express.Router();
 
 truckDumpingRoutes.get("/", truckDumpingController.findAllTruckDumpingEntry);
+truckDumpingRoutes.get("/:dumping_id", truckDumpingController.findOneTruckDumpingEntry);
+truckDumpingRoutes.put("/:dumping_id", truckDumpingController.updateTruckDumpingEntry);
 truckDumpingRoutes.delete("/:dumping_id", truckDumpingController.deleteTruckDumpingEntry);
 truckDumpingRoutes.get("/:dumping_id/bills", truckDumpingController.generateBill);
-
-
