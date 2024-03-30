@@ -28,6 +28,12 @@ export default (options) => {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
+        current_waste_volume: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            defaultValue: 0,
+            comment: "Update current waste after each departure? or dumping?"
+        },
         opening_time: {
             type: DataTypes.STRING,
             allowNull: false,
