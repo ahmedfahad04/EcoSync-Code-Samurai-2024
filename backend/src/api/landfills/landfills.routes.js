@@ -22,7 +22,7 @@ landfillRoutes.post(
 );
 landfillRoutes.get("/", checkPermission(pc.FIND_ALL_LANDFILL), landfillsController.findAllLandfill);
 
-landfillRoutes.get("/mine");
+landfillRoutes.get("/mine", landfillsController.findMyLandfills);
 
 landfillRoutes.get("/:landfill_id", checkPermission(pc.FIND_ONE_LANDFILL), landfillsController.findOneLandfill);
 landfillRoutes.put(

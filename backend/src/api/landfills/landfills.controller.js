@@ -37,6 +37,10 @@ async function findAllLandfill(req, res) {
     res.status(200).json(landfills);
 }
 
+async function findMyLandfills() {
+
+}
+
 async function updateLandfill(req, res) {
     const { landfill_id } = req.params;
     const landfillDto = req.body;
@@ -174,6 +178,7 @@ export default {
     createLandfill,
     findOneLandfill,
     findAllLandfill,
+    findMyLandfills,
     updateLandfill,
     deleteLandfill,
     addManager,

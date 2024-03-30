@@ -28,6 +28,8 @@ async function findAllSts(req, res) {
     res.json(sts);
 }
 
+async function findMySts(req, res) {}
+
 async function updateSts(req, res) {
     const { sts_id } = req.params;
     const stsDto = req.body;
@@ -155,6 +157,7 @@ async function addVehicleDepartureEntry(req, res) {
 export default {
     createSts,
     findAllSts,
+    findMySts,
     updateSts,
     deleteSts,
     addManager,
