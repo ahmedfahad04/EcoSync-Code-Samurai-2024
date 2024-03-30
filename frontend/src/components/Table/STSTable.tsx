@@ -79,12 +79,12 @@ const STSTable = () => {
         muiTableContainerProps={{ sx: { maxHeight: "500px" } }}
         renderRowActionMenuItems={({ closeMenu, row, table }) => [
           <MRT_ActionMenuItem
-            icon={<EditIcon className="text-blue-500" />}
+            icon={<ArrowUpFromDotIcon className="text-green-500" />}
             key="edit"
-            label="Edit STS"
+            label="Add Departure Entry"
             onClick={() => {
               setSTSData(row.original);
-              setShowEditSTSModal(true);
+              setShowDepartureEntryModal(true);
               closeMenu();
             }}
             table={table}
@@ -92,12 +92,12 @@ const STSTable = () => {
           />,
 
           <MRT_ActionMenuItem
-            icon={<ArrowUpFromDotIcon className="text-green-500" />}
+            icon={<EditIcon className="text-blue-500" />}
             key="edit"
-            label="Add Departure Entry"
+            label="Edit STS"
             onClick={() => {
               setSTSData(row.original);
-              setShowDepartureEntryModal(true);
+              setShowEditSTSModal(true);
               closeMenu();
             }}
             table={table}

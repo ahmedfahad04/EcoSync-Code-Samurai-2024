@@ -1,22 +1,27 @@
+import { useAuth } from "@/context/AuthContext";
 import { EllipsisVerticalIcon, PencilIcon } from "@heroicons/react/16/solid";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { LogOut } from "lucide-react";
 import * as React from "react";
+import UpdateUserModal from "./Modals/User/UpdateUserModal";
 
 export const AccountMenu: React.FC = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [showUpdateUserModal, setShowUpdateUserModal] = React.useState<boolean>(false);
+  const [showUpdateUserModal, setShowUpdateUserModal] =
+    React.useState<boolean>(false);
+
   const open = Boolean(anchorEl);
+  const { user, logout } = useAuth();
 
   const handleEdit = () => {
     setAnchorEl(null); // Close the menu
-    // setShowUpdateModal(true); // Open the update modal
+    setShowUpdateUserModal(true);
   };
 
-  const handleDelete = () => {
+  const handleLogout = () => {
     setAnchorEl(null); // Close the menu
-    // setShowDeleteModal(true); // Open the delete modal
+    logout();
   };
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -93,7 +98,7 @@ export const AccountMenu: React.FC = () => {
         <hr className="mx-2" />
 
         <MenuItem
-          onClick={handleDelete}
+          onClick={handleLogout}
           className="w-52 text-sm text-black flex items-center"
         >
           <LogOut className="mr-2  rotate-180 text-red-500" width={20} />
@@ -101,9 +106,19 @@ export const AccountMenu: React.FC = () => {
         </MenuItem>
       </Menu>
 
-      {/* {showUpdateUserModal && (
-        // view profile modal
-      )} */}
+      {showUpdateUserModal && (
+        <UpdateUserModal
+          isOpen={showUpdateUserModal}
+          onClose={() => setShowUpdateUserModal(false)}
+          userData={{
+            name: user?.name || "",
+            role: user?.role.role_name || "",
+            email: user?.email || "",
+            phone_number: user?.phone_number || "",
+            user_id: user?.user_id || "",
+          }}
+        />
+      )}
     </div>
   );
 };

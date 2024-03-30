@@ -1,17 +1,20 @@
 import { ILandfill } from "@/models/Landfill";
 import { dummyLandfill } from "@/utils/DummyData";
 // import { dummyLandfill } from "@/utils/DummyData"; // Importing static data
-import { EditIcon, Trash2Icon } from "lucide-react";
+import { ArrowUpFromDotIcon, EditIcon, Trash2Icon } from "lucide-react";
 import {
   MRT_ActionMenuItem,
   MRT_ColumnDef,
   MaterialReactTable,
 } from "material-react-table";
 import { useEffect, useMemo, useState } from "react";
+import DumpingEntryModal from "../Modals/Landfill/DumpingEntryModal";
 import EditLandfillModal from "../Modals/Landfill/EditLandfillModal";
 import ViewLandfillModal from "../Modals/Landfill/ViewLandfillModal";
 
 const LandfillTable = () => {
+  const [showDumpingEntryModal, setShowDumpingEntryModal] =
+    useState<boolean>(false);
   const [showEditLandfillModal, setShowEditLandfillModal] =
     useState<boolean>(false);
   const [showLandfillModal, setShowLandfillModal] = useState<boolean>(false);
@@ -82,6 +85,19 @@ const LandfillTable = () => {
         muiTableContainerProps={{ sx: { maxHeight: "500px" } }}
         renderRowActionMenuItems={({ closeMenu, row, table }) => [
           <MRT_ActionMenuItem
+            icon={<ArrowUpFromDotIcon className="text-green-500" />}
+            key="dumping"
+            label="Add Waste Dumping Entry"
+            onClick={() => {
+              setLandfillData(row.original);
+              setShowDumpingEntryModal(true);
+              closeMenu();
+            }}
+            table={table}
+            className="bg-blue-200"
+          />,
+
+          <MRT_ActionMenuItem
             icon={<EditIcon className="text-blue-500" />}
             key="edit"
             label="Edit"
@@ -112,6 +128,14 @@ const LandfillTable = () => {
           sx: { cursor: "pointer" },
         })}
       />
+
+      {showDumpingEntryModal && (
+        <DumpingEntryModal
+          isOpen={showDumpingEntryModal}
+          onClose={() => setShowDumpingEntryModal(false)}
+          landfillData={LandfillData}
+        />
+      )}
 
       {showEditLandfillModal && (
         <EditLandfillModal

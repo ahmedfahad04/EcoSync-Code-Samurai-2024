@@ -1,3 +1,4 @@
+import { useAuth } from "@/context/AuthContext";
 import {
   ChevronLeft,
   CookingPotIcon,
@@ -9,16 +10,42 @@ import {
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import logo from "../../public/ecosync-logo.png";
-import { AccountMenu } from "./AccountMenu";
+import { AccountMenu } from "./UserAccountMenu";
 
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
+  const { user } = useAuth();
   const Menus = [
-    { title: "Dashboard", src: <LayoutDashboard />, path: "" },
-    { title: "Manage Users", src: <Users />, path: "/users" },
-    { title: "Manage Vehicles", src: <Truck />, path: "/vehicles" },
-    { title: "Manage STS", src: <CookingPotIcon />, path: "/sts" },
-    { title: "Manage Landfill", src: <LandPlot />, path: "/landfill" },
+    {
+      title: "Dashboard",
+      src: <LayoutDashboard />,
+      path: "",
+      roles: ["System Admin", "STS Manager", "Landfill Manager"],
+    },
+    {
+      title: "Manage Users",
+      src: <Users />,
+      path: "/users",
+      roles: ["System Admin"],
+    },
+    {
+      title: "Manage Vehicles",
+      src: <Truck />,
+      path: "/vehicles",
+      roles: ["System Admin"],
+    },
+    {
+      title: "Manage STS",
+      src: <CookingPotIcon />,
+      path: "/sts",
+      roles: ["System Admin", "STS Manager"],
+    },
+    {
+      title: "Manage Landfill",
+      src: <LandPlot />,
+      path: "/landfill",
+      roles: ["System Admin", "Landfill Manager"],
+    },
     // { title: "Accounts", src: "User", gap: true },
   ];
 
@@ -61,27 +88,32 @@ const Sidebar = () => {
 
         {/* nav items */}
         <ul className="pt-6">
-          {Menus.map((Menu, index) => (
-            <NavLink
-              to={`/dashboard${Menu.path}`}
-              style={({ isActive }) => ({
-                color: isActive ? "white" : "#787E8B",
-                backgroundColor: isActive ? "#17A948" : "#F8F9FA",
-                fontWeight: isActive ? "bold" : "",
-              })}
-              end
-              key={index}
-              className={`flex  rounded-md p-2 cursor-pointer hover:bg-slate-200 text-[#4E71A4] text-sm items-center gap-x-4 
+          {Menus.map(
+            (Menu, index) =>
+              Menu.roles.includes(user?.role.role_name) && (
+                <NavLink
+                  to={`/dashboard${Menu.path}`}
+                  style={({ isActive }) => ({
+                    color: isActive ? "white" : "#787E8B",
+                    backgroundColor: isActive ? "#17A948" : "#F8F9FA",
+                    fontWeight: isActive ? "bold" : "",
+                  })}
+                  end
+                  key={index}
+                  className={`flex  rounded-md p-2 cursor-pointer hover:bg-slate-200 text-[#4E71A4] text-sm items-center gap-x-4 
                   ${Menu.gap ? "mt-9" : "mt-2"} ${
-                index === 0 && "bg-light-white"
-              } `}
-            >
-              {Menu.src}
-              <span className={`${!open && "hidden"} origin-left duration-200`}>
-                {Menu.title}
-              </span>
-            </NavLink>
-          ))}
+                    index === 0 && "bg-light-white"
+                  } `}
+                >
+                  {Menu.src}
+                  <span
+                    className={`${!open && "hidden"} origin-left duration-200`}
+                  >
+                    {Menu.title}
+                  </span>
+                </NavLink>
+              )
+          )}
         </ul>
       </div>
 
@@ -104,8 +136,8 @@ const Sidebar = () => {
           {/* have eto fix the logo alignment */}
           <div className="leading-4 flex flex-row justify-between items-center w-full">
             <div>
-              <h4 className="font-semibold">Jhon Doe</h4>
-              <span className="text-xs text-gray-600">Sys Admin</span>
+              <h4 className="font-semibold">{user?.name}</h4>
+              <span className="text-xs text-gray-600">{user?.email}</span>
             </div>
             <div>
               <AccountMenu />

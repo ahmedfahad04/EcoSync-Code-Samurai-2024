@@ -84,6 +84,7 @@ const Dropdown: React.FC<DropdownProps> = ({
             aria-orientation="vertical"
             aria-labelledby="options-menu"
           >
+            {/* will return the ID of the option value, NOT THE VALUE */}
             {options?.map((option, index) => (
               <button
                 key={index}

@@ -6,3 +6,11 @@ export interface ILandfill {
     latitude: string;
     longitude: string;
 }
+
+export interface IDumpingEntry {
+    STSName: string;
+    vehicle_number: string;
+    wasteVolume: string;
+    arrivalTime: string;
+    departureTime: string;
+}

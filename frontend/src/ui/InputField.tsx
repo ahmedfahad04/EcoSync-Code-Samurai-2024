@@ -9,6 +9,8 @@ interface InputFieldProps {
   name: string;
   value: string;
   label?: string;
+  error?: string;
+  disabled?: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -19,7 +21,10 @@ const InputField: React.FC<InputFieldProps> = ({
   id,
   name,
   value,
+  error,
+  disabled,
   label = false,
+
   onChange,
 }: InputFieldProps) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
@@ -46,7 +51,11 @@ const InputField: React.FC<InputFieldProps> = ({
           onChange={onChange}
           name={name}
           value={value}
+          disabled={disabled}
         />
+
+        {/* Error message */}
+        {error && <p className="text-sm text-red-500 mt-1">{error}</p>}
 
         {/* Icon for toggling password visibility */}
         {isPasswordVisible ? (
@@ -83,8 +92,12 @@ const InputField: React.FC<InputFieldProps> = ({
         placeholder={placeholder}
         onChange={onChange}
         name={name}
+        disabled={disabled}
         value={value}
       />
+
+      {/* Error message */}
+      {error && <p className="text-sm text-red-500 mt-1">{error}</p>}
     </div>
   );
 };

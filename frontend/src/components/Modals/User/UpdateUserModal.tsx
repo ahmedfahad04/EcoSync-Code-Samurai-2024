@@ -11,7 +11,8 @@ interface UpdateUserModalModalProps {
         name: string;
         role: string;
         email: string;
-        phone: string;
+        phone_number: string;
+        user_id: string;
       }
     | undefined;
 }

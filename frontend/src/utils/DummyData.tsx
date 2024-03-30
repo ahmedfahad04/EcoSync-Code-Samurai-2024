@@ -1,4 +1,4 @@
-import { ILandfill } from "@/models/Landfill";
+import { IDumpingEntry, ILandfill } from "@/models/Landfill";
 import { IDepartureEntry, ISTS } from "@/models/STS";
 import { IUsers } from "@/models/Users";
 import { IVehicle } from "@/models/Vehicles";
@@ -127,37 +127,37 @@ export const dummyUsers: IUsers[] = [
 export const dummyVehicles: IVehicle[] = [
   {
     vid: "1",
-    vehicleNumber: "ABC123",
-    vehicleType: "Open Truck",
-    vehicleCapacity: "3 Ton",
+    vehicle_number: "ABC123",
+    type: "Open Truck",
+    capacity: "3 Ton",
     createdAt: new Date("2022-01-01"),
   },
   {
     vid: "2",
-    vehicleNumber: "XYZ456",
-    vehicleType: "Dump Truck",
-    vehicleCapacity: "5 Ton",
+    vehicle_number: "XYZ456",
+    type: "Dump Truck",
+    capacity: "5 Ton",
     createdAt: new Date("2022-02-15"),
   },
   {
     vid: "3",
-    vehicleNumber: "DEF789",
-    vehicleType: "Compactor",
-    vehicleCapacity: "7 Ton",
+    vehicle_number: "DEF789",
+    type: "Compactor",
+    capacity: "7 Ton",
     createdAt: new Date("2022-03-20"),
   },
   {
     vid: "4",
-    vehicleNumber: "GHI012",
-    vehicleType: "Container Carrier",
-    vehicleCapacity: "3 Ton",
+    vehicle_number: "GHI012",
+    type: "Container Carrier",
+    capacity: "3 Ton",
     createdAt: new Date("2022-04-10"),
   },
   {
     vid: "5",
-    vehicleNumber: "JKL345",
-    vehicleType: "Open Truck",
-    vehicleCapacity: "7 Ton",
+    vehicle_number: "JKL345",
+    type: "Open Truck",
+    capacity: "7 Ton",
     createdAt: new Date("2022-05-25"),
   },
 ];
@@ -374,7 +374,7 @@ export const dummyLandfill: ILandfill[] = [
 
 export const dummyDepartureData: IDepartureEntry[] = [
   {
-    vehicleNumber: "ABC123",
+    vehicle_number: "ABC123",
     landfillName: "Landfill A",
     trip: 1,
     wasteVolume: 100,
@@ -382,7 +382,7 @@ export const dummyDepartureData: IDepartureEntry[] = [
     departureTime: "10:00:00",
   },
   {
-    vehicleNumber: "DEF456",
+    vehicle_number: "DEF456",
     landfillName: "Landfill B",
     trip: 1,
     wasteVolume: 120,
@@ -390,7 +390,7 @@ export const dummyDepartureData: IDepartureEntry[] = [
     departureTime: "10:30:00",
   },
   {
-    vehicleNumber: "GHI789",
+    vehicle_number: "GHI789",
     landfillName: "Landfill A",
     trip: 2,
     wasteVolume: 90,
@@ -398,7 +398,7 @@ export const dummyDepartureData: IDepartureEntry[] = [
     departureTime: "11:00:00",
   },
   {
-    vehicleNumber: "JKL012",
+    vehicle_number: "JKL012",
     landfillName: "Landfill B",
     trip: 2,
     wasteVolume: 110,
@@ -406,7 +406,7 @@ export const dummyDepartureData: IDepartureEntry[] = [
     departureTime: "11:30:00",
   },
   {
-    vehicleNumber: "MNO345",
+    vehicle_number: "MNO345",
     landfillName: "Landfill A",
     trip: 3,
     wasteVolume: 80,
@@ -414,7 +414,7 @@ export const dummyDepartureData: IDepartureEntry[] = [
     departureTime: "12:00:00",
   },
   {
-    vehicleNumber: "PQR678",
+    vehicle_number: "PQR678",
     landfillName: "Landfill B",
     trip: 3,
     wasteVolume: 130,
@@ -422,11 +422,84 @@ export const dummyDepartureData: IDepartureEntry[] = [
     departureTime: "12:30:00",
   },
   {
-    vehicleNumber: "STU901",
+    vehicle_number: "STU901",
     landfillName: "Landfill A",
     trip: 4,
     wasteVolume: 70,
     arrivalTime: "11:00:00",
     departureTime: "13:00:00",
+  },
+];
+
+export const dummyDumpingData: IDumpingEntry[] = [
+  {
+    STSName: "Dumping Station A",
+    vehicle_number: "ABC123",
+    wasteVolume: "5 tons",
+    arrivalTime: "2024-03-29 08:00",
+    departureTime: "2024-03-29 09:00",
+  },
+  {
+    STSName: "Dumping Station B",
+    vehicle_number: "XYZ456",
+    wasteVolume: "3.5 tons",
+    arrivalTime: "2024-03-29 08:30",
+    departureTime: "2024-03-29 09:45",
+  },
+  {
+    STSName: "Dumping Station C",
+    vehicle_number: "DEF789",
+    wasteVolume: "7.2 tons",
+    arrivalTime: "2024-03-29 09:15",
+    departureTime: "2024-03-29 10:30",
+  },
+  {
+    STSName: "Dumping Station A",
+    vehicle_number: "GHI123",
+    wasteVolume: "4.8 tons",
+    arrivalTime: "2024-03-29 10:00",
+    departureTime: "2024-03-29 11:15",
+  },
+  {
+    STSName: "Dumping Station B",
+    vehicle_number: "JKL456",
+    wasteVolume: "6.1 tons",
+    arrivalTime: "2024-03-29 10:30",
+    departureTime: "2024-03-29 11:45",
+  },
+  {
+    STSName: "Dumping Station C",
+    vehicle_number: "MNO789",
+    wasteVolume: "5.3 tons",
+    arrivalTime: "2024-03-29 11:15",
+    departureTime: "2024-03-29 12:30",
+  },
+  {
+    STSName: "Dumping Station A",
+    vehicle_number: "PQR123",
+    wasteVolume: "3.9 tons",
+    arrivalTime: "2024-03-29 12:00",
+    departureTime: "2024-03-29 13:15",
+  },
+  {
+    STSName: "Dumping Station B",
+    vehicle_number: "STU456",
+    wasteVolume: "4.5 tons",
+    arrivalTime: "2024-03-29 12:30",
+    departureTime: "2024-03-29 13:45",
+  },
+  {
+    STSName: "Dumping Station C",
+    vehicle_number: "VWX789",
+    wasteVolume: "8.7 tons",
+    arrivalTime: "2024-03-29 13:15",
+    departureTime: "2024-03-29 14:30",
+  },
+  {
+    STSName: "Dumping Station A",
+    vehicle_number: "YZA123",
+    wasteVolume: "6.4 tons",
+    arrivalTime: "2024-03-29 14:00",
+    departureTime: "2024-03-29 15:15",
   },
 ];

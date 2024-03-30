@@ -1,6 +1,8 @@
 import AddLandfillModal from "@/components/Modals/Landfill/AddLandfillModal";
+import DumpingEntryTable from "@/components/Table/DumpingEntryTable";
 import LandfillTable from "@/components/Table/LandfillTable";
 import Layout from "@/layout/Layout";
+import { Tab } from "@headlessui/react";
 import { useState } from "react";
 
 const Landfill = () => {
@@ -28,9 +30,30 @@ const Landfill = () => {
           />
         )}
 
-        <div className="flex-1 mt-10">
-          <LandfillTable />
-        </div>
+        <Tab.Group>
+          {/* will design if time demands */}
+          <Tab.List className={"flex flex-row gap-2 mt-5 text-sm"}>
+            <Tab className="ui-selected:bg-[#D9EDBF] ui-selected:rounded-full px-2 py-1 rounded-full ui-selected:text-green-700 ui-not-selected:bg-white ui-not-selected:border-gray-300 ui-not-selected:border-2 ui-selected:active:border-none">
+              Landfill Details
+            </Tab>
+            <Tab className="ui-selected:bg-[#D9EDBF] ui-selected:rounded-full px-2 py-1 rounded-full ui-selected:text-green-700 ui-not-selected:bg-white ui-not-selected:border-gray-300 ui-not-selected:border-2">
+              Waste Dumping Entries
+            </Tab>
+          </Tab.List>
+
+          <Tab.Panels>
+            <Tab.Panel>
+              <div className="flex-1 mt-8">
+                <LandfillTable />
+              </div>
+            </Tab.Panel>
+            <Tab.Panel>
+              <div className="flex-1 mt-8">
+                <DumpingEntryTable />
+              </div>
+            </Tab.Panel>
+          </Tab.Panels>
+        </Tab.Group>
       </div>
     </Layout>
   );

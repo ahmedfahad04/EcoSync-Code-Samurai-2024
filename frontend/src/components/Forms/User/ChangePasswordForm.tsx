@@ -1,15 +1,27 @@
+import { BASE_URL } from "@/constants/Service";
+import { useAuth } from "@/context/AuthContext";
 import InputField from "@/ui/InputField";
+import { httpClient } from "@/utils/httpClient";
 import { InfoIcon } from "lucide-react";
 import { useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
-const ChangePasswordForm = () => {
+const ChangePasswordForm = ({ onClose }: { onClose: () => {} }) => {
+  const { logout } = useAuth();
+  const [captchaValue, setCaptchaValue] = useState();
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     oldPass: "",
     newPass: "",
   });
 
-  const [captchaValue, setCaptchaValue] = useState();
+  const [errors, setErrors] = useState({
+    oldPass: "",
+    newPass: "",
+  });
 
   const handleChange = (e: { target: { name: any; value: any } }) => {
     const { name, value } = e.target;
@@ -17,16 +29,48 @@ const ChangePasswordForm = () => {
       ...prevFormData,
       [name]: value,
     }));
+
+    if (name === "newPass") {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        password: value.length < 6 ? "Password is too short" : "",
+      }));
+    } else if (name === "oldPass") {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        password: value.length < 6 ? "Password is too short" : "",
+      }));
+    }
   };
 
   const handleChangePassword = (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
-    if(formData.oldPass.length == 0) alert('Enter Old Password')
-    if(formData.newPass.length == 0) alert('Enter New Password')
+    if (formData.oldPass.length == 0) toast.error("Enter Old Password");
+    if (formData.newPass.length == 0) toast.error("Enter New Password");
 
     //! logic to ensure change password
-    console.log(formData)
+    httpClient
+      .post(
+        `${BASE_URL}/auth/change-password`,
+        {
+          old_password: formData.oldPass,
+          new_password: formData.newPass,
+        },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        console.log("Pass: ", res);
+        toast.success("Password Updated Successfully");
+        onClose();
+        logout();
+        navigate("/auth/signin");
+      })
+      .catch((err) => {
+        console.log("Err: ", err);
+        if (err.response.data.old_password)
+          toast.error("Invalid Old Password");
+      });
   };
 
   return (
@@ -51,6 +95,7 @@ const ChangePasswordForm = () => {
             placeholder="********"
             value={formData.oldPass}
             label={"Old Password"}
+            error={errors.oldPass}
             onChange={handleChange}
             customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
           />
@@ -62,6 +107,7 @@ const ChangePasswordForm = () => {
             placeholder="********"
             value={formData.newPass}
             label={"New Password"}
+            error={errors.newPass}
             onChange={handleChange}
             customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
           />

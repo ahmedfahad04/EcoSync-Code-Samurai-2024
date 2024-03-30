@@ -1,16 +1,25 @@
-import Dropdown from "@/ui/Dropdown";
+import { API_END_POINTS, BASE_URL } from "@/constants/Service";
 import InputField from "@/ui/InputField";
+import { httpClient } from "@/utils/httpClient";
 import { InfoIcon } from "lucide-react";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import ImageUpload from "../../ImageUpload";
 
-const AddVechileForm = () => {
+const AddVechileForm = ({ onClose }: { onClose: () => {} }) => {
+  const [isLoading, setIsLoading] = useState<boolean>();
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
     email: "",
     password: "",
-    role: "",
+  });
+
+  const [errors, setErrors] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    password: "",
   });
 
   const handleChange = (e: { target: { name: any; value: any } }) => {
@@ -19,16 +28,63 @@ const AddVechileForm = () => {
       ...prevFormData,
       [name]: value,
     }));
+
+    // Validation
+    if (name === "name") {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        name: value.length < 2 ? "Name is too short" : "",
+      }));
+    } else if (name === "phone") {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        phone: !/^\d{11}$/.test(value) ? "Invalid phone number" : "",
+      }));
+    } else if (name === "email") {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        email: !/\S+@\S+\.\S+/.test(value) ? "Invalid email address" : "",
+      }));
+    } else if (name === "password") {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        password: value.length < 6 ? "Password is too short" : "",
+      }));
+    }
   };
 
   const handleCreate = () => {
-    //! api call
-    console.log("Form Data:", formData);
+    if (Object.values(formData).every((value) => value !== "")) {
+      setIsLoading(true);
+      httpClient
+        .post(
+          `${BASE_URL}${API_END_POINTS.USER}`,
+          {
+            name: formData.name,
+            email: formData.email,
+            phone_number: formData.phone,
+            password: formData.password,
+          },
+          { withCredentials: true }
+        )
+        .then(() => {
+          toast.success("User created Successfully");
+          onClose();
+        })
+        .catch((err) => {
+          console.log("ERR: ", err);
+          toast.error(err.response.data.email);
+        });
+
+      setIsLoading(false);
+    } else {
+      toast.error("Please fill all required fields");
+    }
   };
 
   const handleOnUpload = (data: { image: File }) => {
     console.log(data.image.size);
-  };
+};
 
   return (
     <div className=" w-full mt-5">
@@ -57,6 +113,7 @@ const AddVechileForm = () => {
             value={formData.name}
             label={"Full Name"}
             onChange={handleChange}
+            error={errors.name}
             customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
           />
 
@@ -67,6 +124,7 @@ const AddVechileForm = () => {
             value={formData.phone}
             label={"Phone Number"}
             onChange={handleChange}
+            error={errors.phone}
             customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
           />
 
@@ -78,6 +136,7 @@ const AddVechileForm = () => {
             value={formData.email}
             label={"Email"}
             onChange={handleChange}
+            error={errors.email}
             customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
           />
 
@@ -89,31 +148,31 @@ const AddVechileForm = () => {
             value={formData.password}
             label={"Password"}
             onChange={handleChange}
+            error={errors.password}
             customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
           />
 
-          <Dropdown
-            name="Select User Role"
-            options={["STS Manager", "Landfill Manager"]}
-            label="Vehicle Capacity"
-            customClass="mt-3 bg-slate-300/6"
-            onSelect={(selectedOption) =>
-              setFormData((prevFormData) => ({
-                ...prevFormData,
-                role: selectedOption,
-              }))
-            }
-          />
-
-          <div className="flex flex-auto justify-end items-end ">
-            <button
-              type="submit"
-              onClick={handleCreate}
-              className="p-2 bg-primary hover:bg-secondary hover:text-black text-white rounded-md mt-8"
-            >
-              Create
-            </button>
-          </div>
+          {isLoading ? (
+            <div className="flex flex-auto justify-end items-end ">
+              <button
+                type="button"
+                onClick={handleCreate}
+                className="p-2 bg-green-800 hover:bg-secondary hover:text-green-200 text-white rounded-md mt-8"
+              >
+                Creating...
+              </button>
+            </div>
+          ) : (
+            <div className="flex flex-auto justify-end items-end ">
+              <button
+                type="button"
+                onClick={handleCreate}
+                className="p-2 bg-primary hover:bg-secondary hover:text-black text-white rounded-md mt-8"
+              >
+                Create
+              </button>
+            </div>
+          )}
         </form>
       </div>
     </div>

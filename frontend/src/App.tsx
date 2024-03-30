@@ -7,12 +7,13 @@ import ResetPassword from "./pages/Auth/ResetPassword";
 import SignIn from "./pages/Auth/SignIn";
 import Dashboard from "./pages/Dashboard";
 import Home from "./pages/Home";
+import Landfill from "./pages/Landfill";
 import NotFound from "./pages/NotFound";
+import STS from "./pages/STS";
 import Users from "./pages/Users";
 import Vehicles from "./pages/Vehicles";
+import LoggedInRoute from "./routes/LoggedInRoute";
 import PrivateRoute from "./routes/PrivateRoute";
-import STS from "./pages/STS";
-import Landfill from "./pages/Landfill";
 
 function App() {
   return (
@@ -28,7 +29,10 @@ function App() {
           <Route path="landfill" element={<Landfill />} />
         </Route>
 
-        <Route path="/login" element={<SignIn />} />
+        <Route path="/auth" element={<LoggedInRoute />}>
+          <Route path="signin" element={<SignIn />} />
+        </Route>
+
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/otp-verification" element={<OTPVerification />} />
         <Route path="/reset-password" element={<ResetPassword />} />
