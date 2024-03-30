@@ -1,6 +1,6 @@
+import { API_END_POINTS, BASE_URL } from "@/constants/Service";
 import { IVehicle } from "@/models/Vehicles";
 import Chip from "@/ui/Chip";
-import { dummyVehicles } from "@/utils/DummyData";
 import { formattedDate } from "@/utils/formatDate";
 import { Delete } from "@mui/icons-material";
 import { EditIcon } from "lucide-react";
@@ -9,11 +9,24 @@ import {
   MaterialReactTable,
   type MRT_ColumnDef,
 } from "material-react-table";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+import useSWR from "swr";
+import DeleteModal from "../Modals/DeleteModal";
 
-const data = dummyVehicles;
+const fetcher = (url: string) => fetch(url).then((res) => res.json()); // Fetcher function for SWR
 
 const NewVehicleTable = () => {
+  const [showUpdateVehicleModal, setShowUpdateVehicleModal] =
+    useState<boolean>(false);
+  const [showDeleteVehicleModal, setShowDeleteVehicleModal] =
+    useState<boolean>(false);
+  const [selectedVehicle, setSelectedVehicle] = useState<IVehicle>();
+
+  const { data: vehicles } = useSWR<IVehicle[]>(
+    `${BASE_URL}${API_END_POINTS.VEHICLE}`,
+    fetcher
+  );
+
   const columns = useMemo<MRT_ColumnDef<IVehicle>[]>(
     () => [
       {
@@ -52,11 +65,11 @@ const NewVehicleTable = () => {
   return (
     <div>
       <p className="mb-5">
-        <span className="font-bold">{data.length}</span> in total
+        <span className="font-bold">{vehicles?.length}</span> in total
       </p>
       <MaterialReactTable
         columns={columns}
-        data={data}
+        data={vehicles || []}
         enableRowActions
         // positionActionsColumn="last"
         enableStickyHeader
@@ -74,17 +87,27 @@ const NewVehicleTable = () => {
             className="bg-blue-200"
           />,
           <MRT_ActionMenuItem
-            icon={<Delete />}
+            icon={<Delete className="text-red-500" />}
             key="delete"
             label="Delete"
             onClick={() => {
-              alert("Delete");
+              setShowDeleteVehicleModal(true);
+              setSelectedVehicle(row.original);
               closeMenu();
             }}
             table={table}
           />,
         ]}
       />
+
+      {showDeleteVehicleModal && (
+        <DeleteModal
+          url={`${BASE_URL}${API_END_POINTS.VEHICLE}/${selectedVehicle?.vehicle_id}`}
+          onClose={() => setShowDeleteVehicleModal(false)}
+          successTitle={"Vehicle Removed Successfully!"}
+          failureTitle={"Vehical Removal Failed!"}
+        />
+      )}
     </div>
   );
 };

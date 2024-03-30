@@ -26,7 +26,7 @@ const AddVechileForm = ({ onClose }: { onClose: () => void }) => {
   };
 
   const handleCreate = () => {
-    setIsLoading(true)
+    setIsLoading(true);
     if (Object.values(formData).every((value) => value !== "")) {
       httpClient
         .post(`${BASE_URL}${API_END_POINTS.VEHICLE}`, formData, {
@@ -44,8 +44,7 @@ const AddVechileForm = ({ onClose }: { onClose: () => void }) => {
     } else {
       toast.error("Please fill all required fields");
     }
-    setIsLoading(false)
-
+    setIsLoading(false);
   };
 
   return (
