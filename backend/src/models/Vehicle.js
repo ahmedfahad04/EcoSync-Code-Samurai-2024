@@ -46,6 +46,15 @@ export default (options) => {
             type: DataTypes.FLOAT,
             comment: "Fuel cost per kilometer - unloaded",
         },
+        sts_id: {
+            type: DataTypes.UUID,
+            allowNull: true,
+            references: {
+                model: "sts",
+                key: "sts_id",
+            },
+            comment: "A number of trucks with varying load capacity are attached to each sts",
+        },
         landfill_id: {
             type: DataTypes.UUID,
             allowNull: true,
