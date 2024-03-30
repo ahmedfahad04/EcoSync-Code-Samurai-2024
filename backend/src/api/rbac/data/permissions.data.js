@@ -56,12 +56,15 @@ export const permissionData = [
     { permission_name: pc.ADD_VEHICLE_TO_STS, description: "Unknown" },
     { permission_name: pc.REMOVE_VEHICLE_FROM_STS, description: "Unknown" },
 
-    // vehicle-departure
-    { permission_name: pc.CREATE_VEHICLE_DEPARTURE_ENTRY, description: "Unknown" },
-    { permission_name: pc.FIND_ALL_VEHICLE_DEPARTURE_ENTRY, description: "Unknown" },
-    { permission_name: pc.FIND_ONE_VEHICLE_DEPARTURE_ENTRY, description: "Unknown" },
-    { permission_name: pc.UPDATE_VEHICLE_DEPARTURE_ENTRY, description: "Unknown" },
-    { permission_name: pc.DELETE_VEHICLE_DEPARTURE_ENTRY, description: "Unknown" },
+    // trips
+    { permission_name: pc.CREATE_VEHICLE_DEPARTURE_TRIP_ENTRY, description: "Unknown" },
+    { permission_name: pc.FIND_ALL_TRIP_ENTRY, description: "Unknown" },
+    { permission_name: pc.FIND_ONE_TRIP_ENTRY, description: "Unknown" },
+    { permission_name: pc.UPDATE_TRIP_ENTRY, description: "Unknown" },
+    { permission_name: pc.DELETE_TRIP_ENTRY, description: "Unknown" },
+
+    { permission_name: pc.UPDATE_TRIP_WITH_DUMPING_ENTRY, description: "Unknown" },
+    { permission_name: pc.GENERATE_BILL_FOR_DUMPING_ENTRY, description: "Unknown" },
 
     // landfill
     { permission_name: pc.CREATE_LANDFILL, description: "Unknown" },
@@ -73,20 +76,4 @@ export const permissionData = [
     { permission_name: pc.FIND_ALL_MANAGER_OF_LANDFILL, description: "Unknown" },
     { permission_name: pc.ADD_MANAGER_TO_LANDFILL, description: "Unknown" },
     { permission_name: pc.REMOVE_MANAGER_FROM_LANDFILL, description: "Unknown" },
-
-
-    { permission_name: pc.FIND_ALL_VEHICLE_DESTINATION_TO_LANDFILL, description: "Unknown" },
-    { permission_name: pc.ADD_VEHICLE_DESTINATION_TO_LANDFILL, description: "Unknown" },
-    { permission_name: pc.REMOVE_VEHICLE_DESTINATION_TO_LANDFILL, description: "Unknown" },
-
-    // truck-dumping
-    { permission_name: pc.CREATE_TRUCK_DUMPING_ENTRY, description: "Unknown" },
-    { permission_name: pc.FIND_ALL_TRUCK_DUMPING_ENTRY, description: "Unknown" },
-    { permission_name: pc.FIND_ONE_TRUCK_DUMPING_ENTRY, description: "Unknown" },
-    { permission_name: pc.UPDATE_TRUCK_DUMPING_ENTRY, description: "Unknown" },
-    { permission_name: pc.DELETE_TRUCK_DUMPING_ENTRY, description: "Unknown" },
-
-    // billing
-    { permission_name: pc.GENERATE_BILL_FOR_DUMPING_ENTRY, description: "Unknown" },
-    { permission_name: pc.FIND_ALL_BILL, description: "Unknown" },
 ];
