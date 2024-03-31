@@ -124,6 +124,12 @@ async function findAllPermissionOfRole(req, res) {
 async function removePermissionFromRole(req, res) {
     const { role_id, permission_id } = req.params;
 
+    const role = await models.Role.findByPk(role_id);
+    if(!role) throw new HttpError({ message: "role not found"}, 404);
+
+    const permission = await models.Permission.findByPk(permission_id);
+    if(!permission) throw new HttpError({ message: "permission not found"}, 404);
+
     await models.RolePermission.destroy({ where: { role_id, permission_id } });
 
     res.json({ message: "permission removed successfully" });
