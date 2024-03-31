@@ -85,7 +85,9 @@ export const rolePermissionData = [
 
             pc.FIND_ALL_MY_STS,
             pc.FIND_ALL_VEHICLE_OF_STS,
+            pc.FIND_ALL_STS,
 
+            pc.FIND_ALL_VEHICLE,
             pc.CREATE_VEHICLE_DEPARTURE_TRIP_ENTRY,
             pc.FIND_ALL_TRIP_ENTRY_OF_STS,
             pc.FIND_ONE_TRIP_ENTRY,
@@ -105,9 +107,13 @@ export const rolePermissionData = [
             pc.UPDATE_PROFILE,
             pc.CHANGE_PASSWORD,
 
+            pc.FIND_ALL_VEHICLE,
+
             pc.FIND_ALL_PERMISSION_OF_ROLE,
             pc.FIND_ALL_MANAGER_OF_LANDFILL,
+            pc.FIND_ALL_STS,
 
+            pc.FIND_ALL_LANDFILL,
             pc.FIND_ALL_MY_LANDFILL,
             pc.FIND_ALL_TRIP_ENTRY,
 
