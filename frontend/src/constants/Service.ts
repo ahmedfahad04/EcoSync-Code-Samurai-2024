@@ -6,5 +6,6 @@ export enum API_END_POINTS {
     USER = '/users',
     VEHICLE = '/vehicles',
     STS = '/sts',
-    LANDFILL = '/landfills'
+    LANDFILL = '/landfills',
+    TRIP = '/trips'
 }

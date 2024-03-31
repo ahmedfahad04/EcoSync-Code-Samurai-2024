@@ -23,7 +23,7 @@ const DepartureEntryModal: React.FC<DepartureEntryModalProps> = ({
       headline={"Add Vehicle Departure Entry"}
       customClass={customClass}
     >
-      <DepartureEntryForm stsData={stsData} onClose={onClose} />
+      <DepartureEntryForm data={stsData} onClose={onClose} mode={"Create"} />
     </ModalLayout>
   );
 };

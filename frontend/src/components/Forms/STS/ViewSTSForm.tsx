@@ -1,6 +1,7 @@
 import { API_END_POINTS, BASE_URL } from "@/constants/Service";
 import { ISTS } from "@/models/STS";
 import { IUsers } from "@/models/Users";
+import { IVehicle } from "@/models/Vehicles";
 import Label from "@/ui/Label";
 import { InfoIcon } from "lucide-react";
 import useSWR from "swr";
@@ -13,7 +14,12 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json()); // Fetche
 
 const ViewSTSForm: React.FC<ViewSTSFormProps> = ({ stsData }) => {
   const { data: managers } = useSWR<IUsers[]>(
-    `${BASE_URL}${API_END_POINTS.STS}/${stsData?.sts_id}/managers`, //! api isn't ready yet
+    `${BASE_URL}${API_END_POINTS.STS}/${stsData?.sts_id}/managers`,
+    fetcher
+  );
+
+  const { data: vehicles } = useSWR<IVehicle[]>(
+    `${BASE_URL}${API_END_POINTS.STS}/${stsData?.sts_id}/vehicles`,
     fetcher
   );
 
@@ -60,29 +66,39 @@ const ViewSTSForm: React.FC<ViewSTSFormProps> = ({ stsData }) => {
         </div>
 
         {/* manager list */}
-        <div className="col-span-2">
-          <label className="block text-gray-700 font-bold mb-2">
-            STS Managers
-          </label>
-          <div className="flex flex-col justify-start items-start gap-2 w-full">
-            {managers
-              ?.filter((user) => user.name)
-              .map((manager, index) => (
-                <div key={index} className="flex text-sm mr-4 w-full">
-                  <p className="bg-gray-200 w-full p-2 font-semibold text-slate-500 hover:bg-slate-300 cursor-pointer">
-                    {manager.name}
-                  </p>
-                </div>
-              ))}
-            {/* {dummyUsers
-              ?.filter((user) => user.role == 'STS Manager')
-              .map((manager, index) => (
-                <div key={index} className="flex text-sm mr-4 w-full">
-                  <p className="bg-gray-200 w-full p-2 font-semibold text-slate-500 hover:bg-slate-300 cursor-pointer">
-                    {manager.name}
-                  </p>
-                </div>
-              ))} */}
+        <div className="flex flex-row gap-2 justify-between w-full">
+          <div className="w-2/4">
+            <label className="block text-gray-700 font-bold mb-2">
+              STS Managers
+            </label>
+            <div className="flex flex-col justify-start items-start gap-2 w-full">
+              {managers
+                ?.filter((user) => user.name)
+                .map((manager, index) => (
+                  <div key={index} className="flex text-sm mr-4 w-full">
+                    <p className="bg-green-200 w-full p-2 font-semibold text-black hover:bg-green-300 ">
+                      {manager.name}
+                    </p>
+                  </div>
+                ))}
+            </div>
+          </div>
+
+          <div className="w-2/4">
+            <label className="block text-gray-700 font-bold mb-2">
+              Assigned Vehicles
+            </label>
+            <div className="flex flex-col justify-start items-start gap-2 w-full">
+              {vehicles
+                ?.filter((vehicle) => vehicle.vehicle_number)
+                .map((vehicle, index) => (
+                  <div key={index} className="flex text-sm mr-4 w-full">
+                    <p className="bg-amber-200 w-full p-2 font-semibold text-black hover:bg-amber-300 ">
+                      {vehicle.vehicle_number}
+                    </p>
+                  </div>
+                ))}
+            </div>
           </div>
         </div>
       </div>

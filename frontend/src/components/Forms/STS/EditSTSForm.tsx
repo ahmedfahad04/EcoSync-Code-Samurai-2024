@@ -3,7 +3,7 @@ import { ISTS } from "@/models/STS";
 import InputField from "@/ui/InputField";
 import { httpClient } from "@/utils/httpClient";
 import { InfoIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import MapLocation from "./MapLocation";
 
@@ -68,10 +68,6 @@ const EditSTSForm: React.FC<EditSTSFormProps> = ({ stsData, onClose }) => {
       toast.error("Please fill all required fields");
     }
   };
-
-  useEffect(() => {
-    console.log("GPS ", gps_coordinate[0]);
-  }, []);
 
   return (
     <div className=" w-full mt-5">
