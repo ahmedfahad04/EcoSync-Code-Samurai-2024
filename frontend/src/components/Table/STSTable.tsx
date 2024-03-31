@@ -113,18 +113,6 @@ const STSTable = () => {
           muiTableContainerProps={{ sx: { maxHeight: "500px" } }}
           renderRowActionMenuItems={({ closeMenu, row, table }) => [
             <MRT_ActionMenuItem
-              icon={<TruckIcon className="text-amber-500" />}
-              key="truck entry"
-              label="Assign Vehicles"
-              onClick={() => {
-                setSTSData(row.original);
-                setShowAssignTruckModal(true);
-                closeMenu();
-              }}
-              table={table}
-              className="bg-blue-200"
-            />,
-            <MRT_ActionMenuItem
               icon={<ArrowUpFromDotIcon className="text-green-500" />}
               key="departure entry"
               label="Add Departure Entry"
@@ -135,43 +123,6 @@ const STSTable = () => {
               }}
               table={table}
               className="bg-blue-200"
-            />,
-
-            <MRT_ActionMenuItem
-              icon={<PersonOutline className="text-violet-500" />}
-              key="assign manager"
-              label="Assign STS Manager"
-              onClick={() => {
-                setSTSData(row.original);
-
-                setShowAssignSTSManagerModal(true);
-                closeMenu();
-              }}
-              table={table}
-              className="bg-blue-200"
-            />,
-
-            <MRT_ActionMenuItem
-              icon={<EditIcon className="text-blue-500" />}
-              key="edit"
-              label="Edit STS"
-              onClick={() => {
-                setSTSData(row.original);
-                setShowEditSTSModal(true);
-                closeMenu();
-              }}
-              table={table}
-              className="bg-blue-200"
-            />,
-
-            <MRT_ActionMenuItem
-              icon={<Trash2Icon className="text-red-500" />}
-              key="delete"
-              label="Delete"
-              onClick={() => {
-                handleRowDelete(row.id, closeMenu);
-              }}
-              table={table}
             />,
           ]}
           muiTableBodyRowProps={({ row }) => ({

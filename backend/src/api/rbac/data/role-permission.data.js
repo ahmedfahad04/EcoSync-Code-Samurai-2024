@@ -92,6 +92,7 @@ export const rolePermissionData = [
             pc.UPDATE_TRIP_ENTRY,
             pc.DELETE_TRIP_ENTRY,
 
+            pc.FIND_ALL_TRIP_ENTRY,
             pc.FIND_ALL_LANDFILL,
         ],
     },
@@ -108,6 +109,7 @@ export const rolePermissionData = [
             pc.FIND_ALL_MY_LANDFILL,
             pc.FIND_ALL_TRIP_ENTRY,
 
+            pc.FIND_ALL_TRIP_ENTRY,
             pc.FIND_ALL_TRIP_ENTRY_OF_LANDFILL,
             pc.UPDATE_TRIP_WITH_DUMPING_ENTRY,
             pc.GENERATE_BILL_FOR_DUMPING_ENTRY,
