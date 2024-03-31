@@ -75,6 +75,8 @@ async function updateLandfill(req, res) {
         if (exist) throw new HttpError({ landfill_name: "landfill_name already exist" }, 400);
     }
 
+    if (landfillDto.gps_coordinate) landfillDto.gps_coordinate = JSON.stringify(landfillDto.gps_coordinate);
+
     await models.Landfill.update(landfillDto, { where: { landfill_id } });
 
     res.json({ message: "landfill updated successfully" });
