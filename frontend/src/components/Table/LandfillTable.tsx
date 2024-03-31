@@ -1,8 +1,10 @@
 import { ILandfill } from "@/models/Landfill";
 // import { dummyLandfill } from "@/utils/DummyData"; // Importing static data
+import { ROLETYPE } from "@/constants/Global";
 import { API_END_POINTS, BASE_URL } from "@/constants/Service";
+import { useAuth } from "@/context/AuthContext";
 import { PersonOutline } from "@mui/icons-material";
-import { ArrowUpFromDotIcon, EditIcon, Trash2Icon } from "lucide-react";
+import { EditIcon, Trash2Icon } from "lucide-react";
 import {
   MRT_ActionMenuItem,
   MRT_ColumnDef,
@@ -11,7 +13,6 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import useSWR from "swr";
 import AssignLandfillManagerModal from "../Modals/Landfill/AssignLandfillManagerModal";
-import DumpingEntryModal from "../Modals/Landfill/DumpingEntryModal";
 import EditLandfillModal from "../Modals/Landfill/EditLandfillModal";
 import ViewLandfillModal from "../Modals/Landfill/ViewLandfillModal";
 
@@ -28,10 +29,19 @@ const LandfillTable = () => {
     useState<boolean>(false);
   const [LandfillData, setLandfillData] = useState<ILandfill>();
 
-  const { data: landfill } = useSWR<ILandfill[]>(
-    `${BASE_URL}${API_END_POINTS.LANDFILL}`,
-    fetcher
+  const [url, SetURL] = useState<string>(
+    `${BASE_URL}${API_END_POINTS.LANDFILL}`
   );
+
+  const { user } = useAuth();
+
+  const { data: landfill } = useSWR<ILandfill[]>(url, fetcher);
+
+  useEffect(() => {
+    if (user?.role.role_name == ROLETYPE.ROLE3) {
+      SetURL(`${BASE_URL}${API_END_POINTS.LANDFILL}/mine`);
+    }
+  });
 
   useEffect(() => {
     console.log("DATA: ", landfill);
@@ -96,31 +106,33 @@ const LandfillTable = () => {
         enableStickyHeader
         muiTableContainerProps={{ sx: { maxHeight: "500px" } }}
         renderRowActionMenuItems={({ closeMenu, row, table }) => [
-          <MRT_ActionMenuItem
-            icon={<ArrowUpFromDotIcon className="text-green-500" />}
-            key="dumping"
-            label="Add Waste Dumping Entry"
-            onClick={() => {
-              setLandfillData(row.original);
-              setShowDumpingEntryModal(true);
-              closeMenu();
-            }}
-            table={table}
-            className="bg-blue-200"
-          />,
-
-          <MRT_ActionMenuItem
-            icon={<PersonOutline className="text-violet-500" />}
-            key="assign manager"
-            label="Assign Landfill Manager"
-            onClick={() => {
-              setLandfillData(row.original);
-              setShowAssignLandfillManagerModal(true);
-              closeMenu();
-            }}
-            table={table}
-            className="bg-blue-200"
-          />,
+          // <MRT_ActionMenuItem
+          //   icon={<ArrowUpFromDotIcon className="text-green-500" />}
+          //   key="dumping"
+          //   label="Add Waste Dumping Entry"
+          //   onClick={() => {
+          //     setLandfillData(row.original);
+          //     setShowDumpingEntryModal(true);
+          //     closeMenu();
+          //   }}
+          //   table={table}
+          //   className="bg-blue-200"
+          // />,
+          
+          user?.role.role_name == ROLETYPE.ROLE1 && (
+            <MRT_ActionMenuItem
+              icon={<PersonOutline className="text-violet-500" />}
+              key="assign manager"
+              label="Assign Landfill Manager"
+              onClick={() => {
+                setLandfillData(row.original);
+                setShowAssignLandfillManagerModal(true);
+                closeMenu();
+              }}
+              table={table}
+              className="bg-blue-200"
+            />
+          ),
 
           <MRT_ActionMenuItem
             icon={<EditIcon className="text-blue-500" />}
@@ -154,13 +166,13 @@ const LandfillTable = () => {
         })}
       />
 
-      {showDumpingEntryModal && (
+      {/* {showDumpingEntryModal && (
         <DumpingEntryModal
           isOpen={showDumpingEntryModal}
           onClose={() => setShowDumpingEntryModal(false)}
           landfillData={LandfillData}
         />
-      )}
+      )} */}
 
       {showAssignLandfillManagerModal && (
         <AssignLandfillManagerModal

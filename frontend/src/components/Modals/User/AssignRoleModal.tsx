@@ -40,9 +40,13 @@ const AssignRoleModal: React.FC<AssignRoleModalProps> = ({
       setLoadingRoles(true);
 
       httpClient
-        .put(`${BASE_URL}${API_END_POINTS.USER}/${user?.user_id}/roles`, {
-          role_id: selectedRoleId,
-        })
+        .put(
+          `${BASE_URL}${API_END_POINTS.USER}/${user?.user_id}/roles`,
+          {
+            role_id: selectedRoleId,
+          },
+          { withCredentials: true }
+        )
         .then((res) => {
           console.log("res role", res);
           toast.success("Role Changed");

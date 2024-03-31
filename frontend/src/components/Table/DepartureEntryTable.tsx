@@ -1,7 +1,9 @@
-import { dummyDepartureData } from "@/utils/DummyData";
 // import { dummyLandfill } from "@/utils/DummyData"; // Importing static data
+import { ROLETYPE } from "@/constants/Global";
 import { API_END_POINTS, BASE_URL } from "@/constants/Service";
+import { useAuth } from "@/context/AuthContext";
 import { IDepartureEntry } from "@/models/STS";
+import { formattedDate } from "@/utils/formatDate";
 import { MRT_ColumnDef, MaterialReactTable } from "material-react-table";
 import { useEffect, useMemo, useState } from "react";
 import useSWR from "swr";
@@ -27,18 +29,38 @@ const DepartureEntryTable = () => {
     }
   };
 
-  const { data: depEntry } = useSWR<IDepartureEntry[]>(
-    `${BASE_URL}${API_END_POINTS.TRIP}`,
-    fetcher
-  );
+  // const { data: depEntry } = useSWR<IDepartureEntry[]>(
+  //   `${BASE_URL}${API_END_POINTS.TRIP}`,
+  //   fetcher
+  // );
+
+  const [url, SetURL] = useState<string>();
+
+  const { user } = useAuth();
+
+  const { data: depEntry } = useSWR<IDepartureEntry[]>(url, fetcher);
 
   useEffect(() => {
-    //! fetch using useSWR
-    setData(dummyDepartureData); // Set static data from dummyLandfill
-  }, []); // Empty dependency array to run only once when component mounts
+    const stsID = localStorage.getItem("sts-id");
+
+    if (user?.role.role_name === ROLETYPE.ROLE2) {
+      SetURL(`${BASE_URL}${API_END_POINTS.STS}/${stsID}/trips`);
+    } else {
+      SetURL(`${BASE_URL}${API_END_POINTS.TRIP}`);
+    }
+
+    console.log("OUTPUT: ", depEntry)
+  });
+
+
 
   const columns = useMemo<MRT_ColumnDef<IDepartureEntry>[]>(
     () => [
+      {
+        accessorKey: "sts.sts_name",
+        header: "STS NAME",
+        size: 150,
+      },
       {
         accessorKey: "vehicle.vehicle_number",
         header: "VEHICLE NUMBER",
@@ -63,16 +85,33 @@ const DepartureEntryTable = () => {
         accessorKey: "sts_arrival_time",
         header: "ARRIVAL TIME",
         size: 150,
+        Cell: ({ cell }: { cell: any }) => {
+          const dateStr = cell.getValue().toString();
+          const onlyDate = formattedDate(dateStr);
+          return onlyDate;
+        },
       },
       {
         accessorKey: "sts_departure_time",
         header: "DEPARTURE TIME",
         size: 150,
+        Cell: ({ cell }: { cell: any }) => {
+          const dateStr = cell.getValue().toString();
+          const onlyDate = formattedDate(dateStr);
+          return onlyDate;
+        },
       },
       {
         accessorKey: "landfill_arrival_time",
         header: "DUMPING TIME",
         size: 150,
+        Cell: ({ cell }: { cell: any }) => {
+          const dateStr = cell.getValue()?.toString(); // Use optional chaining to handle null values
+          const onlyDate = dateStr
+            ? formattedDate(dateStr)
+            : "Not Dumpped yet!"; // Check if dateStr is not null
+          return onlyDate;
+        },
       },
     ],
     []

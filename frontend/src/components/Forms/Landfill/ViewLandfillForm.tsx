@@ -15,6 +15,7 @@ const fetcher = (url: string) =>
 const ViewLandfillForm: React.FC<ViewLandfillFormProps> = ({
   landfillData,
 }) => {
+  
   const { data: managers } = useSWR<IUsers[]>(
     `${BASE_URL}${API_END_POINTS.LANDFILL}/${landfillData?.landfill_id}/managers`,
     fetcher
@@ -71,10 +72,10 @@ const ViewLandfillForm: React.FC<ViewLandfillFormProps> = ({
         </div>
 
         {/* insert map */}
-        <div>
+        {/* <div>
           <label className="block text-gray-700 font-bold mb-2">Map</label>
-          {/* <img src={MapImage} alt="Map" className="h-40" /> */}
-        </div>
+          <img src={MapImage} alt="Map" className="h-40" />
+        </div> */}
 
         {/* manager list */}
         <div className="col-span-2">

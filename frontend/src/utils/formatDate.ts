@@ -23,5 +23,9 @@ export const formattedDate = (givenDate: string) => {
     const month = months[monthIndex];
     const year = date.getFullYear();
 
-    return `${day} ${month}, ${year}`;
+    // Get hours and minutes
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+
+    return `${hours}:${minutes}; ${day} ${month}, ${year}`;
 };

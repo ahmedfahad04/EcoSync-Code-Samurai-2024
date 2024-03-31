@@ -103,8 +103,10 @@ export const rolePermissionData = [
             pc.CHANGE_PASSWORD,
 
             pc.FIND_ALL_PERMISSION_OF_ROLE,
+            pc.FIND_ALL_MANAGER_OF_LANDFILL,
 
             pc.FIND_ALL_MY_LANDFILL,
+            pc.FIND_ALL_TRIP_ENTRY,
 
             pc.FIND_ALL_TRIP_ENTRY_OF_LANDFILL,
             pc.UPDATE_TRIP_WITH_DUMPING_ENTRY,

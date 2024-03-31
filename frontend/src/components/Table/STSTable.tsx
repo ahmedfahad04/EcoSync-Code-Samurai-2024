@@ -1,4 +1,6 @@
+import { ROLETYPE } from "@/constants/Global";
 import { API_END_POINTS, BASE_URL } from "@/constants/Service";
+import { useAuth } from "@/context/AuthContext";
 import { ISTS } from "@/models/STS";
 import { PersonOutline } from "@mui/icons-material";
 import {
@@ -12,7 +14,7 @@ import {
   MRT_ColumnDef,
   MaterialReactTable,
 } from "material-react-table";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import useSWR from "swr";
 import AssignSTSManagerModal from "../Modals/STS/AssignSTSManagerModal";
 import AssignTruckModal from "../Modals/STS/AssignTruckModal";
@@ -45,10 +47,24 @@ const STSTable = () => {
     }
   };
 
-  const { data: sts } = useSWR<ISTS[]>(
-    `${BASE_URL}${API_END_POINTS.STS}`,
-    fetcher
-  );
+  const [url, SetURL] = useState<string>();
+
+  const { user } = useAuth();
+
+  const { data: sts } = useSWR<ISTS[]>(url, fetcher);
+
+  useEffect(() => {
+    if (user?.role.role_name == ROLETYPE.ROLE2) {
+      SetURL(`${BASE_URL}${API_END_POINTS.STS}/mine`);
+    } else {
+      SetURL(`${BASE_URL}${API_END_POINTS.STS}`);
+    }
+
+    if (sts) {
+      localStorage.setItem("sts-id", sts[0]?.sts_id);
+      localStorage.setItem("sts-name", sts[0]?.sts_name);
+    }
+  });
 
   const columns = useMemo<MRT_ColumnDef<ISTS>[]>(
     () => [

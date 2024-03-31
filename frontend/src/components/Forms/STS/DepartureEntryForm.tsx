@@ -109,7 +109,7 @@ const DepartureEntryForm: React.FC<DepartureEntryFormProps> = ({
 
   useEffect(() => {
     // console.log("DEPT: ", fetchedLandfills, fetchedVehicles);
-    console.log("VEHICLE: ", data.vehicle_number);
+    console.log("VEHICLE STS: ", fetchedVehicles);
 
     if (fetchedLandfills) {
       const names = fetchedLandfills.map((l) => l.landfill_name);
