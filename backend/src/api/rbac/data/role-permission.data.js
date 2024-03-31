@@ -92,6 +92,8 @@ export const rolePermissionData = [
             pc.UPDATE_TRIP_ENTRY,
             pc.DELETE_TRIP_ENTRY,
 
+            pc.FIND_ALL_MANAGER_OF_STS,
+
             pc.FIND_ALL_TRIP_ENTRY,
             pc.FIND_ALL_LANDFILL,
         ],

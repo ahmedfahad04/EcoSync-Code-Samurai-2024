@@ -54,7 +54,7 @@ async function updateVehicle(req, res) {
 
     if (vehicleDto.vehicle_number) {
         const existed = await models.Vehicle.findOne({ where: { vehicle_number: vehicleDto.vehicle_number } });
-        if (existed) throw new HttpError({ vehicle_number: "vehicle number already exists" }, 400);
+        if (existed) throw new HttpError({ message: "vehicle number already exists" }, 400);
     }
 
     if (vehicleDto.type == VehicleTypes.container_carrier) {
