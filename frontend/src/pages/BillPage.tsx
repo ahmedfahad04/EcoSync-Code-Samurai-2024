@@ -56,25 +56,23 @@ const BillPage = ({ result }: { result: IBill }) => {
                   {/* Lucid Car icon */}
                   <div>
                     <p className="text-xs font-bold">Vehicle Number</p>
-                    <p className="text-sm text-green-600">
+                    <p className="text-xs text-green-600">
                       {result.vehicle.vehicle_number}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center">
                   <HouseSiding className="h-5 w-5 text-gray-500 mr-2" />{" "}
-                  {/* Lucid UserCircle icon */}
                   <div>
                     <p className="text-xs font-bold">STS Name</p>
-                    <p className="text-sm text-green-600">{result.sts_name}</p>
+                    <p className="text-xs text-green-600">{result.sts_name}</p>
                   </div>
                 </div>
                 <div className="flex items-center">
                   <LocationCity className="h-5 w-5 text-gray-500 mr-2" />{" "}
-                  {/* Lucid LocationMarker icon */}
                   <div>
                     <p className="text-xs font-bold">Landfill Name</p>
-                    <p className="text-sm text-green-600">
+                    <p className="text-xs text-green-600">
                       {result.landfill_name}
                     </p>
                   </div>
