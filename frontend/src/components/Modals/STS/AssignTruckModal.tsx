@@ -29,9 +29,13 @@ const AssignTruckModal: React.FC<AssignTruckModalProps> = ({
         const truckId = truck.value;
 
         httpClient
-          .put(`${BASE_URL}${API_END_POINTS.STS}/${sts?.sts_id}/vehicles`, {
-            vehicle_id: String(truckId),
-          })
+          .put(
+            `${BASE_URL}${API_END_POINTS.STS}/${sts?.sts_id}/vehicles`,
+            {
+              vehicle_id: String(truckId),
+            },
+            { withCredentials: true }
+          )
           .then((res) => {
             console.log("res role", res);
             toast.success("Vehicle Added to STS");

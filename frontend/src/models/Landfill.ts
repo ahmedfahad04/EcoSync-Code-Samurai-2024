@@ -6,7 +6,7 @@ export interface ILandfill {
     capacity: string;
     latitude: string;
     longitude: string;
-    gps_coordinate: string;
+    gps_coordinate: number[];
     current_waste_volume: string;
 }
 

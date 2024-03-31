@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import { MultiSelect } from "react-multi-select-component";
 import useSWR from "swr";
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json()); // Fetcher function for SWR
+const fetcher = (url: string) =>
+  fetch(url, { credentials: "include" }).then((res) => res.json()); // Fetcher function for SWR
 
 const TruckDropdown = ({ onSelectChange }) => {
   const [selected, setSelected] = useState([]);

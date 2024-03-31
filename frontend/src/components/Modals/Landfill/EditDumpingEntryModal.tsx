@@ -20,10 +20,10 @@ const EditDumpingEntryModal: React.FC<EditDumpingEntryModalProps> = ({
     <ModalLayout
       isOpen={isOpen}
       onClose={onClose}
-      headline={"Add Vehicle Dumping Entry"}
+      headline={"Confirm Dumping Entry"}
       customClass={customClass}
     >
-      <DumpingEntryForm data={data} onClose={onClose} mode={"Edit"} />
+      <DumpingEntryForm data={data} onClose={onClose} />
     </ModalLayout>
   );
 };

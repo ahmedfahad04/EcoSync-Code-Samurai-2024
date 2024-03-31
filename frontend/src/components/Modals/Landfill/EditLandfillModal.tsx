@@ -12,7 +12,7 @@ interface EditLandfillModalProps {
 
 const EditLandfillModal: React.FC<EditLandfillModalProps> = ({
   isOpen,
-  customClass = "w-[500px] flex flex-col justify-center item-center",
+  customClass = "w-[550px] flex flex-col justify-center item-center",
   onClose,
   LandfillData,
 }) => {

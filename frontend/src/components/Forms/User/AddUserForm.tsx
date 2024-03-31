@@ -72,8 +72,10 @@ const AddVechileForm = ({ onClose }: { onClose: () => {} }) => {
           onClose();
         })
         .catch((err) => {
-          console.log("ERR: ", err);
-          toast.error(err.response.data.email);
+          const errMsg = err.request.responseText.split(":")[1];
+          const trimmedErrMsg = errMsg.substr(1, errMsg.length - 3);
+          console.log("ERR", trimmedErrMsg);
+          toast.error(trimmedErrMsg);
         });
 
       setIsLoading(false);

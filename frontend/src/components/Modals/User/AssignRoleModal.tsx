@@ -14,7 +14,8 @@ interface AssignRoleModalProps {
   onClose: () => void;
 }
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json()); // Fetcher function for SWR
+const fetcher = (url: string) =>
+  fetch(url, { credentials: "include" }).then((res) => res.json()); // Fetcher function for SWR
 
 const AssignRoleModal: React.FC<AssignRoleModalProps> = ({
   isOpen,
@@ -22,7 +23,6 @@ const AssignRoleModal: React.FC<AssignRoleModalProps> = ({
   user,
   onClose,
 }) => {
-  
   const { data: roles, error: rolesError } = useSWR<IRole[]>(
     `${BASE_URL}/rbac/roles`,
     fetcher
@@ -40,9 +40,13 @@ const AssignRoleModal: React.FC<AssignRoleModalProps> = ({
       setLoadingRoles(true);
 
       httpClient
-        .put(`${BASE_URL}${API_END_POINTS.USER}/${user?.user_id}/roles`, {
-          role_id: selectedRoleId,
-        })
+        .put(
+          `${BASE_URL}${API_END_POINTS.USER}/${user?.user_id}/roles`,
+          {
+            role_id: selectedRoleId,
+          },
+          { withCredentials: true }
+        )
         .then((res) => {
           console.log("res role", res);
           toast.success("Role Changed");

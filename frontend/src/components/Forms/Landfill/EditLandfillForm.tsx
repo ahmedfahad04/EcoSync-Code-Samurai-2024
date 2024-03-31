@@ -1,8 +1,11 @@
-import LandfillManagerDropdown from "@/components/LandfillManagerDropdown";
+import { API_END_POINTS, BASE_URL } from "@/constants/Service";
 import { ILandfill } from "@/models/Landfill";
 import InputField from "@/ui/InputField";
+import { httpClient } from "@/utils/httpClient";
 import { InfoIcon } from "lucide-react";
 import { useState } from "react";
+import toast from "react-hot-toast";
+import MapLocation from "../STS/MapLocation";
 
 interface EditLandfillFormProps {
   landfillData: ILandfill | undefined;
@@ -18,8 +21,7 @@ const EditLandfillForm: React.FC<EditLandfillFormProps> = ({
     opening_time,
     closing_time,
     capacity,
-    latitude,
-    longitude,
+    gps_coordinate,
   } = landfillData || {
     landfill_name: "",
     opening_time: "",
@@ -34,11 +36,11 @@ const EditLandfillForm: React.FC<EditLandfillFormProps> = ({
     opening_time: opening_time,
     closing_time: closing_time,
     capacity: capacity,
-    latitude: latitude,
-    longitude: longitude,
+    latitude: gps_coordinate[0],
+    longitude: gps_coordinate[1],
   });
 
-  const [LandfillManager, setLandfillManagers] = useState([]);
+  const [isLoading, setIsLoading] = useState<boolean>();
 
   const handleChange = (e: { target: { name: any; value: any } }) => {
     const { name, value } = e.target;
@@ -49,10 +51,38 @@ const EditLandfillForm: React.FC<EditLandfillFormProps> = ({
   };
 
   const handeSaveChanges = () => {
-    //! api call & validation
-    console.log("Form Data:", formData);
-    console.log("MANAGERS: ", LandfillManager);
-    onClose();
+    if (Object.values(formData).every((value) => value !== "")) {
+      setIsLoading(true);
+
+      // to update other info
+      httpClient
+        .put(
+          `${BASE_URL}${API_END_POINTS.LANDFILL}/${landfillData?.landfill_id}`,
+          {
+            landfill_name: formData.landfill_name,
+            capacity: formData.capacity,
+            opening_time: formData.opening_time,
+            closing_time: formData.closing_time,
+            // gps_coordinate: `${formData.latitude}, ${formData.longitude}`,
+          },
+          { withCredentials: true }
+        )
+        .then((res) => {
+          console.log("RES", res);
+          toast.success("Landfill updated Successfully");
+          onClose();
+        })
+        .catch((err) => {
+          const errMsg = err.request.responseText.split(":")[1];
+          const trimmedErrMsg = errMsg.substr(1, errMsg.length - 3);
+          console.log("ERR", trimmedErrMsg);
+          toast.error(trimmedErrMsg);
+        });
+
+      setIsLoading(false);
+    } else {
+      toast.error("Please fill all required fields");
+    }
   };
 
   return (
@@ -114,13 +144,6 @@ const EditLandfillForm: React.FC<EditLandfillFormProps> = ({
             />
           </div>
 
-          <div className="mt-3">
-            <LandfillManagerDropdown
-              managers={LandfillManager}
-              setManager={setLandfillManagers}
-            />
-          </div>
-
           <div className="w-full flex flex-row justify-center items-center gap-5">
             <InputField
               id="latitude"
@@ -143,10 +166,14 @@ const EditLandfillForm: React.FC<EditLandfillFormProps> = ({
           </div>
 
           {/*!! add map */}
+          <div className="mt-3 border-2 border-black cursor-text flex flex-col justify-center items-center">
+            <p className="text-red-500">Click on map for Lat & Lng</p>
+            <MapLocation formData={formData} setFormData={setFormData} />
+          </div>
 
           <div className="flex flex-auto justify-end items-end ">
             <button
-              type="submit"
+              type="button"
               onClick={handeSaveChanges}
               className="p-2 bg-primary hover:bg-secondary hover:text-black text-white rounded-md mt-8"
             >

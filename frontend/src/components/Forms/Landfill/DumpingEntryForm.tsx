@@ -1,51 +1,48 @@
-import Dropdown from "@/ui/Dropdown";
+import { API_END_POINTS, BASE_URL } from "@/constants/Service";
 import InputField from "@/ui/InputField";
-import { dummySTS, dummyVehicles } from "@/utils/DummyData";
+import Label from "@/ui/Label";
+import { httpClient } from "@/utils/httpClient";
 import { InfoIcon } from "lucide-react";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 interface DumpingEntryFormProps {
   data: any;
   onClose: () => void;
-  mode: "Edit" | "Create";
 }
 
 const DumpingEntryForm: React.FC<DumpingEntryFormProps> = ({
   data,
   onClose,
-  mode,
 }) => {
-  const [stsData, setSTSData] = useState<string[]>([]);
-  const [vehicles, setVehicles] = useState<string[]>([]);
-
-  const { sts_name, vehicle_number, wasteVolume, arrivalTime, departureTime } =
-    data || {};
-
-  const [formData, setFormData] = useState(
-    mode === "Edit"
-      ? {
-          sts_name: sts_name || "",
-          vehicle_number: vehicle_number || "",
-          wasteVolume: wasteVolume || "",
-          arrival: arrivalTime || "",
-          departure: departureTime || "",
-        }
-      : {
-          sts_name: "",
-          vehicle_number: "",
-          wasteVolume: "",
-          arrival: "",
-          departure: "",
-        }
-  );
+  const [formData, setFormData] = useState({
+    arrival: "",
+    departure: "",
+  });
 
   const handleCreate = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    //! api call & validation
-    console.log("Form Data:", formData);
-    console.log("LANDFIL: ", data);
 
-    onClose();
+    httpClient
+      .put(
+        `${BASE_URL}${API_END_POINTS.TRIP}/${data.trip_id}/dumping`,
+        {
+          landfill_arrival_time: formData.arrival,
+          landfill_dumping_time: formData.departure,
+        },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        console.log("RES", res);
+        toast.success("Dumping Confirmed");
+        onClose();
+      })
+      .catch((err) => {
+        const errMsg = err.request.responseText.split(":")[1];
+        const trimmedErrMsg = errMsg.substr(1, errMsg.length - 3);
+        console.log("ERR", trimmedErrMsg);
+        toast.error(trimmedErrMsg);
+      });
   };
 
   const handleChange = (e: { target: { name: any; value: any } }) => {
@@ -56,13 +53,8 @@ const DumpingEntryForm: React.FC<DumpingEntryFormProps> = ({
     }));
   };
 
-  // fetch data
   useEffect(() => {
-    const STSData = dummySTS.map((l) => l.sts_name);
-    const vehicle_numbers = dummyVehicles.map((v) => v.vehicle_number); // Corrected variable name
-
-    setSTSData(STSData);
-    setVehicles(vehicle_numbers); // Corrected variable name
+    console.log("DATA: ", data);
   }, []);
 
   return (
@@ -82,48 +74,15 @@ const DumpingEntryForm: React.FC<DumpingEntryFormProps> = ({
         <form className="mt-5 w-full">
           {/* will start from here */}
 
-          {/* landfillId should be returned as selected option */}
-          <Dropdown
-            name={mode == "Edit" ? formData.sts_name : "Select STS"}
-            options={stsData}
-            label="STS Name"
-            customClass="mt-5 bg-slate-300/6"
-            onSelect={(selectedOption) =>
-              setFormData((prevFormData) => ({
-                ...prevFormData,
-                sts_name: selectedOption,
-              }))
-            }
-          />
-
-          <Dropdown
-            name={mode == "Edit" ? formData.vehicle_number : "Select Vehicle"}
-            options={vehicles}
-            label="Vehicle Number"
-            customClass="mt-5 bg-slate-300/6"
-            onSelect={(selectedOption) =>
-              setFormData((prevFormData) => ({
-                ...prevFormData,
-                vehicle_number: selectedOption,
-              }))
-            }
-          />
-
-          <InputField
-            id="wasteVolume"
-            name="wasteVolume"
-            placeholder="250"
-            value={formData.wasteVolume}
-            label={"Weight of wastes (in tonnes)"}
-            onChange={handleChange}
-            customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
-          />
+          <Label title={"STS Name"} value={data.sts.sts_name} />
+          <Label title={"Vehicle Number"} value={data.vehicle.vehicle_number} />
+          <Label title={"Waste Volume (Ton)"} value={data.waste_volume} />
 
           <div className="w-full flex flex-row justify-center items-center gap-5">
             <InputField
               id="arrival"
               name="arrival"
-              type="time"
+              type="datetime-local"
               placeholder="10:00"
               value={formData.arrival}
               label={"Time of Arrival (at Landfill)"}
@@ -133,7 +92,7 @@ const DumpingEntryForm: React.FC<DumpingEntryFormProps> = ({
             <InputField
               id="departure"
               name="departure"
-              type="time"
+              type="datetime-local"
               placeholder="14:00"
               value={formData.departure}
               label={"Time of Departure (from Landfill)"}
@@ -148,7 +107,7 @@ const DumpingEntryForm: React.FC<DumpingEntryFormProps> = ({
               onClick={handleCreate}
               className="p-2 bg-green-500 hover:bg-green-600  text-white rounded-md mt-8"
             >
-              Add Entry
+              Confirm
             </button>
           </div>
         </form>
