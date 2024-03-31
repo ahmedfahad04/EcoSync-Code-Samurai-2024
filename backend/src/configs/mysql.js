@@ -7,7 +7,9 @@ import { startup } from "./mysql.startup.js";
 const sequelize = new Sequelize(config.mysql.database_url, {
     logging: false,
     timestamps: false,
-    freezeTableName: true,
+    // define: {
+    //     freezeTableName: true,
+    // },
 });
 
 import User from "../models/User.js";
@@ -18,8 +20,7 @@ import RolePermission from "../models/RolePermission.js";
 import STS from "../models/STS.js";
 import Landfill from "../models/Landfill.js";
 import Vehicle from "../models/Vehicle.js";
-import STSDepartureEntry from "../models/STSDepartureEntry.js";
-import TruckDumpingEntry from "../models/TruckDumpingEntry.js";
+import TripEntry from "../models/TripEntry.js";
 
 import UserSTS_Manager from "../models/UserSTS_Manager.js";
 import UserLandfill_Manager from "../models/UserLandfill_Manager.js";
@@ -35,8 +36,7 @@ const models = {
     STS: STS(options),
     Landfill: Landfill(options),
     Vehicle: Vehicle(options),
-    STSDepartureEntry: STSDepartureEntry(options),
-    TruckDumpingEntry: TruckDumpingEntry(options),
+    TripEntry: TripEntry(options),
 
     UserSTS_Manager: UserSTS_Manager(options),
     UserLandfill_Manager: UserLandfill_Manager(options),

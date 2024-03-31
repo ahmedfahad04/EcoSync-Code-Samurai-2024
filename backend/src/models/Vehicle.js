@@ -52,11 +52,7 @@ export default (options) => {
             foreignKey: "sts_id",
         });
 
-        Vehicle.hasMany(models.STSDepartureEntry, {
-            foreignKey: "vehicle_id",
-        });
-
-        Vehicle.hasMany(models.TruckDumpingEntry, {
+        Vehicle.hasMany(models.TripEntry, {
             foreignKey: "vehicle_id",
         });
     };

@@ -1,4 +1,4 @@
-import STSManagerDropdown from "@/components/STSManagerDropdown";
+import TruckDropdown from "@/components/TruckDropdown";
 import { API_END_POINTS, BASE_URL } from "@/constants/Service";
 import ModalLayout from "@/layout/ModalLayout";
 import { ISTS } from "@/models/STS";
@@ -7,36 +7,34 @@ import { httpClient } from "@/utils/httpClient";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 
-interface AssignSTSManagerModalProps {
+interface AssignTruckModalProps {
   isOpen: boolean;
   customClass?: string;
   sts: ISTS | undefined;
   onClose: () => void;
 }
 
-// const fetcher = (url: string) => fetch(url).then((res) => res.json()); // Fetcher function for SWR
-
-const AssignSTSManagerModal: React.FC<AssignSTSManagerModalProps> = ({
+const AssignTruckModal: React.FC<AssignTruckModalProps> = ({
   isOpen,
   customClass = "w-[500px] flex flex-col justify-center item-center",
   sts,
   onClose,
 }) => {
-  const [selectedSTSManagerId, setSelectedSTSManagerId] = useState<string[]>();
+  const [selectedTruckId, setSelectedTruckId] = useState<string[]>();
 
-  const handleSTSManagerAssign = () => {
-    if (selectedSTSManagerId && selectedSTSManagerId.length > 0 && sts) {
-      selectedSTSManagerId.forEach((manager) => {
-        const managerId = manager.value;
+  //! submit
+  const handleTruckAssign = () => {
+    if (selectedTruckId && selectedTruckId.length > 0 && sts) {
+      selectedTruckId.forEach((truck) => {
+        const truckId = truck.value;
 
-        //! (will check later) Send API request for each selected STS manager
         httpClient
-          .put(`${BASE_URL}${API_END_POINTS.STS}/${sts?.sts_id}/managers`, {
-            manager_id: String(managerId),
+          .put(`${BASE_URL}${API_END_POINTS.STS}/${sts?.sts_id}/vehicles`, {
+            vehicle_id: String(truckId),
           })
           .then((res) => {
             console.log("res role", res);
-            toast.success("STS Manager Changed");
+            toast.success("Vehicle Added to STS");
           })
           .catch((err) => {
             const errMsg = err.request.responseText.split(":")[1];
@@ -45,37 +43,37 @@ const AssignSTSManagerModal: React.FC<AssignSTSManagerModalProps> = ({
           });
       });
 
-      // Close modal after successful role change for all selected STS managers
+      // Close modal after successful role change for all selected STS trucks
       onClose();
     } else {
-      toast.error("Please select at least one STS manager");
+      toast.error("Please select at least one STS truck");
     }
   };
 
   const handleSelectionChange = (selectedOptions) => {
-    setSelectedSTSManagerId(selectedOptions);
+    setSelectedTruckId(selectedOptions);
   };
 
   return (
     <ModalLayout
       isOpen={isOpen}
       onClose={onClose}
-      headline={"Assign STSManager"}
+      headline={"Assign Truck"}
       customClass={customClass}
     >
       <div className="w-full">
         <Label title={"STS Name"} value={sts?.sts_name} />
-        <STSManagerDropdown onSelectChange={handleSelectionChange} />
+        <TruckDropdown onSelectChange={handleSelectionChange} />
       </div>
 
       <button
-        onClick={handleSTSManagerAssign}
+        onClick={handleTruckAssign}
         className="mt-3 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded w-2/4"
       >
-        Assign STSManager
+        Assign Truck
       </button>
     </ModalLayout>
   );
 };
 
-export default AssignSTSManagerModal;
+export default AssignTruckModal;

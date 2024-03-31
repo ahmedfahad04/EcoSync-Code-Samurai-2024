@@ -10,4 +10,7 @@ export default defineConfig({
       '@': path.resolve(__dirname, 'src'), // source files are in the 'src' directory
     },
   },
+  optimizeDeps: {
+    exclude: ['js-big-decimal']
+  }
 })

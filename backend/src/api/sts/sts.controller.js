@@ -1,4 +1,4 @@
-import { models } from "../../configs/mysql.js";
+import { models, Op } from "../../configs/mysql.js";
 import { roleConstants } from "../rbac/constants/roles.constants.js";
 import { HttpError } from "../../utils/HttpError.js";
 import usersRepository from "../users/users.repository.js";
@@ -182,7 +182,7 @@ async function removeVehicleFromSts(req, res) {
     res.json({ message: "vehicle has been removed successfully" });
 }
 
-async function addVehicleDepartureEntry(req, res) {
+async function addTripEntry(req, res) {
     const { sts_id } = req.params;
     const entryDto = req.body;
 
@@ -198,12 +198,12 @@ async function addVehicleDepartureEntry(req, res) {
     if (entryDto.waste_volume > vehicle.capacity)
         throw new HttpError({ waste_volume: `waste volume exceeds vehicle capacity: ${vehicle.capacity} tons` }, 400);
 
-    const count = await stsRepository.countTotalTrip(entryDto.vehicle_id, entryDto.departure_time);
+    const count = await stsRepository.countTotalTrip(entryDto.vehicle_id, entryDto.sts_departure_time);
     if (count >= 3) throw new HttpError({ vehicle_id: "a vehicle can have maximum of 3 trips per day" }, 400);
 
     const isTripNumberExist = await stsRepository.isTripNumberExistForCurrentDay(
         entryDto.vehicle_id,
-        entryDto.departure_time,
+        entryDto.sts_departure_time,
         entryDto.trip_number
     );
     if (isTripNumberExist) throw new HttpError({ trip_number: "trip number already exists for today" }, 400);
@@ -212,10 +212,59 @@ async function addVehicleDepartureEntry(req, res) {
     if (!landfill) throw new HttpError({ landfill_id: "landfill not found" }, 404);
 
     entryDto.sts_id = sts_id;
-    let departureEntry = await models.STSDepartureEntry.create(entryDto);
+    let departureEntry = await models.TripEntry.create(entryDto);
     departureEntry = departureEntry.toJSON();
 
     res.status(201).json(departureEntry);
+}
+
+async function findAllTripEntryOfSts(req, res) {
+    const { sts_id } = req.params;
+
+    let { page = 1, limit = 10, landfill_name, vehicle_number, sort = "createdAt", order = "DESC" } = req.query;
+
+    page = parseInt(page);
+    limit = parseInt(limit);
+
+    const includeLandfill = {
+        model: models.Landfill,
+    };
+    if (landfill_name) {
+        includeLandfill.where = {
+            landfill_name: {
+                [Op.like]: `%${landfill_name}%`,
+            },
+        };
+    }
+
+    const includeVehicle = {
+        model: models.Vehicle,
+    };
+    if (vehicle_number) {
+        includeVehicle.where = {
+            vehicle_number: {
+                [Op.like]: `%${vehicle_number}%`,
+            },
+        };
+    }
+
+    let entries = await models.TripEntry.findAll({
+        where: {
+            sts_id,
+        },
+        include: [includeLandfill, includeVehicle],
+        offset: (page - 1) * limit,
+        limit: limit,
+        order: [[sort, order]],
+    });
+
+    entries = entries.map((entry) => {
+        const en = entry.toJSON();
+        en.landfill.gps_coordinate = JSON.parse(en.landfill.gps_coordinate);
+        return en;
+    });
+
+    res.status(200).json(entries);
 }
 
 export default {
@@ -231,5 +280,6 @@ export default {
     addVehicleToSTS,
     findAllVehicleOfSts,
     removeVehicleFromSts,
-    addVehicleDepartureEntry,
+    addTripEntry,
+    findAllTripEntryOfSts,
 };

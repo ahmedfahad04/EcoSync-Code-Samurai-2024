@@ -1,7 +1,12 @@
 import { API_END_POINTS, BASE_URL } from "@/constants/Service";
 import { ISTS } from "@/models/STS";
 import { PersonOutline } from "@mui/icons-material";
-import { ArrowUpFromDotIcon, EditIcon, Trash2Icon } from "lucide-react";
+import {
+  ArrowUpFromDotIcon,
+  EditIcon,
+  Trash2Icon,
+  TruckIcon,
+} from "lucide-react";
 import {
   MRT_ActionMenuItem,
   MRT_ColumnDef,
@@ -10,6 +15,7 @@ import {
 import { useMemo, useState } from "react";
 import useSWR from "swr";
 import AssignSTSManagerModal from "../Modals/STS/AssignSTSManagerModal";
+import AssignTruckModal from "../Modals/STS/AssignTruckModal";
 import DepartureEntryModal from "../Modals/STS/DepartureEntryModal";
 import EditSTSModal from "../Modals/STS/EditSTSModal";
 import ViewSTSModal from "../Modals/STS/ViewSTSModal";
@@ -23,8 +29,10 @@ const STSTable = () => {
     useState<boolean>(false);
   const [showAssignSTSManagerModal, setShowAssignSTSManagerModal] =
     useState<boolean>(false);
+  const [showAssignTruckModal, setShowAssignTruckModal] =
+    useState<boolean>(false);
+
   const [STSData, setSTSData] = useState<ISTS>();
-  const [data, setData] = useState<ISTS[]>([]);
 
   const handleRowDelete = (index: string, closeWindow: () => void) => {
     if (window.confirm("Are you sure?")) {
@@ -32,7 +40,6 @@ const STSTable = () => {
 
       //! api call to delete entry
       newData.splice(parseInt(index), 1);
-      setData(newData);
       closeWindow();
     }
   };
@@ -77,7 +84,7 @@ const STSTable = () => {
   return (
     <div>
       <p className="mb-5">
-        <span className="font-bold">{data.length}</span> in total
+        <span className="font-bold">{sts?.length}</span> in total
       </p>
       <MaterialReactTable
         columns={columns}
@@ -86,6 +93,18 @@ const STSTable = () => {
         enableStickyHeader
         muiTableContainerProps={{ sx: { maxHeight: "500px" } }}
         renderRowActionMenuItems={({ closeMenu, row, table }) => [
+          <MRT_ActionMenuItem
+            icon={<TruckIcon className="text-amber-500" />}
+            key="truck entry"
+            label="Assign Vehicles"
+            onClick={() => {
+              setSTSData(row.original);
+              setShowAssignTruckModal(true);
+              closeMenu();
+            }}
+            table={table}
+            className="bg-blue-200"
+          />,
           <MRT_ActionMenuItem
             icon={<ArrowUpFromDotIcon className="text-green-500" />}
             key="departure entry"
@@ -175,6 +194,14 @@ const STSTable = () => {
           isOpen={showDepartureEntryModal}
           onClose={() => setShowDepartureEntryModal(false)}
           stsData={STSData}
+        />
+      )}
+
+      {showAssignTruckModal && (
+        <AssignTruckModal
+          isOpen={showAssignTruckModal}
+          onClose={() => setShowAssignTruckModal(false)}
+          sts={STSData}
         />
       )}
     </div>

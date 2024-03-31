@@ -31,7 +31,15 @@ async function findAllVehicle(req, res) {
     res.json(vehicles);
 }
 
-async function findAllAvailableVehicle() {}
+async function findAllAvailableVehicle(req, res) {
+    // vehicles that are not assigned to any sts
+    const vehicles = await models.Vehicle.findAll({
+        where: {
+            sts_id: null,
+        },
+    });
+    res.json(vehicles);
+}
 
 async function updateVehicle(req, res) {
     const { vehicle_id } = req.params;

@@ -1,15 +1,19 @@
 import { models, Op } from "../../configs/mysql.js";
 import { HttpError } from "../../utils/HttpError.js";
 
-async function findAllTruckDumpingEntry(req, res) {
+async function findAllTripEntry(req, res) {
     let {
         page = 1,
         limit = 10,
         sts_name,
         landfill_name,
         vehicle_number,
-        arrival_time = "1800-04-28T09:23:54.512Z",
-        departure_time = "9026-04-28T09:23:54.512Z",
+        sts_arrival_time = "1800-04-28T09:23:54.512Z",
+        sts_departure_time = "9026-04-28T09:23:54.512Z",
+        landfill_arrival_time = "1800-04-28T09:23:54.512Z",
+        landfill_departure_time = "9026-04-28T09:23:54.512Z",
+        sort = "createdAt",
+        order = "DESC",
     } = req.query;
 
     page = parseInt(page);
@@ -48,22 +52,27 @@ async function findAllTruckDumpingEntry(req, res) {
         };
     }
 
-    let entries = await models.TruckDumpingEntry.findAll({
+    let entries = await models.TripEntry.findAll({
         where: {
-            arrival_time: {
-                [Op.gte]: arrival_time,
+            sts_arrival_time: {
+                [Op.gte]: sts_arrival_time,
             },
-            departure_time: {
-                [Op.lte]: departure_time,
+            sts_departure_time: {
+                [Op.lte]: sts_departure_time,
             },
         },
         include: [includeSTS, includeLandfill, includeVehicle],
         offset: (page - 1) * limit,
         limit: limit,
+        order: [[sort, order]],
     });
 
     entries = entries.map((entry) => {
         const en = entry.toJSON();
+
+        en.sts = en.st;
+        delete en.st;
+
         en.sts.gps_coordinate = JSON.parse(en.sts.gps_coordinate);
         en.landfill.gps_coordinate = JSON.parse(en.landfill.gps_coordinate);
         return en;
@@ -72,9 +81,9 @@ async function findAllTruckDumpingEntry(req, res) {
     res.status(200).json(entries);
 }
 
-async function findOneTruckDumpingEntry(req, res) {
-    const { dumping_id } = req.params;
-    let entry = await models.TruckDumpingEntry.findByPk(dumping_id, {
+async function findOneTripEntry(req, res) {
+    const { trip_id } = req.params;
+    let entry = await models.TripEntry.findByPk(trip_id, {
         include: [
             {
                 model: models.STS,
@@ -91,32 +100,40 @@ async function findOneTruckDumpingEntry(req, res) {
     if (!entry) throw new HttpError({ message: "No entry found" }, 404);
 
     entry = entry.toJSON();
+
+    entry.sts = entry.st;
+    delete entry.st;
+
     entry.sts.gps_coordinate = JSON.parse(entry.sts.gps_coordinate);
     entry.landfill.gps_coordinate = JSON.parse(entry.landfill.gps_coordinate);
 
     res.json(entry);
 }
 
-async function updateTruckDumpingEntry(req, res) {
+async function updateTripEntry(req, res) {
     res.json("update not implemented");
 }
 
 async function generateBill(req, res) {
-    const { dumping_id } = req.params;
+    const { trip_id } = req.params;
 
-    const dumpingEntry = await models.TruckDumpingEntry.findByPk(dumping_id);
+    const tripEntry = await models.TripEntry.findByPk(trip_id);
 
-    if (!dumpingEntry) throw new HttpError({ message: "invalid dumping entry" }, 404);
+    if (!tripEntry) throw new HttpError({ message: "invalid trip entry" }, 404);
 
-    const vehicle = await models.Vehicle.findByPk(dumpingEntry.vehicle_id);
-    const landfill = await models.Landfill.findByPk(dumpingEntry.landfill_id);
-    const sts = await models.STS.findByPk(dumpingEntry.sts_id);
+    if (!tripEntry.landfill_arrival_time || !tripEntry.landfill_dumping_time) {
+        throw new HttpError({ message: "Trip is not dumped yet" }, 400);
+    }
+
+    const vehicle = await models.Vehicle.findByPk(tripEntry.vehicle_id);
+    const landfill = await models.Landfill.findByPk(tripEntry.landfill_id);
+    const sts = await models.STS.findByPk(tripEntry.sts_id);
 
     const cpk_journey =
-        vehicle.cpk_unloaded + (dumpingEntry.waste_volume / vehicle.capacity) * (vehicle.cpk_loaded - vehicle.cpk_unloaded);
+        vehicle.cpk_unloaded + (tripEntry.waste_volume / vehicle.capacity) * (vehicle.cpk_loaded - vehicle.cpk_unloaded);
 
     const result = {
-        waste_volume: dumpingEntry.waste_volume,
+        waste_volume: tripEntry.waste_volume,
         distance: 20,
         cost_per_kilo: cpk_journey,
         total_cost: cpk_journey * 20,
@@ -129,22 +146,46 @@ async function generateBill(req, res) {
         },
         sts_name: sts.toJSON().sts_name,
         landfill_name: landfill.toJSON().landfill_name,
+        dumping_time: tripEntry.landfill_dumping_time,
         createdAt: new Date().toString(),
     };
 
     res.json(result);
 }
 
-async function deleteTruckDumpingEntry(req, res) {
-    const { dumping_id } = req.params;
-    await models.TruckDumpingEntry.destroy({ where: { dumping_id } });
+async function deleteTripEntry(req, res) {
+    const { trip_id } = req.params;
+
+    // cannot delete after dumping
+    const tripEntry = await models.TripEntry.findByPk(trip_id);
+    if (!tripEntry) throw new HttpError({ message: "trip not found" }, 404);
+
+    if (tripEntry.landfill_arrival_time || tripEntry.landfill_dumping_time) {
+        throw new HttpError({ message: "Trip dumped already. cannot delete it." }, 403);
+    }
+
+    await models.TripEntry.destroy({ where: { trip_id } });
+
     res.json({ message: "dumping entry deleted successfully" });
 }
 
+async function updateTripWithDumpingEntry(req, res) {
+    const { trip_id } = req.params;
+    const dumpDto = req.body;
+
+    const trip = await models.TripEntry.findByPk(trip_id);
+    if (!trip) throw new HttpError({ message: "Trip not found" }, 404);
+
+    await models.TripEntry.update(dumpDto, { where: { trip_id } });
+
+    res.json({ message: "updated trip with dumping entry" });
+}
+
 export default {
-    findAllTruckDumpingEntry,
-    findOneTruckDumpingEntry,
-    updateTruckDumpingEntry,
-    deleteTruckDumpingEntry,
+    findAllTripEntry,
+    findOneTripEntry,
+    updateTripEntry,
+    deleteTripEntry,
     generateBill,
+    updateTripWithDumpingEntry,
 };
