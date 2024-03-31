@@ -521,3 +521,46 @@ export const DummyBillPage = {
   dumping_time: "2024-03-31T03:52:00.000Z",
   createdAt: new Date().toString(),
 };
+
+export const roles = [
+  {
+    id: 1,
+    name: "Admin",
+    description: "Full access to all features",
+  },
+  {
+    id: 2,
+    name: "Manager",
+    description: "Access to managerial features",
+  },
+  {
+    id: 3,
+    name: "Employee",
+    description: "Limited access for employees",
+  },
+  {
+    id: 4,
+    name: "Employee",
+    description: "Limited access for employees",
+  },
+];
+
+export const permissions = [
+  "Create User",
+  "Edit User",
+  "Delete User",
+  "View User",
+  "Create User",
+  "Edit User",
+  "Delete User",
+  "View User",
+  "Create User",
+  "Edit User",
+  "Delete User",
+  "View User",
+  "Create User",
+  "Edit User",
+  "Delete User",
+  "View User",
+  // Add more permissions as needed
+];
