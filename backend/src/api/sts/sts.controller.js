@@ -77,6 +77,8 @@ async function updateSts(req, res) {
         if (exist) throw new HttpError({ sts_name: "sts_name already exist" }, 400);
     }
 
+    if (stsDto.gps_coordinate) stsDto.gps_coordinate = JSON.stringify(stsDto.gps_coordinate);
+
     await models.STS.update(stsDto, { where: { sts_id } });
 
     res.json({ message: "sts updated successfully" });
@@ -133,7 +135,8 @@ async function addManager(req, res) {
 
     if (!user) throw new HttpError({ manager_id: "invalid manager_id" }, 400);
 
-    if (user.role?.role_name != roleConstants.STSManager) throw new HttpError({ manager_id: "user must be a sts manager" }, 400);
+    if (user.role?.role_name != roleConstants.STSManager)
+        throw new HttpError({ manager_id: "user must be a sts manager" }, 400);
 
     const user_sts = { user_id: manager_id, sts_id: sts_id };
 
