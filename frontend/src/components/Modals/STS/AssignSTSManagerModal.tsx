@@ -31,9 +31,13 @@ const AssignSTSManagerModal: React.FC<AssignSTSManagerModalProps> = ({
 
         //! (will check later) Send API request for each selected STS manager
         httpClient
-          .put(`${BASE_URL}${API_END_POINTS.STS}/${sts?.sts_id}/managers`, {
-            manager_id: String(managerId),
-          })
+          .put(
+            `${BASE_URL}${API_END_POINTS.STS}/${sts?.sts_id}/managers`,
+            {
+              manager_id: String(managerId),
+            },
+            { withCredentials: true }
+          )
           .then((res) => {
             console.log("res role", res);
             toast.success("STS Manager Changed");

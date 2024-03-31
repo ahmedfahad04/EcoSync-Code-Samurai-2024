@@ -15,7 +15,7 @@ const DeleteUser: React.FC<DeleteUserProps> = ({ url, onClose }) => {
   const handleDeletePost = () => {
     setLoading(true);
     httpClient
-      .delete(`${url}`)
+      .delete(`${url}`, { withCredentials: true })
       .then((res) => {
         console.log("User Deleted", res.data);
         toast.success("User deletion successful!");

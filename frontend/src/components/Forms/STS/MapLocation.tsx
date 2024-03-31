@@ -1,13 +1,13 @@
 import "leaflet/dist/leaflet.css";
+import React from "react";
 import { MapContainer, TileLayer, useMapEvents } from "react-leaflet";
 
-const LocationMap = ({
-  formData,
-  setFormData,
-}: {
-  formData: any;
-  setFormData: any;
-}) => {
+interface MapProp {
+  formData?: any;
+  setFormData?: any;
+}
+
+const LocationMap: React.FC<MapProp> = ({ formData, setFormData }) => {
   const LocationFinderDummy = () => {
     const map = useMapEvents({
       click(e: { latlng: { lat: number; lng: number } }) {
