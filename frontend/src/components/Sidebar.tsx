@@ -5,6 +5,8 @@ import {
   LandPlot,
   LayoutDashboard,
   Truck,
+  UserCheck2Icon,
+  UserIcon,
   Users,
 } from "lucide-react";
 import { useState } from "react";
@@ -45,6 +47,12 @@ const Sidebar = () => {
       src: <LandPlot />,
       path: "/landfill",
       roles: ["System Admin", "Landfill Manager"],
+    },
+    {
+      title: "Roles & Permissions",
+      src: <UserCheck2Icon />,
+      path: "/roles-and-permission",
+      roles: ["System Admin"],
     },
     // { title: "Accounts", src: "User", gap: true },
   ];
@@ -123,7 +131,6 @@ const Sidebar = () => {
           open ? "" : "justify-between items-center"
         }`}
       >
-        
         <div className="flex flex-row">
           <img
             src="https://picsum.photos/id/236/200/300"
