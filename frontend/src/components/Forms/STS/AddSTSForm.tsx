@@ -4,6 +4,7 @@ import { httpClient } from "@/utils/httpClient";
 import { InfoIcon } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { mutate } from "swr";
 import MapLocation from "./MapLocation";
 
 const AddSTSFrom = ({ onClose }: { onClose: () => void }) => {
@@ -48,6 +49,7 @@ const AddSTSFrom = ({ onClose }: { onClose: () => void }) => {
         )
         .then(() => {
           toast.success("STS created Successfully");
+          mutate(`${BASE_URL}${API_END_POINTS.STS}`);
           onClose();
         })
         .catch((err) => {

@@ -127,6 +127,7 @@ const NewVehicleTable = () => {
           onClose={() => setShowDeleteVehicleModal(false)}
           successTitle={"Vehicle Removed Successfully!"}
           failureTitle={"Vehical Removal Failed!"}
+          baseUrl={`${BASE_URL}${API_END_POINTS.VEHICLE}`}
         />
       )}
     </div>

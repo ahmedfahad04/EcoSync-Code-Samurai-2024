@@ -6,6 +6,7 @@ import Label from "@/ui/Label";
 import { httpClient } from "@/utils/httpClient";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
+import { mutate } from "swr";
 
 interface AssignLandfillManagerModalProps {
   isOpen: boolean;
@@ -46,6 +47,7 @@ const AssignLandfillManagerModal: React.FC<AssignLandfillManagerModalProps> = ({
           .then((res) => {
             console.log("res role", res);
             toast.success("Landfill Manager Changed");
+            mutate(`${BASE_URL}${API_END_POINTS.LANDFILL}`);
           })
           .catch((err) => {
             const errMsg = err.request.responseText.split(":")[1];

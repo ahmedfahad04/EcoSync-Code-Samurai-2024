@@ -16,6 +16,7 @@ import {
 } from "material-react-table";
 import { useEffect, useMemo, useState } from "react";
 import useSWR from "swr";
+import DeleteModal from "../Modals/DeleteModal";
 import AssignSTSManagerModal from "../Modals/STS/AssignSTSManagerModal";
 import AssignTruckModal from "../Modals/STS/AssignTruckModal";
 import DepartureEntryModal from "../Modals/STS/DepartureEntryModal";
@@ -34,6 +35,8 @@ const STSTable = () => {
     useState<boolean>(false);
   const [showAssignTruckModal, setShowAssignTruckModal] =
     useState<boolean>(false);
+  const [showDeleteSTSModal, setShowDeleteSTSModal] = useState<boolean>(false);
+  const [currentSTSID, setShowCurrentSTSID] = useState<string>();
 
   const [STSData, setSTSData] = useState<ISTS>();
 
@@ -52,6 +55,7 @@ const STSTable = () => {
   const { user } = useAuth();
 
   const { data: sts } = useSWR<ISTS[]>(url, fetcher);
+  // const { data: stsVehicles } = useSWR(`localhost:3000/api/sts/35e46b3a-4d55-4dd1-937b-eb96bcad35ca/vehicles`, fetcher)
 
   useEffect(() => {
     if (user?.role.role_name == ROLETYPE.ROLE2) {
@@ -187,7 +191,9 @@ const STSTable = () => {
               key="delete"
               label="Delete"
               onClick={() => {
-                handleRowDelete(row.id, closeMenu);
+                setShowDeleteSTSModal(true);
+                setShowCurrentSTSID(row.original.sts_id);
+                closeMenu();
               }}
               table={table}
             />,
@@ -240,6 +246,16 @@ const STSTable = () => {
           isOpen={showAssignTruckModal}
           onClose={() => setShowAssignTruckModal(false)}
           sts={STSData}
+        />
+      )}
+
+      {showDeleteSTSModal && (
+        <DeleteModal
+          url={`${BASE_URL}${API_END_POINTS.STS}/${currentSTSID}`}
+          successTitle={"STS Removed Successfully"}
+          failureTitle={"Failed to delete STS"}
+          baseUrl={`${BASE_URL}${API_END_POINTS.STS}`}
+          onClose={() => setShowDeleteSTSModal(false)}
         />
       )}
     </div>

@@ -4,6 +4,7 @@ import { httpClient } from "@/utils/httpClient";
 import { InfoIcon } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { mutate } from "swr";
 import MapLocation from "../STS/MapLocation";
 
 const AddLandfillForm = ({ onClose }: { onClose: () => void }) => {
@@ -53,6 +54,7 @@ const AddLandfillForm = ({ onClose }: { onClose: () => void }) => {
         )
         .then(() => {
           toast.success("Landfill created Successfully");
+          mutate(`${BASE_URL}${API_END_POINTS.LANDFILL}`);
           onClose();
         })
         .catch((err) => {

@@ -5,6 +5,7 @@ import { httpClient } from "@/utils/httpClient";
 import { InfoIcon } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { mutate } from "swr";
 
 const AddVechileForm = ({ onClose }: { onClose: () => void }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -35,6 +36,7 @@ const AddVechileForm = ({ onClose }: { onClose: () => void }) => {
         .then((res) => {
           console.log("VEHICLE : ", res);
           toast.success("Vehicle created successfully");
+          mutate(`${BASE_URL}${API_END_POINTS.VEHICLE}`);
           onClose();
         })
         .catch((err) => {
@@ -42,6 +44,12 @@ const AddVechileForm = ({ onClose }: { onClose: () => void }) => {
           if (errMsg.includes("cpk_unload")) {
             console.log("Unloaded cost should be LESS than Loaded Cost ");
             toast.error("Unloaded cost should be LESS than Loaded Cost");
+          } else if (errMsg.includes("number")) {
+            toast.error(err.response.data.vehicle_number);
+          } else if (errMsg.includes("capacity")) {
+            toast.error("Container Carrier can only be 15 ton");
+          } else {
+            console.log("ERR: ", err);
           }
         });
     } else {

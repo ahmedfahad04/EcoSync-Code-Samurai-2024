@@ -5,7 +5,7 @@ import Dropdown from "@/ui/Dropdown";
 import { httpClient } from "@/utils/httpClient";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 
 interface AssignRoleModalProps {
   isOpen: boolean;
@@ -50,6 +50,8 @@ const AssignRoleModal: React.FC<AssignRoleModalProps> = ({
         .then((res) => {
           console.log("res role", res);
           toast.success("Role Changed");
+
+          mutate(`${BASE_URL}${API_END_POINTS.USER}`);
 
           // Close modal after successful role change
           onClose();

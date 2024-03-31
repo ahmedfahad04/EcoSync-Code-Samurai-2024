@@ -5,6 +5,7 @@ import { httpClient } from "@/utils/httpClient";
 import { InfoIcon } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { mutate } from "swr";
 import MapLocation from "../STS/MapLocation";
 
 interface EditLandfillFormProps {
@@ -54,6 +55,24 @@ const EditLandfillForm: React.FC<EditLandfillFormProps> = ({
     if (Object.values(formData).every((value) => value !== "")) {
       setIsLoading(true);
 
+      // validate number formate
+      // const openingTimeSegments = formData.opening_time.split(":");
+      // console.log("o ", openingTimeSegments)
+      // if (openingTimeSegments.length == 2) {
+      //   setFormData((prevFormData) => ({
+      //     ...prevFormData,
+      //     opening_time: opening_time.toString() + ":00",
+      //   }));
+      // }
+
+      // const closingTimeSegments = formData.closing_time.split(":");
+      // if (closingTimeSegments.length == 2) {
+      //   setFormData((prevFormData) => ({
+      //     ...prevFormData,
+      //     closing_time: closing_time.toString() + ":00",
+      //   }));
+      // }
+
       // to update other info
       httpClient
         .put(
@@ -61,8 +80,8 @@ const EditLandfillForm: React.FC<EditLandfillFormProps> = ({
           {
             landfill_name: formData.landfill_name,
             capacity: formData.capacity,
-            opening_time: formData.opening_time,
-            closing_time: formData.closing_time,
+            opening_time: formData.opening_time + ":00",
+            closing_time: formData.closing_time + ":00",
             // gps_coordinate: `${formData.latitude}, ${formData.longitude}`,
           },
           { withCredentials: true }
@@ -70,12 +89,13 @@ const EditLandfillForm: React.FC<EditLandfillFormProps> = ({
         .then((res) => {
           console.log("RES", res);
           toast.success("Landfill updated Successfully");
+          mutate(`${BASE_URL}${API_END_POINTS.LANDFILL}`);
           onClose();
         })
         .catch((err) => {
           const errMsg = err.request.responseText.split(":")[1];
           const trimmedErrMsg = errMsg.substr(1, errMsg.length - 3);
-          console.log("ERR", trimmedErrMsg);
+          console.log("ERR", err);
           toast.error(trimmedErrMsg);
         });
 

@@ -7,7 +7,7 @@ import { IPermission } from "@/models/Roles";
 import { IRole } from "@/models/Users";
 import { formattedDate } from "@/utils/formatDate";
 import { useEffect, useState } from "react";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 
 const fetcher = (url: string) =>
   fetch(url, { credentials: "include" }).then((res) => res.json());
@@ -23,7 +23,7 @@ const RolesAndPermissions = () => {
     []
   );
   const [selecteRole, setSelectedRole] = useState<IRole>();
-  const [selectePermission, setSelectedPermission] = useState<IPermission>();
+  const [selectePermission, setSelectedPermission] = useState<string>();
   const [showDeletePermissionModal, setShowDeletePermissionModal] =
     useState<boolean>(false);
 
@@ -78,8 +78,10 @@ const RolesAndPermissions = () => {
   };
 
   const handleDeletePermission = (pid: string) => {
+    console.log("PERMISSION ", pid);
     setShowDeletePermissionModal(true);
     setSelectedPermission(pid);
+    mutate(`${BASE_URL}/rbac/permissions`);
   };
 
   return (
@@ -196,12 +198,9 @@ const RolesAndPermissions = () => {
           />
         )}
 
-        {/* url={`${BASE_URL}/rbac/roles/${selecteRole?.role_id}/permissions/${pid}`},
-successTitle={ "Permission Removed"},
-failureTitle={"Failed to remove permission"} */}
         {showDeletePermissionModal && (
           <DeleteModal
-            url={`${BASE_URL}/rbac/roles/${selecteRole?.role_id}/permissions/${selectePermission?.permission_id}`}
+            url={`${BASE_URL}/rbac/roles/${selecteRole?.role_id}/permissions/${selectePermission}`}
             successTitle={"Permission Removed"}
             failureTitle={"Failed to remove permission"}
             onClose={() => setShowDeletePermissionModal(false)}

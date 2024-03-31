@@ -6,6 +6,7 @@ import { httpClient } from "@/utils/httpClient";
 import { InfoIcon } from "lucide-react";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
+import { mutate } from "swr";
 
 interface UpdateVehicleFormProps {
   vehicleData: IVehicle | undefined;
@@ -62,14 +63,18 @@ const UpdateVehicleForm: React.FC<UpdateVehicleFormProps> = ({
         .then((res) => {
           console.log("VEHICLE : ", res);
           toast.success("Vehicle updated successfully");
+
+          mutate(`${BASE_URL}${API_END_POINTS.VEHICLE}`);
+          onClose();
         })
         .catch((err) => {
-          console.log("ERR Ve: ", err.request.responseText.split(":")[1]);
+
+          console.log("ERR Ve: ", err);
           toast.error("Failed to Update vehicle");
+          
         })
         .finally(() => {
           setIsLoading(false);
-          onClose();
         });
     } else {
       toast.error("Please fill all required fields");
@@ -121,7 +126,7 @@ const UpdateVehicleForm: React.FC<UpdateVehicleFormProps> = ({
 
         <Dropdown
           name={capacity}
-          options={["3", "5", "7"]}
+          options={["3", "5", "7", "15"]}
           label="Vehicle Capacity"
           customClass="mt-3 bg-slate-300/6"
           onSelect={(selectedOption) =>

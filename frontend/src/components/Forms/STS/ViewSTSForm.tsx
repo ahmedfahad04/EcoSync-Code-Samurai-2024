@@ -4,6 +4,7 @@ import { IUsers } from "@/models/Users";
 import { IVehicle } from "@/models/Vehicles";
 import Label from "@/ui/Label";
 import { InfoIcon } from "lucide-react";
+import { useEffect } from "react";
 import useSWR from "swr";
 
 interface ViewSTSFormProps {
@@ -23,6 +24,11 @@ const ViewSTSForm: React.FC<ViewSTSFormProps> = ({ stsData }) => {
     `${BASE_URL}${API_END_POINTS.STS}/${stsData?.sts_id}/vehicles`,
     fetcher
   );
+
+  useEffect(() => {
+    console.log("Man: ", managers);
+    console.log("Vehicle: ", vehicles);
+  }, []);
 
   return (
     <div className="container mx-auto p-4">

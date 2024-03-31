@@ -49,10 +49,8 @@ const DepartureEntryTable = () => {
       SetURL(`${BASE_URL}${API_END_POINTS.TRIP}`);
     }
 
-    console.log("OUTPUT: ", depEntry)
+    console.log("OUTPUT: ", depEntry);
   });
-
-
 
   const columns = useMemo<MRT_ColumnDef<IDepartureEntry>[]>(
     () => [
@@ -110,7 +108,7 @@ const DepartureEntryTable = () => {
           const onlyDate = dateStr
             ? formattedDate(dateStr)
             : "Not Dumpped yet!"; // Check if dateStr is not null
-          return onlyDate;
+          return <p className="font-semibold text-red-500">{onlyDate}</p>;
         },
       },
     ],
@@ -120,7 +118,7 @@ const DepartureEntryTable = () => {
   return (
     <div>
       <p className="mb-5">
-        <span className="font-bold">{data.length}</span> in total
+        <span className="font-bold">{depEntry?.length}</span> in total
       </p>
       <MaterialReactTable
         columns={columns}

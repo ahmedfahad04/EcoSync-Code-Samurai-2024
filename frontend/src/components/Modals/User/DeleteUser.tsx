@@ -1,7 +1,9 @@
 import { TrashIcon } from "@heroicons/react/16/solid";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
+import { mutate } from "swr";
 
+import { API_END_POINTS, BASE_URL } from "@/constants/Service";
 import { httpClient } from "@/utils/httpClient";
 
 interface DeleteUserProps {
@@ -20,6 +22,7 @@ const DeleteUser: React.FC<DeleteUserProps> = ({ url, onClose }) => {
         console.log("User Deleted", res.data);
         toast.success("User deletion successful!");
 
+        mutate(`${BASE_URL}${API_END_POINTS.USER}`);
         onClose();
       })
       .catch((err) => {

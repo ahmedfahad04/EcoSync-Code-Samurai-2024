@@ -4,6 +4,7 @@ import { httpClient } from "@/utils/httpClient";
 import { InfoIcon } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { mutate } from "swr";
 import ImageUpload from "../../ImageUpload";
 
 const AddVechileForm = ({ onClose }: { onClose: () => {} }) => {
@@ -69,6 +70,8 @@ const AddVechileForm = ({ onClose }: { onClose: () => {} }) => {
         )
         .then(() => {
           toast.success("User created Successfully");
+          mutate(`${BASE_URL}${API_END_POINTS.USER}`);
+
           onClose();
         })
         .catch((err) => {

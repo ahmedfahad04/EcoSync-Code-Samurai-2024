@@ -5,6 +5,7 @@ import { httpClient } from "@/utils/httpClient";
 import { InfoIcon } from "lucide-react";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
+import { mutate } from "swr";
 import ImageUpload from "../../ImageUpload";
 import ChangePasswordModal from "../../Modals/User/ChangePasswordModal";
 
@@ -91,6 +92,8 @@ const UpdateUserForm: React.FC<UpdateUserFormProps> = ({
         })
         .then(() => {
           toast.success("User updated Successfully");
+          mutate(`${BASE_URL}${API_END_POINTS.USER}`);
+
           onClose();
         })
         .catch((err) => {
@@ -157,7 +160,7 @@ const UpdateUserForm: React.FC<UpdateUserFormProps> = ({
             value={formData.phone_number}
             label={"Phone Number"}
             onChange={handleChange}
-            error={errors.name}
+            error={errors.phone_number}
             customInputClass="bg-[#F3F4F6] border-b-3 rounded-tl-sm rounded-tr-sm rounded-bl-none rounded-br-none focus:border-none active:border-none h-10 rounded-md w-[400px] border-b border-solid border-black"
           />
 

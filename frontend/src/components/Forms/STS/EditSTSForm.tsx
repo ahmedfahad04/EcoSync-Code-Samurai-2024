@@ -5,6 +5,7 @@ import { httpClient } from "@/utils/httpClient";
 import { InfoIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { mutate } from "swr";
 import MapLocation from "./MapLocation";
 
 interface EditSTSFormProps {
@@ -43,23 +44,36 @@ const EditSTSForm: React.FC<EditSTSFormProps> = ({ stsData, onClose }) => {
     if (Object.values(formData).every((value) => value !== "")) {
       setIsLoading(true);
 
+      console.log({
+        sts_name: formData.sts_name,
+        ward_number: formData.ward_number,
+        capacity: formData.capacity,
+        gps_coordinate: [formData.latitude, formData.longitude],
+      });
+
       // to update other info
       httpClient
-        .put(`${BASE_URL}${API_END_POINTS.STS}/${stsData?.sts_id}`, {
-          sts_name: formData.sts_name,
-          ward_number: formData.ward_number,
-          capacity: formData.capacity,
-          gps_coordinate: [formData.latitude, formData.longitude],
-        })
+        .put(
+          `${BASE_URL}${API_END_POINTS.STS}/${stsData?.sts_id}`,
+          {
+            sts_name: formData.sts_name,
+            ward_number: formData.ward_number,
+            capacity: formData.capacity,
+            gps_coordinate: [formData.latitude, formData.longitude],
+          },
+          { withCredentials: true }
+        )
         .then((res) => {
           console.log("RES", res);
           toast.success("STS updated Successfully");
+          mutate(`${BASE_URL}${API_END_POINTS.TRIP}`);
+
           onClose();
         })
         .catch((err) => {
           const errMsg = err.request.responseText.split(":")[1];
           const trimmedErrMsg = errMsg.substr(1, errMsg.length - 3);
-          console.log("ERR", trimmedErrMsg);
+          console.log("ERR", err);
           toast.error(trimmedErrMsg);
         });
 

@@ -3,11 +3,13 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 
 import { httpClient } from "@/utils/httpClient";
+import { mutate } from "swr";
 
 interface DeleteModalProps {
   url: string;
   successTitle: string;
   failureTitle: string;
+  baseUrl?: string;
   onClose: () => void;
 }
 
@@ -16,26 +18,31 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
   onClose,
   successTitle,
   failureTitle,
+  baseUrl,
 }) => {
   const [loading, setLoading] = useState(false);
 
   const handleDeletePost = () => {
     setLoading(true);
-    httpClient
-      .delete(`${url}`, { withCredentials: true })
-      .then((res) => {
-        console.log("Deleted", res.data);
-        toast.success(successTitle);
-
-        onClose();
-      })
-      .catch((err) => {
-        console.log("ERROR in deletion: ", err);
-        toast.error(failureTitle);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    try {
+      httpClient
+        .delete(url, { withCredentials: true })
+        .then((res) => {
+          console.log("Deleted", res.data);
+          toast.success(successTitle);
+          mutate(baseUrl);
+          onClose();
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error(failureTitle);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    } catch (error) {
+      console.log("REQ Err: ", error)
+    }
   };
 
   return (
