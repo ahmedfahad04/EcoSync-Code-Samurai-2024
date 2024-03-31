@@ -503,3 +503,21 @@ export const dummyDumpingData: IDumpingEntry[] = [
     departureTime: "2024-03-29 15:15",
   },
 ];
+
+export const DummyBillPage = {
+  waste_volume: "10 tons",
+  distance: 20,
+  cost_per_kilo: 0.5,
+  total_cost: 10 * 20 * 0.5, // Assuming waste volume * distance * cost per kilo
+  vehicle: {
+    vehicle_number: "ABC123",
+    type: "Truck",
+    capacity: "20 tons",
+    cpk_loaded: 0.4,
+    cpk_unloaded: 0.6,
+  },
+  sts_name: "STS Name",
+  landfill_name: "Landfill Name",
+  dumping_time: "2024-03-31T03:52:00.000Z",
+  createdAt: new Date().toString(),
+};
