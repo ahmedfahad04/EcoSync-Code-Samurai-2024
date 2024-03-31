@@ -54,3 +54,6 @@ stsRoutes.post(
     stsController.addTripEntry
 );
 stsRoutes.get("/:sts_id/trips", checkPermission(pc.FIND_ALL_TRIP_ENTRY_OF_STS), stsController.findAllTripEntryOfSts);
+
+// find optimal route from sts to any landfill
+stsRoutes.get("/:sts_id/routes")
