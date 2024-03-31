@@ -25,6 +25,7 @@ const DepartureEntryForm: React.FC<DepartureEntryFormProps> = ({
 }) => {
   const [landfills, setLandfills] = useState<string[]>([]);
   const [vehicles, setVehicles] = useState<string[]>([]);
+  const [vcapacity, setVCapacity] = useState<string>();
 
   const {
     landfill_name,
@@ -70,7 +71,7 @@ const DepartureEntryForm: React.FC<DepartureEntryFormProps> = ({
   );
 
   const { data: fetchedVehicles } = useSWR<IVehicle[]>(
-    `${BASE_URL}${API_END_POINTS.VEHICLE}`,
+    `${BASE_URL}${API_END_POINTS.STS}/${data?.sts_id}/vehicles`,
     fetcher
   );
 
@@ -129,18 +130,17 @@ const DepartureEntryForm: React.FC<DepartureEntryFormProps> = ({
       setVehicles(vehicleNumbers);
     }
 
-    console.log(
-      "V: ",
-      fetchedVehicles?.map((v) => v.vehicle_number)
-    );
-    console.log(
-      "L: ",
-      fetchedLandfills?.map((l) => l.landfill_name)
-    );
-
     setLandfills(fetchedLandfills?.map((l) => l.landfill_name));
     setVehicles(fetchedVehicles?.map((v) => v.vehicle_number));
   }, []);
+
+  useEffect(() => {
+    const vehicle_capacity = fetchedVehicles
+      ?.filter((v) => v.vehicle_number == formData.vehicle_number)
+      .map((v) => v.capacity);
+
+    setVCapacity(vehicle_capacity);
+  }, [formData]);
 
   return (
     <div className=" w-full mt-5">
@@ -165,7 +165,6 @@ const DepartureEntryForm: React.FC<DepartureEntryFormProps> = ({
             label="Vehicle Number"
             customClass="mt-5 bg-slate-300/6"
             onSelect={(selectedOption) => {
-              // Set the selected landfill name and ID in the formData
               setFormData((prevFormData) => ({
                 ...prevFormData,
                 vehicle_number: selectedOption,
@@ -234,6 +233,18 @@ const DepartureEntryForm: React.FC<DepartureEntryFormProps> = ({
               }));
             }}
           />
+
+          {vcapacity?.length != 0 && (
+            <div className="w-full flex items-center justify-center">
+              <p className="mt-3 font-medium text-gray-700 flex flex-row justify-center p-2 gap-2 bg-gray-100 w-full">
+                <InfoIcon width={16} /> Waste weight should be less than{" "}
+                <span className="font-bold text-red-500">
+                  {" "}
+                  ${vcapacity} Ton
+                </span>
+              </p>
+            </div>
+          )}
 
           <div className="flex flex-auto justify-end items-end ">
             <button
