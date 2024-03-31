@@ -3,7 +3,7 @@ import { API_END_POINTS, BASE_URL } from "@/constants/Service";
 import { useAuth } from "@/context/AuthContext";
 import { IDumpingEntry } from "@/models/Landfill";
 import { formattedDate } from "@/utils/formatDate";
-import { MoneyOutlined } from "@mui/icons-material";
+import { CurrencyBitcoin, MoneyOutlined } from "@mui/icons-material";
 import { EditIcon, Trash2Icon } from "lucide-react";
 import {
   MRT_ActionMenuItem,
@@ -14,6 +14,7 @@ import { useEffect, useMemo, useState } from "react";
 import useSWR from "swr";
 import BillPageModal from "../Modals/Landfill/BillPageModal";
 import EditDumpingEntryModal from "../Modals/Landfill/EditDumpingEntryModal";
+import { CurrencyBangladeshiIcon, CurrencyDollarIcon } from "@heroicons/react/16/solid";
 
 const fetcher = (url: string) =>
   fetch(url, { credentials: "include" }).then((res) => res.json()); // Fetcher function for SWR
@@ -104,7 +105,7 @@ const DumpingEntryTable = () => {
   return (
     <div>
       <p className="mb-5">
-        <span className="font-bold">{data.length}</span> in total
+        <span className="font-bold">{tripEntry?.length}</span> in total
       </p>
 
       {user?.role.role_name == ROLETYPE.ROLE3 ? (
@@ -128,7 +129,7 @@ const DumpingEntryTable = () => {
               className="bg-blue-200"
             />,
             <MRT_ActionMenuItem
-              icon={<MoneyOutlined className="text-blue-500" />}
+              icon={<CurrencyDollarIcon width={20} className="text-green-500" />}
               key="bill"
               label="Generate Bills"
               onClick={() => {
