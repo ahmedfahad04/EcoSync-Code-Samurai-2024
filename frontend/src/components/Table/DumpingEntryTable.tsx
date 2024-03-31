@@ -3,6 +3,7 @@ import { API_END_POINTS, BASE_URL } from "@/constants/Service";
 import { useAuth } from "@/context/AuthContext";
 import { IDumpingEntry } from "@/models/Landfill";
 import { formattedDate } from "@/utils/formatDate";
+import { MoneyOutlined } from "@mui/icons-material";
 import { EditIcon, Trash2Icon } from "lucide-react";
 import {
   MRT_ActionMenuItem,
@@ -11,6 +12,7 @@ import {
 } from "material-react-table";
 import { useEffect, useMemo, useState } from "react";
 import useSWR from "swr";
+import BillPageModal from "../Modals/Landfill/BillPageModal";
 import EditDumpingEntryModal from "../Modals/Landfill/EditDumpingEntryModal";
 
 const fetcher = (url: string) =>
@@ -22,11 +24,10 @@ const DumpingEntryTable = () => {
 
   const [dumpingEntry, setDumpingEntry] = useState<IDumpingEntry>();
   const [data, setData] = useState<IDumpingEntry[]>([]);
+  const [billpage, showBillPage] = useState<boolean>(false);
 
   const [url, SetURL] = useState<string>();
-
   const { user } = useAuth();
-
   const { data: tripEntry } = useSWR<IDumpingEntry[]>(url, fetcher);
 
   useEffect(() => {
@@ -127,6 +128,18 @@ const DumpingEntryTable = () => {
               className="bg-blue-200"
             />,
             <MRT_ActionMenuItem
+              icon={<MoneyOutlined className="text-blue-500" />}
+              key="bill"
+              label="Generate Bills"
+              onClick={() => {
+                setDumpingEntry(row.original);
+                showBillPage(true);
+                closeMenu();
+              }}
+              table={table}
+              className="bg-blue-200"
+            />,
+            <MRT_ActionMenuItem
               icon={<Trash2Icon className="text-red-500" />}
               key="delete"
               label="Delete"
@@ -150,6 +163,14 @@ const DumpingEntryTable = () => {
         <EditDumpingEntryModal
           isOpen={showDumpingEntryEditModal}
           onClose={() => setShowDumpingEntryEditModal(false)}
+          data={dumpingEntry}
+        />
+      )}
+
+      {billpage && (
+        <BillPageModal
+          isOpen={billpage}
+          onClose={() => showBillPage(false)}
           data={dumpingEntry}
         />
       )}
