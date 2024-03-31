@@ -9,6 +9,7 @@ import Dashboard from "./pages/Dashboard";
 import Home from "./pages/Home";
 import Landfill from "./pages/Landfill";
 import NotFound from "./pages/NotFound";
+import RolesAndPermissions from "./pages/RolesAndPermissions";
 import STS from "./pages/STS";
 import Users from "./pages/Users";
 import Vehicles from "./pages/Vehicles";
@@ -27,6 +28,10 @@ function App() {
           <Route path="vehicles" element={<Vehicles />} />
           <Route path="sts" element={<STS />} />
           <Route path="landfill" element={<Landfill />} />
+          <Route
+            path="roles-and-permission"
+            element={<RolesAndPermissions />}
+          />
         </Route>
 
         <Route path="/auth" element={<LoggedInRoute />}>
