@@ -25,36 +25,36 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-          {/* Recent Dumping Status */}
-          <div className="bg-white rounded-lg overflow-hidden shadow-md p-6">
-            <h3 className="text-xl font-semibold mb-4">
-              Recent Dumping Status
-            </h3>
-            <table className="w-full">
-              <thead>
-                <tr className="bg-gray-200">
-                  <th className="py-2 px-4">STS Name</th>
-                  <th className="py-2 px-4">Vehicle Name</th>
-                  <th className="py-2 px-4">Landfill Name</th>
-                  <th className="py-2 px-4">Dumping Time</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="py-2 px-4">Center</td>
-                  <td className="py-2 px-4">Vehicle 1</td>
-                  <td className="py-2 px-4">Landfill 1</td>
-                  <td className="py-2 px-4">2024-03-31 12:00 PM</td>
-                </tr>
-                {/* Add more rows as needed */}
-              </tbody>
-            </table>
-          </div>
+
           {/* Other Content */}
           <div className="bg-white rounded-lg overflow-hidden shadow-md p-6">
             <h3 className="text-xl font-semibold mb-4">Other Content</h3>
             <p>This is where you can add additional content.</p>
           </div>
+        </div>
+        {/* Recent Dumping Status */}
+
+        <div className="bg-white rounded-lg overflow-hidden shadow-md p-6">
+          <h3 className="text-xl font-semibold mb-4">Recent Dumping Status</h3>
+          <table className="w-full">
+            <thead>
+              <tr className="bg-gray-200">
+                <th className="py-2 px-4">STS Name</th>
+                <th className="py-2 px-4">Vehicle Name</th>
+                <th className="py-2 px-4">Landfill Name</th>
+                <th className="py-2 px-4">Dumping Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td className="py-2 px-4">Center</td>
+                <td className="py-2 px-4">Vehicle 1</td>
+                <td className="py-2 px-4">Landfill 1</td>
+                <td className="py-2 px-4">2024-03-31 12:00 PM</td>
+              </tr>
+              {/* Add more rows as needed */}
+            </tbody>
+          </table>
         </div>
       </div>
     </Layout>
