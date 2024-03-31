@@ -6,7 +6,8 @@ import { MRT_ColumnDef, MaterialReactTable } from "material-react-table";
 import { useEffect, useMemo, useState } from "react";
 import useSWR from "swr";
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json()); // Fetcher function for SWR
+const fetcher = (url: string) =>
+  fetch(url, { credentials: "include" }).then((res) => res.json()); // Fetcher function for SWR
 
 const DepartureEntryTable = () => {
   const [showDepartureEntryEditModal, setShowDepartureEntryEditModal] =

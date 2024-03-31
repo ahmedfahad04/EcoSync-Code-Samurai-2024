@@ -14,7 +14,8 @@ import useSWR from "swr";
 import DeleteModal from "../Modals/DeleteModal";
 import UpdateVehicleModal from "../Modals/Vehicle/UpdateVehicleModal";
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json()); // Fetcher function for SWR
+const fetcher = (url: string) =>
+  fetch(url, { credentials: "include" }).then((res) => res.json()); // Fetcher function for SWR
 
 const NewVehicleTable = () => {
   const [showUpdateVehicleModal, setShowUpdateVehicleModal] =

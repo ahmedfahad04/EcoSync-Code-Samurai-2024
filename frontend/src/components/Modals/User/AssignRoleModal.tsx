@@ -14,7 +14,8 @@ interface AssignRoleModalProps {
   onClose: () => void;
 }
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json()); // Fetcher function for SWR
+const fetcher = (url: string) =>
+  fetch(url, { credentials: "include" }).then((res) => res.json()); // Fetcher function for SWR
 
 const AssignRoleModal: React.FC<AssignRoleModalProps> = ({
   isOpen,
@@ -22,7 +23,6 @@ const AssignRoleModal: React.FC<AssignRoleModalProps> = ({
   user,
   onClose,
 }) => {
-  
   const { data: roles, error: rolesError } = useSWR<IRole[]>(
     `${BASE_URL}/rbac/roles`,
     fetcher

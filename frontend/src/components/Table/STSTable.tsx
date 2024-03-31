@@ -20,7 +20,8 @@ import DepartureEntryModal from "../Modals/STS/DepartureEntryModal";
 import EditSTSModal from "../Modals/STS/EditSTSModal";
 import ViewSTSModal from "../Modals/STS/ViewSTSModal";
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json()); // Fetcher function for SWR
+const fetcher = (url: string) =>
+  fetch(url, { credentials: "include" }).then((res) => res.json()); // Fetcher function for SWR
 
 const STSTable = () => {
   const [showEditSTSModal, setShowEditSTSModal] = useState<boolean>(false);

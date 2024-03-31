@@ -17,7 +17,7 @@ import DeleteUser from "../Modals/User/DeleteUser";
 import UpdateUserModal from "../Modals/User/UpdateUserModal";
 import avatar from "../../../public/avatar.png";
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json()); // Fetcher function for SWR
+const fetcher = (url: string) => fetch(url, { credentials: "include"}).then((res) => res.json()); // Fetcher function for SWR
 
 const NewUserTable = () => {
   const [showUpdateUserModal, setShowUpdateUserModal] =

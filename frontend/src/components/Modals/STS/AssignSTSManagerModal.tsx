@@ -14,7 +14,7 @@ interface AssignSTSManagerModalProps {
   onClose: () => void;
 }
 
-// const fetcher = (url: string) => fetch(url).then((res) => res.json()); // Fetcher function for SWR
+// const fetcher = (url: string) => fetch(url, { credentials: "include"}).then((res) => res.json()); // Fetcher function for SWR
 
 const AssignSTSManagerModal: React.FC<AssignSTSManagerModalProps> = ({
   isOpen,

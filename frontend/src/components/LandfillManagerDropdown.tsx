@@ -1,26 +1,45 @@
-import { dummyUsers } from "@/utils/DummyData";
-import { MultiSelect, Option } from "react-multi-select-component";
+import { API_END_POINTS, BASE_URL } from "@/constants/Service";
+import { IUsers } from "@/models/Users";
+import { useEffect, useState } from "react";
+import { MultiSelect } from "react-multi-select-component";
+import useSWR from "swr";
 
-const LandfillManagerDropdown = ({
-  managers,
-  setManager,
-}: {
-  managers: Option[];
-  setManager: () => {};
-}) => {
-  const users = dummyUsers.filter((user) => user.role === "Landfill Manager");
-  const options = users.map((user) => ({
-    label: user.name,
-    value: user.userId,
-  }));
+const fetcher = (url: string) =>
+  fetch(url, { credentials: "include" }).then((res) => res.json()); // Fetcher function for SWR
+
+const LandfillManagerDropdown = ({ onSelectChange }) => {
+  const [selected, setSelected] = useState([]);
+  const [options, setOptions] = useState([]);
+
+  const { data: users } = useSWR<IUsers[]>(
+    `${BASE_URL}${API_END_POINTS.USER}?role_name=Landfill Manager`,
+    fetcher
+  );
+
+  useEffect(() => {
+    console.log("USER ", users);
+    let temp = [];
+
+    users?.map((user) => {
+      temp.push({ label: user.name, value: user.user_id });
+    });
+
+    setOptions(temp);
+  }, [users]);
+
+  // Function to handle selection change and send both selected value and setSelected function
+  const handleSelectChange = (selectedOptions) => {
+    setSelected(selectedOptions);
+    onSelectChange(selectedOptions);
+  };
 
   return (
-    <div>
-      <h1 className="font-medium mb-1">Assign Landfill Manager</h1>
+    <div className="w-full mt-5">
+      <h1 className="font-normal">Select Landfill Manager(s)</h1>
       <MultiSelect
         options={options}
-        value={managers}
-        onChange={setManager}
+        value={selected}
+        onChange={handleSelectChange}
         labelledBy="Select"
       />
     </div>

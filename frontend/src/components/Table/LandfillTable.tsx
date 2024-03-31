@@ -1,6 +1,7 @@
 import { ILandfill } from "@/models/Landfill";
 // import { dummyLandfill } from "@/utils/DummyData"; // Importing static data
 import { API_END_POINTS, BASE_URL } from "@/constants/Service";
+import { PersonOutline } from "@mui/icons-material";
 import { ArrowUpFromDotIcon, EditIcon, Trash2Icon } from "lucide-react";
 import {
   MRT_ActionMenuItem,
@@ -9,6 +10,7 @@ import {
 } from "material-react-table";
 import { useEffect, useMemo, useState } from "react";
 import useSWR from "swr";
+import AssignLandfillManagerModal from "../Modals/Landfill/AssignLandfillManagerModal";
 import DumpingEntryModal from "../Modals/Landfill/DumpingEntryModal";
 import EditLandfillModal from "../Modals/Landfill/EditLandfillModal";
 import ViewLandfillModal from "../Modals/Landfill/ViewLandfillModal";
@@ -22,6 +24,8 @@ const LandfillTable = () => {
   const [showEditLandfillModal, setShowEditLandfillModal] =
     useState<boolean>(false);
   const [showLandfillModal, setShowLandfillModal] = useState<boolean>(false);
+  const [showAssignLandfillManagerModal, setShowAssignLandfillManagerModal] =
+    useState<boolean>(false);
   const [LandfillData, setLandfillData] = useState<ILandfill>();
 
   const { data: landfill } = useSWR<ILandfill[]>(
@@ -106,6 +110,19 @@ const LandfillTable = () => {
           />,
 
           <MRT_ActionMenuItem
+            icon={<PersonOutline className="text-violet-500" />}
+            key="assign manager"
+            label="Assign Landfill Manager"
+            onClick={() => {
+              setLandfillData(row.original);
+              setShowAssignLandfillManagerModal(true);
+              closeMenu();
+            }}
+            table={table}
+            className="bg-blue-200"
+          />,
+
+          <MRT_ActionMenuItem
             icon={<EditIcon className="text-blue-500" />}
             key="edit"
             label="Edit"
@@ -142,6 +159,14 @@ const LandfillTable = () => {
           isOpen={showDumpingEntryModal}
           onClose={() => setShowDumpingEntryModal(false)}
           landfillData={LandfillData}
+        />
+      )}
+
+      {showAssignLandfillManagerModal && (
+        <AssignLandfillManagerModal
+          isOpen={showAssignLandfillManagerModal}
+          landfill={LandfillData}
+          onClose={() => setShowAssignLandfillManagerModal(false)}
         />
       )}
 

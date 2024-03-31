@@ -1,15 +1,25 @@
+import { API_END_POINTS, BASE_URL } from "@/constants/Service";
 import { ILandfill } from "@/models/Landfill";
+import { IUsers } from "@/models/Users";
 import Label from "@/ui/Label";
-import { dummyUsers } from "@/utils/DummyData";
 import { ClockIcon, InfoIcon } from "lucide-react";
+import useSWR from "swr";
 
 interface ViewLandfillFormProps {
   landfillData: ILandfill | undefined;
 }
 
+const fetcher = (url: string) =>
+  fetch(url, { credentials: "include" }).then((res) => res.json()); // Fetcher function for SWR
+
 const ViewLandfillForm: React.FC<ViewLandfillFormProps> = ({
   landfillData,
 }) => {
+  const { data: managers } = useSWR<IUsers[]>(
+    `${BASE_URL}${API_END_POINTS.LANDFILL}/${landfillData?.landfill_id}/managers`,
+    fetcher
+  );
+
   return (
     <div className="container mx-auto p-4">
       <header className="font-bold text-xl flex flex-row gap-2 items-center">
@@ -52,11 +62,11 @@ const ViewLandfillForm: React.FC<ViewLandfillFormProps> = ({
         {/* lat and long */}
         <div className="w-full flex flex-row justify-between items-center gap-5">
           <div className="w-2/4">
-            <Label title={"Latitude"} value={landfillData?.latitude} />
+            <Label title={"Latitude"} value={landfillData?.gps_coordinate[0]} />
           </div>
 
           <div className="w-2/4">
-            <Label title={"Longitude"} value={landfillData?.longitude} />
+            <Label title={"Longitude"} value={landfillData?.gps_coordinate[1]} />
           </div>
         </div>
 
@@ -72,11 +82,11 @@ const ViewLandfillForm: React.FC<ViewLandfillFormProps> = ({
             Landfill Managers
           </label>
           <div className="flex flex-col justify-start items-start gap-2 w-full">
-            {dummyUsers
-              .filter((user) => user.role === "Landfill Manager")
+            {managers
+              ?.filter((user) => user.name)
               .map((manager, index) => (
                 <div key={index} className="flex text-sm mr-4 w-full">
-                  <p className="bg-gray-200 w-full p-2 font-semibold text-slate-500 hover:bg-slate-300 cursor-pointer">
+                  <p className="bg-green-200 w-full p-2 font-semibold text-black hover:bg-green-300 ">
                     {manager.name}
                   </p>
                 </div>

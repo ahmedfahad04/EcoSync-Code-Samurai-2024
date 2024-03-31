@@ -114,12 +114,12 @@ const EditLandfillForm: React.FC<EditLandfillFormProps> = ({
             />
           </div>
 
-          <div className="mt-3">
+          {/* <div className="mt-3">
             <LandfillManagerDropdown
               managers={LandfillManager}
               setManager={setLandfillManagers}
             />
-          </div>
+          </div> */}
 
           <div className="w-full flex flex-row justify-center items-center gap-5">
             <InputField
