@@ -27,24 +27,15 @@ const DepartureEntryForm: React.FC<DepartureEntryFormProps> = ({
   const [vehicles, setVehicles] = useState<string[]>([]);
   const [vcapacity, setVCapacity] = useState<string>();
 
-  const {
-    landfill_name,
-    vehicle_number,
-    trip,
-    wasteVolume,
-    arrivalTime,
-    departureTime,
-  } = data || {};
-
   const [formData, setFormData] = useState(
-    mode === "Edit"
+    mode == "Edit"
       ? {
-          landfill_name: landfill_name || "",
-          vehicle_number: vehicle_number || "",
-          trip: trip || "",
-          wasteVolume: wasteVolume || "",
-          arrival: arrivalTime || "",
-          departure: departureTime || "",
+          landfill_name: data.landfill.landfill_name || "",
+          vehicle_number: data.vehicle.vehicle_number || "",
+          trip: data.trip_number || "",
+          wasteVolume: data.waste_volume || "",
+          arrival: data.sts_arrival_time || "",
+          departure: data.sts_departure_time || "",
         }
       : {
           landfill_name: "",
@@ -90,7 +81,6 @@ const DepartureEntryForm: React.FC<DepartureEntryFormProps> = ({
       ?.filter((v) => v.vehicle_number == formData.vehicle_number)
       .map((v) => v.vehicle_id);
 
-    //!  add entry (alsmost done just assign vehicle left)
     httpClient
       .post(
         `${BASE_URL}${API_END_POINTS.STS}/${data?.sts_id}/trips`,
@@ -119,6 +109,7 @@ const DepartureEntryForm: React.FC<DepartureEntryFormProps> = ({
 
   useEffect(() => {
     // console.log("DEPT: ", fetchedLandfills, fetchedVehicles);
+    console.log("VEHICLE: ", data.vehicle_number);
 
     if (fetchedLandfills) {
       const names = fetchedLandfills.map((l) => l.landfill_name);
@@ -160,7 +151,9 @@ const DepartureEntryForm: React.FC<DepartureEntryFormProps> = ({
           {/* will start from here */}
 
           <Dropdown
-            name={mode == "Edit" ? formData.vehicle_number : "Select Vehicle"}
+            name={
+              mode == "Edit" ? data.vehicle.vehicle_number : "Select Vehicle"
+            }
             options={vehicles}
             label="Vehicle Number"
             customClass="mt-5 bg-slate-300/6"
@@ -240,7 +233,7 @@ const DepartureEntryForm: React.FC<DepartureEntryFormProps> = ({
                 <InfoIcon width={16} /> Waste weight should be less than{" "}
                 <span className="font-bold text-red-500">
                   {" "}
-                  ${vcapacity} Ton
+                  {vcapacity} Ton
                 </span>
               </p>
             </div>
@@ -252,7 +245,7 @@ const DepartureEntryForm: React.FC<DepartureEntryFormProps> = ({
               onClick={handleCreate}
               className="p-2 bg-green-500 hover:bg-green-600  text-white rounded-md mt-8"
             >
-              Add Entry
+              {mode == "Edit" ? "Update Entry" : "Add Entrys"}
             </button>
           </div>
         </form>
