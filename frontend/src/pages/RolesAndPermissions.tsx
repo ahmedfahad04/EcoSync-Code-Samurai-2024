@@ -1,5 +1,6 @@
 import AddPermissionModal from "@/components/Modals/AddPermissionModal";
 import CreateRoleModal from "@/components/Modals/CreateRoleModal";
+import DeleteModal from "@/components/Modals/DeleteModal";
 import { BASE_URL } from "@/constants/Service";
 import Layout from "@/layout/Layout";
 import { IPermission } from "@/models/Roles";
@@ -22,6 +23,9 @@ const RolesAndPermissions = () => {
     []
   );
   const [selecteRole, setSelectedRole] = useState<IRole>();
+  const [selectePermission, setSelectedPermission] = useState<IPermission>();
+  const [showDeletePermissionModal, setShowDeletePermissionModal] =
+    useState<boolean>(false);
 
   const { data: userRoles } = useSWR<IRole[]>(
     `${BASE_URL}/rbac/roles`,
@@ -35,15 +39,16 @@ const RolesAndPermissions = () => {
 
   useEffect(() => {}, [selectedRolePermissions, permissions]);
 
-  const handleShowPermission = async (roleId: string) => {
+  const handleShowPermission = async (role: IRole) => {
     const response = await fetch(
-      `${BASE_URL}/rbac/roles/${roleId}/permissions`,
+      `${BASE_URL}/rbac/roles/${role.role_id}/permissions`,
       { credentials: "include" }
     );
     if (response.ok) {
       const roleWisePermission: IPermission[] = await response.json();
       console.log(roleWisePermission);
       setSelectedRolePermissions(roleWisePermission);
+      setSelectedRole(role);
     }
   };
 
@@ -70,6 +75,11 @@ const RolesAndPermissions = () => {
       setUnAssignedPermission(unAssigned.map((p) => p.permission_name));
       setAddPermissionModal(true);
     }
+  };
+
+  const handleDeletePermission = (pid: string) => {
+    setShowDeletePermissionModal(true);
+    setSelectedPermission(pid);
   };
 
   return (
@@ -115,7 +125,7 @@ const RolesAndPermissions = () => {
                     </button>
                     <button
                       className="bg-purple-500 hover:bg-purple-600 text-white font-bold p-2 rounded"
-                      onClick={() => handleShowPermission(role.role_id)}
+                      onClick={() => handleShowPermission(role)}
                     >
                       View Permissions
                     </button>
@@ -143,7 +153,10 @@ const RolesAndPermissions = () => {
                       <div className="text-sm font-semibold">
                         {p.permission_name}
                       </div>
-                      <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                      <button
+                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                        onClick={() => handleDeletePermission(p.permission_id)}
+                      >
                         Remove
                       </button>
                     </div>
@@ -155,7 +168,10 @@ const RolesAndPermissions = () => {
                       <div className="text-sm font-semibold">
                         {p.permission_name}
                       </div>
-                      <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                      <button
+                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                        onClick={() => handleDeletePermission(p.permission_id)}
+                      >
                         Remove
                       </button>
                     </div>
@@ -177,6 +193,18 @@ const RolesAndPermissions = () => {
             onClose={() => setAddPermissionModal(false)}
             permissions={unAssignedPermission}
             role={selecteRole}
+          />
+        )}
+
+        {/* url={`${BASE_URL}/rbac/roles/${selecteRole?.role_id}/permissions/${pid}`},
+successTitle={ "Permission Removed"},
+failureTitle={"Failed to remove permission"} */}
+        {showDeletePermissionModal && (
+          <DeleteModal
+            url={`${BASE_URL}/rbac/roles/${selecteRole?.role_id}/permissions/${selectePermission?.permission_id}`}
+            successTitle={"Permission Removed"}
+            failureTitle={"Failed to remove permission"}
+            onClose={() => setShowDeletePermissionModal(false)}
           />
         )}
       </div>

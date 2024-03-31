@@ -22,7 +22,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
   const handleDeletePost = () => {
     setLoading(true);
     httpClient
-      .delete(`${url}`)
+      .delete(`${url}`, { withCredentials: true })
       .then((res) => {
         console.log("Deleted", res.data);
         toast.success(successTitle);
