@@ -103,84 +103,154 @@ const STSTable = () => {
       <p className="mb-5">
         <span className="font-bold">{sts?.length}</span> in total
       </p>
-      <MaterialReactTable
-        columns={columns}
-        data={sts || []}
-        enableRowActions
-        enableStickyHeader
-        muiTableContainerProps={{ sx: { maxHeight: "500px" } }}
-        renderRowActionMenuItems={({ closeMenu, row, table }) => [
-          <MRT_ActionMenuItem
-            icon={<TruckIcon className="text-amber-500" />}
-            key="truck entry"
-            label="Assign Vehicles"
-            onClick={() => {
-              setSTSData(row.original);
-              setShowAssignTruckModal(true);
-              closeMenu();
-            }}
-            table={table}
-            className="bg-blue-200"
-          />,
-          <MRT_ActionMenuItem
-            icon={<ArrowUpFromDotIcon className="text-green-500" />}
-            key="departure entry"
-            label="Add Departure Entry"
-            onClick={() => {
-              setSTSData(row.original);
-              setShowDepartureEntryModal(true);
-              closeMenu();
-            }}
-            table={table}
-            className="bg-blue-200"
-          />,
 
-          <MRT_ActionMenuItem
-            icon={<PersonOutline className="text-violet-500" />}
-            key="assign manager"
-            label="Assign STS Manager"
-            onClick={() => {
+      {user?.role.role_name == ROLETYPE.ROLE2 ? (
+        <MaterialReactTable
+          columns={columns}
+          data={sts || []}
+          enableRowActions
+          enableStickyHeader
+          muiTableContainerProps={{ sx: { maxHeight: "500px" } }}
+          renderRowActionMenuItems={({ closeMenu, row, table }) => [
+            <MRT_ActionMenuItem
+              icon={<TruckIcon className="text-amber-500" />}
+              key="truck entry"
+              label="Assign Vehicles"
+              onClick={() => {
+                setSTSData(row.original);
+                setShowAssignTruckModal(true);
+                closeMenu();
+              }}
+              table={table}
+              className="bg-blue-200"
+            />,
+            <MRT_ActionMenuItem
+              icon={<ArrowUpFromDotIcon className="text-green-500" />}
+              key="departure entry"
+              label="Add Departure Entry"
+              onClick={() => {
+                setSTSData(row.original);
+                setShowDepartureEntryModal(true);
+                closeMenu();
+              }}
+              table={table}
+              className="bg-blue-200"
+            />,
+
+            <MRT_ActionMenuItem
+              icon={<PersonOutline className="text-violet-500" />}
+              key="assign manager"
+              label="Assign STS Manager"
+              onClick={() => {
+                setSTSData(row.original);
+
+                setShowAssignSTSManagerModal(true);
+                closeMenu();
+              }}
+              table={table}
+              className="bg-blue-200"
+            />,
+
+            <MRT_ActionMenuItem
+              icon={<EditIcon className="text-blue-500" />}
+              key="edit"
+              label="Edit STS"
+              onClick={() => {
+                setSTSData(row.original);
+                setShowEditSTSModal(true);
+                closeMenu();
+              }}
+              table={table}
+              className="bg-blue-200"
+            />,
+
+            <MRT_ActionMenuItem
+              icon={<Trash2Icon className="text-red-500" />}
+              key="delete"
+              label="Delete"
+              onClick={() => {
+                handleRowDelete(row.id, closeMenu);
+              }}
+              table={table}
+            />,
+          ]}
+          muiTableBodyRowProps={({ row }) => ({
+            onClick: () => {
+              console.log("ACTUAL", row.original);
               setSTSData(row.original);
+              setShowSTSModal(true);
+            },
+            sx: { cursor: "pointer" },
+          })}
+        />
+      ) : (
+        <MaterialReactTable
+          columns={columns}
+          data={sts || []}
+          enableRowActions
+          enableStickyHeader
+          muiTableContainerProps={{ sx: { maxHeight: "500px" } }}
+          renderRowActionMenuItems={({ closeMenu, row, table }) => [
+            <MRT_ActionMenuItem
+              icon={<TruckIcon className="text-amber-500" />}
+              key="truck entry"
+              label="Assign Vehicles"
+              onClick={() => {
+                setSTSData(row.original);
+                setShowAssignTruckModal(true);
+                closeMenu();
+              }}
+              table={table}
+              className="bg-blue-200"
+            />,
 
-              setShowAssignSTSManagerModal(true);
-              closeMenu();
-            }}
-            table={table}
-            className="bg-blue-200"
-          />,
+            <MRT_ActionMenuItem
+              icon={<PersonOutline className="text-violet-500" />}
+              key="assign manager"
+              label="Assign STS Manager"
+              onClick={() => {
+                setSTSData(row.original);
 
-          <MRT_ActionMenuItem
-            icon={<EditIcon className="text-blue-500" />}
-            key="edit"
-            label="Edit STS"
-            onClick={() => {
+                setShowAssignSTSManagerModal(true);
+                closeMenu();
+              }}
+              table={table}
+              className="bg-blue-200"
+            />,
+
+            <MRT_ActionMenuItem
+              icon={<EditIcon className="text-blue-500" />}
+              key="edit"
+              label="Edit STS"
+              onClick={() => {
+                setSTSData(row.original);
+                setShowEditSTSModal(true);
+                closeMenu();
+              }}
+              table={table}
+              className="bg-blue-200"
+            />,
+
+            <MRT_ActionMenuItem
+              icon={<Trash2Icon className="text-red-500" />}
+              key="delete"
+              label="Delete"
+              onClick={() => {
+                handleRowDelete(row.id, closeMenu);
+              }}
+              table={table}
+            />,
+          ]}
+          muiTableBodyRowProps={({ row }) => ({
+            onClick: () => {
+              console.log("ACTUAL", row.original);
               setSTSData(row.original);
-              setShowEditSTSModal(true);
-              closeMenu();
-            }}
-            table={table}
-            className="bg-blue-200"
-          />,
-
-          <MRT_ActionMenuItem
-            icon={<Trash2Icon className="text-red-500" />}
-            key="delete"
-            label="Delete"
-            onClick={() => {
-              handleRowDelete(row.id, closeMenu);
-            }}
-            table={table}
-          />,
-        ]}
-        muiTableBodyRowProps={({ row }) => ({
-          onClick: () => {
-            console.log("ACTUAL", row.original);
-            setSTSData(row.original);
-            setShowSTSModal(true);
-          },
-          sx: { cursor: "pointer" },
-        })}
-      />
+              setShowSTSModal(true);
+            },
+            sx: { cursor: "pointer" },
+          })}
+        />
+      )}
 
       {showEditSTSModal && (
         <EditSTSModal

@@ -1,5 +1,8 @@
+import { ROLETYPE } from "@/constants/Global";
+import { API_END_POINTS, BASE_URL } from "@/constants/Service";
+import { useAuth } from "@/context/AuthContext";
 import { IDumpingEntry } from "@/models/Landfill";
-import { dummyDumpingData } from "@/utils/DummyData";
+import { formattedDate } from "@/utils/formatDate";
 import { EditIcon, Trash2Icon } from "lucide-react";
 import {
   MRT_ActionMenuItem,
@@ -7,7 +10,11 @@ import {
   MaterialReactTable,
 } from "material-react-table";
 import { useEffect, useMemo, useState } from "react";
+import useSWR from "swr";
 import EditDumpingEntryModal from "../Modals/Landfill/EditDumpingEntryModal";
+
+const fetcher = (url: string) =>
+  fetch(url, { credentials: "include" }).then((res) => res.json()); // Fetcher function for SWR
 
 const DumpingEntryTable = () => {
   const [showDumpingEntryEditModal, setShowDumpingEntryEditModal] =
@@ -15,6 +22,21 @@ const DumpingEntryTable = () => {
 
   const [dumpingEntry, setDumpingEntry] = useState<IDumpingEntry>();
   const [data, setData] = useState<IDumpingEntry[]>([]);
+
+  const [url, SetURL] = useState<string>();
+
+  const { user } = useAuth();
+
+  const { data: tripEntry } = useSWR<IDumpingEntry[]>(url, fetcher);
+
+  useEffect(() => {
+    if (user?.role.role_name == ROLETYPE.ROLE3) {
+      // SetURL(`${BASE_URL}${API_END_POINTS.LANDFILL}/mine`);
+      SetURL(`${BASE_URL}${API_END_POINTS.TRIP}`);
+    } else {
+      SetURL(`${BASE_URL}${API_END_POINTS.TRIP}`);
+    }
+  });
 
   const handleRowDelete = (index: string, closeWindow: () => void) => {
     if (window.confirm("Are you sure?")) {
@@ -29,35 +51,50 @@ const DumpingEntryTable = () => {
 
   useEffect(() => {
     //! fetch using useSWR
-    setData(dummyDumpingData);
+    console.log("FETCH DATA: ", tripEntry, user?.role);
   }, []);
 
   const columns = useMemo<MRT_ColumnDef<IDumpingEntry>[]>(
     () => [
       {
-        accessorKey: "sts_name",
+        accessorKey: "sts.sts_name",
         header: "STS NAME",
         size: 150,
       },
       {
-        accessorKey: "vehicle_number",
+        accessorKey: "landfill.landfill_name",
+        header: "LANDFILL NAME",
+        size: 150,
+      },
+      {
+        accessorKey: "vehicle.vehicle_number",
         header: "VEHICLE NUMBER",
         size: 180,
       },
       {
-        accessorKey: "wasteVolume",
+        accessorKey: "waste_volume",
         header: "WASTE VOLUME (TON)",
         size: 150,
       },
       {
-        accessorKey: "arrivalTime",
+        accessorKey: "landfill_arrival_time",
         header: "ARRIVAL TIME",
         size: 150,
+        Cell: ({ cell }: { cell: any }) => {
+          const dateStr = cell.getValue()?.toString();
+          const onlyDate = dateStr ? formattedDate(dateStr) : "";
+          return onlyDate;
+        },
       },
       {
-        accessorKey: "departureTime",
+        accessorKey: "landfill_dumping_time",
         header: "DEPARTURE TIME",
         size: 150,
+        Cell: ({ cell }: { cell: any }) => {
+          const dateStr = cell.getValue()?.toString();
+          const onlyDate = dateStr ? formattedDate(dateStr) : "";
+          return onlyDate;
+        },
       },
     ],
     []
@@ -68,44 +105,46 @@ const DumpingEntryTable = () => {
       <p className="mb-5">
         <span className="font-bold">{data.length}</span> in total
       </p>
-      <MaterialReactTable
-        columns={columns}
-        data={data}
-        enableRowActions
-        enableStickyHeader
-        muiTableContainerProps={{ sx: { maxHeight: "500px" } }}
-        renderRowActionMenuItems={({ closeMenu, row, table }) => [
-          <MRT_ActionMenuItem
-            icon={<EditIcon className="text-blue-500" />}
-            key="edit"
-            label="Edit"
-            onClick={() => {
-              setDumpingEntry(row.original);
-              setShowDumpingEntryEditModal(true);
-              closeMenu();
-            }}
-            table={table}
-            className="bg-blue-200"
-          />,
-          <MRT_ActionMenuItem
-            icon={<Trash2Icon className="text-red-500" />}
-            key="delete"
-            label="Delete"
-            onClick={() => {
-              handleRowDelete(row.id, closeMenu);
-            }}
-            table={table}
-          />,
-        ]}
-        // muiTableBodyRowProps={({ row }) => ({
-        //   onClick: () => {
-        //     setDumpingEntry(row.original);
-        //     console.log(row.original);
-        //     // setShowLandfillModal(true);
-        //   },
-        //   sx: { cursor: "pointer" },
-        // })}
-      />
+
+      {user?.role.role_name == ROLETYPE.ROLE3 ? (
+        <MaterialReactTable
+          columns={columns}
+          data={tripEntry || []}
+          enableRowActions
+          enableStickyHeader
+          muiTableContainerProps={{ sx: { maxHeight: "500px" } }}
+          renderRowActionMenuItems={({ closeMenu, row, table }) => [
+            <MRT_ActionMenuItem
+              icon={<EditIcon className="text-blue-500" />}
+              key="edit"
+              label="Confirm Dumping"
+              onClick={() => {
+                setDumpingEntry(row.original);
+                setShowDumpingEntryEditModal(true);
+                closeMenu();
+              }}
+              table={table}
+              className="bg-blue-200"
+            />,
+            <MRT_ActionMenuItem
+              icon={<Trash2Icon className="text-red-500" />}
+              key="delete"
+              label="Delete"
+              onClick={() => {
+                handleRowDelete(row.id, closeMenu);
+              }}
+              table={table}
+            />,
+          ]}
+        />
+      ) : (
+        <MaterialReactTable
+          columns={columns}
+          data={tripEntry || []}
+          enableStickyHeader
+          muiTableContainerProps={{ sx: { maxHeight: "500px" } }}
+        />
+      )}
 
       {showDumpingEntryEditModal && (
         <EditDumpingEntryModal
@@ -114,14 +153,6 @@ const DumpingEntryTable = () => {
           data={dumpingEntry}
         />
       )}
-
-      {/* {showLandfillModal && (
-        <ViewLandfillModal
-          isOpen={showLandfillModal}
-          onClose={() => setShowLandfillModal(false)}
-          dumpingEntry={dumpingEntry}
-        />
-      )} */}
     </div>
   );
 };
