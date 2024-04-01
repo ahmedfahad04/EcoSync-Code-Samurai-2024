@@ -30,3 +30,9 @@
  - **Run above command again** if any error occur related to database connectivity issues. Because database container takes time to be ready, and an error may will be thrown from application server informing that unable to connect to the database.
  - **backend port**: 3000
  - **frontend port**: 8000
+
+`Admin, 4 Role(System Admin, STS Manager, Landfill Manager, Unassigned), Permissions are created during startup`
+ 
+## How to use frontend
+- **ADMIN_EMAIL**: `admin@gmail.com`
+- **ADMIN_PASSWORD**: `igloo1119`
