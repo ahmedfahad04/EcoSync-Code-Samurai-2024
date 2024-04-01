@@ -23,13 +23,16 @@ const BillPageModal: React.FC<BillPageModalProps> = ({
 }) => {
   const [dumpingBills, setDumpingBills] = useState<IBill>();
 
-  const { data: bills } = useSWR<IBill>(
+  const { data: bills, error: fetchError } = useSWR<IBill>(
     `${BASE_URL}${API_END_POINTS.TRIP}/${data?.trip_id}/bills`,
     fetcher
   );
 
   useEffect(() => {
-    if (bills) {
+    if (bills && bills.message === "Trip is not dumped yet") {
+      // Handle the case where truck waste is not dumped yet
+      setDumpingBills(undefined); // Reset dumpingBills state to null
+    } else if (bills) {
       console.log("DETAILS ", data);
       console.log("BILL: ", bills);
       setDumpingBills(bills);
@@ -43,8 +46,12 @@ const BillPageModal: React.FC<BillPageModalProps> = ({
       headline={"Dumping Bills"}
       customClass={customClass}
     >
-      ..
-      {dumpingBills && <BillPage result={dumpingBills} />}
+      {/* {dumpingBills == null ? "Not dumpped yet!" : ""} */}
+      {dumpingBills == undefined ? (
+        "Not dumpped yet!"
+      ) : (
+        <BillPage result={dumpingBills} />
+      )}
     </ModalLayout>
   );
 };

@@ -24,6 +24,9 @@ const BillPage = ({ result }: { result: IBill }) => {
   };
 
   useEffect(() => {
+    if(result == null) {
+      console.log("NO DATA of BILLS")
+    }
     console.log("BILL: ", result);
     setInvoiceID(generateInvoiceNumber());
   }, []);
