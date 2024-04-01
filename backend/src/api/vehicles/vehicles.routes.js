@@ -29,3 +29,7 @@ vehicleRoutes.put(
     vehiclesController.updateVehicle
 );
 vehicleRoutes.delete("/:vehicle_id", checkPermission(pc.DELETE_VEHICLE), vehiclesController.deleteVehicle);
+
+vehicleRoutes.post("/:vehicl_id/driver");
+vehicleRoutes.delete("/:vehicl_id/driver");
+
