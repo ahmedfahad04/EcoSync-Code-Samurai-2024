@@ -3,12 +3,14 @@ import { BASE_URL } from "@/constants/Service";
 import Layout from "@/layout/Layout";
 import { formattedDate } from "@/utils/formatDate";
 import { BusFront, GanttChart } from "lucide-react";
+import { useState } from "react";
 import useSWR from "swr";
 
 const fetcher = (url: string) =>
   fetch(url, { credentials: "include" }).then((res) => res.json()); // Fetcher function for SWR
 
 const Dashboard = () => {
+  const [tripId, setTripId] = useState([]);
   const { data: sts } = useSWR<any[]>(`${BASE_URL}/sts`, fetcher);
   const { data: landfills } = useSWR<any[]>(`${BASE_URL}/landfills`, fetcher);
   const { data: vehicles } = useSWR<any[]>(`${BASE_URL}/vehicles`, fetcher);
@@ -53,22 +55,32 @@ const Dashboard = () => {
                 </h4>
                 <p className="text-2xl text-yellow-600">{vehicles?.length}</p>
               </div>
-              <div className="border p-4 text-center bg-purple-200 shadow-lg rounded-lg">
-                <h4 className="text-lg font-semibold mb-2">
-                  Registered STS Managers
-                </h4>
-                <p className="text-2xl text-purple-600">
-                  {stsManagers?.length}
-                </p>
-              </div>
-              <div className="border p-4 text-center bg-red-200 shadow-lg rounded-lg">
-                <h4 className="text-lg font-semibold mb-2">
-                  Registered Landfill Managers
-                </h4>
-                <p className="text-2xl text-red-600">
-                  {landfillManagers?.length}
-                </p>
-              </div>
+
+              {stsManagers?.length > 0 ? (
+                <div className="border p-4 text-center bg-purple-200 shadow-lg rounded-lg">
+                  <h4 className="text-lg font-semibold mb-2">
+                    Registered STS Managers
+                  </h4>
+                  <p className="text-2xl text-purple-600">
+                    {stsManagers?.length}
+                  </p>
+                </div>
+              ) : (
+                ""
+              )}
+
+              {landfillManagers?.length > 0 ? (
+                <div className="border p-4 text-center bg-red-200 shadow-lg rounded-lg">
+                  <h4 className="text-lg font-semibold mb-2">
+                    Registered Landfill Managers
+                  </h4>
+                  <p className="text-2xl text-red-600">
+                    {landfillManagers?.length}
+                  </p>
+                </div>
+              ) : (
+                ""
+              )}
             </div>
           </div>
 
@@ -77,44 +89,48 @@ const Dashboard = () => {
             <h3 className="text-xl font-semibold mb-4  flex flex-row items-center text-blue-500 gap-2">
               <BusFront /> Latest Dumpings
             </h3>
-            <table className="w-full">
-              <thead>
-                <tr className="bg-gray-200">
-                  <th className="py-2 px-4">Vehicle Number</th>
-                  <th className="py-2 px-4">STS Name</th>
-                  <th className="py-2 px-4">STS Departure Time</th>
-                  <th className="py-2 px-4">Landfill Name</th>
-                  <th className="py-2 px-4">Dumping Time</th>
-                </tr>
-              </thead>
-              <tbody>
-                {trips?.map((trips) => {
-                  return (
-                    <tr>
-                      <td className="py-2 px-4">
-                        {trips.vehicle.vehicle_number}
-                      </td>
-                      <td className="py-2 px-4">{trips.sts.sts_name}</td>
-                      <td className="py-2 px-4 text-green-500 font-bold">{formattedDate(trips.sts_departure_time)}</td>
-                      <td className="py-2 px-4">
-                        {trips.landfill.landfill_name}
-                      </td>
-                      <td className="py-2 px-4">
-                        {trips.landfill_dumping_time ? (
-                          <p className="text-blue-500 font-bold">
-                            {formattedDate(trips.landfill_dumping_time)}
-                          </p>
-                        ) : (
-                          <p className="text-red-500 font-bold">
-                            Not Dumped yet
-                          </p>
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+            <div className="w-full overflow-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="bg-gray-200">
+                    <th className="py-2 px-4">Vehicle Number</th>
+                    <th className="py-2 px-4">STS Name</th>
+                    <th className="py-2 px-4">STS Departure Time</th>
+                    <th className="py-2 px-4">Landfill Name</th>
+                    <th className="py-2 px-4">Dumping Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {trips?.map((trip) => {
+                    return (
+                      <tr key={trip.id}>
+                        <td className="py-2 px-4">
+                          {trip.vehicle.vehicle_number}
+                        </td>
+                        <td className="py-2 px-4">{trip.sts.sts_name}</td>
+                        <td className="py-2 px-4 text-green-500 font-bold">
+                          {formattedDate(trip.sts_departure_time)}
+                        </td>
+                        <td className="py-2 px-4">
+                          {trip.landfill.landfill_name}
+                        </td>
+                        <td className="py-2 px-4">
+                          {trip.landfill_dumping_time ? (
+                            <p className="text-blue-500 font-bold">
+                              {formattedDate(trip.landfill_dumping_time)}
+                            </p>
+                          ) : (
+                            <p className="text-red-500 font-bold">
+                              Not Dumped yet
+                            </p>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
           </div>
           {/* Other Content */}
         </div>

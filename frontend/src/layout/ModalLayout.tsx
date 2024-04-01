@@ -13,7 +13,7 @@ interface AddVehicleModalProps {
 
 const ModalLayout: React.FC<AddVehicleModalProps> = ({
   isOpen,
-  customClass = "max-w-[500px] max-h-96",
+  customClass = "max-w-[500px] max-h-96 z-1000",
   onClose,
   children,
   headline,
