@@ -1,7 +1,8 @@
 # cs24-p2-OPTIMISTS
 
 - UI Prototype [URL](https://app.visily.ai/projects/c3e530c1-861b-4765-81ce-24b0bf66492a/boards/833208).
-- API Documentation [URL](https://documenter.getpostman.com/view/23549821/2sA35HWLLp)
+- API Documentation [URL](https://documenter.getpostman.com/view/23549821/2sA35HWLLp) 
+- Total API Count - `64`
 
 ## Team Name: OPTIMISTS
 
