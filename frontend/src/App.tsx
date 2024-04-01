@@ -25,13 +25,15 @@ function App() {
         <Route path="/dashboard" element={<PrivateRoute />}>
           <Route path="" element={<Dashboard />} />
           <Route path="users" element={<Users />} />
-          <Route path="vehicles" element={<Vehicles />} />
-          <Route path="sts" element={<STS />} />
-          <Route path="landfill" element={<Landfill />} />
+          <Route path="vehicles" element={<Vehicles />} /> 
           <Route
             path="roles-and-permission"
             element={<RolesAndPermissions />}
           />
+
+          <Route path="sts" element={<STS />} />
+          <Route path="landfill" element={<Landfill />} />
+          
         </Route>
 
         <Route path="/auth" element={<LoggedInRoute />}>

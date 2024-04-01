@@ -3,7 +3,7 @@ import { API_END_POINTS, BASE_URL } from "@/constants/Service";
 import { useAuth } from "@/context/AuthContext";
 import { IDumpingEntry } from "@/models/Landfill";
 import { formattedDate } from "@/utils/formatDate";
-import { CurrencyBitcoin, MoneyOutlined } from "@mui/icons-material";
+import { CurrencyDollarIcon } from "@heroicons/react/16/solid";
 import { EditIcon, Trash2Icon } from "lucide-react";
 import {
   MRT_ActionMenuItem,
@@ -13,8 +13,7 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import useSWR from "swr";
 import BillPageModal from "../Modals/Landfill/BillPageModal";
-import EditDumpingEntryModal from "../Modals/Landfill/EditDumpingEntryModal";
-import { CurrencyBangladeshiIcon, CurrencyDollarIcon } from "@heroicons/react/16/solid";
+import ConfirmDumpingEntryModal from "../Modals/Landfill/EditDumpingEntryModal";
 
 const fetcher = (url: string) =>
   fetch(url, { credentials: "include" }).then((res) => res.json()); // Fetcher function for SWR
@@ -129,7 +128,9 @@ const DumpingEntryTable = () => {
               className="bg-blue-200"
             />,
             <MRT_ActionMenuItem
-              icon={<CurrencyDollarIcon width={20} className="text-green-500" />}
+              icon={
+                <CurrencyDollarIcon width={20} className="text-green-500" />
+              }
               key="bill"
               label="Generate Bills"
               onClick={() => {
@@ -161,7 +162,7 @@ const DumpingEntryTable = () => {
       )}
 
       {showDumpingEntryEditModal && (
-        <EditDumpingEntryModal
+        <ConfirmDumpingEntryModal
           isOpen={showDumpingEntryEditModal}
           onClose={() => setShowDumpingEntryEditModal(false)}
           data={dumpingEntry}

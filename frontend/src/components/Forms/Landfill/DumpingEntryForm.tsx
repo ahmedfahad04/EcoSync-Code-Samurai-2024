@@ -5,6 +5,7 @@ import { httpClient } from "@/utils/httpClient";
 import { InfoIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { mutate } from "swr";
 
 interface DumpingEntryFormProps {
   data: any;
@@ -35,6 +36,7 @@ const DumpingEntryForm: React.FC<DumpingEntryFormProps> = ({
       .then((res) => {
         console.log("RES", res);
         toast.success("Dumping Confirmed");
+        mutate(`${BASE_URL}${API_END_POINTS.TRIP}`);
         onClose();
       })
       .catch((err) => {
