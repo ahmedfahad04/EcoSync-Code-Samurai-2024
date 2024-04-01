@@ -1,6 +1,8 @@
 import AddLandfillModal from "@/components/Modals/Landfill/AddLandfillModal";
 import DumpingEntryTable from "@/components/Table/DumpingEntryTable";
 import LandfillTable from "@/components/Table/LandfillTable";
+import { ROLETYPE } from "@/constants/Global";
+import { useAuth } from "@/context/AuthContext";
 import Layout from "@/layout/Layout";
 import { Tab } from "@headlessui/react";
 import { useState } from "react";
@@ -8,6 +10,7 @@ import { useState } from "react";
 const Landfill = () => {
   const [showCreateLandfillModal, setShowCreateLandfillModal] =
     useState<boolean>(false);
+  const { user } = useAuth();
 
   return (
     <Layout>
@@ -15,12 +18,16 @@ const Landfill = () => {
         {/* top header */}
         <div className="h-20 flex flex-row justify-between items-center ">
           <p className="font-bold px-2 text-3xl break-words">Landfill Sites</p>
-          <button
-            className="h-8 mr-8 text-center flex items-center p-3 text-sm font-normal bg-[#14923EFF] text-white rounded-md hover:bg-[#177737]"
-            onClick={() => setShowCreateLandfillModal(!showCreateLandfillModal)}
-          >
-            + New Landfill
-          </button>
+          {user?.role.role_name == ROLETYPE.ROLE1 && (
+            <button
+              className="h-8 mr-8 text-center flex items-center p-3 text-sm font-normal bg-[#14923EFF] text-white rounded-md hover:bg-[#177737]"
+              onClick={() =>
+                setShowCreateLandfillModal(!showCreateLandfillModal)
+              }
+            >
+              + New Landfill
+            </button>
+          )}
         </div>
 
         {showCreateLandfillModal && (

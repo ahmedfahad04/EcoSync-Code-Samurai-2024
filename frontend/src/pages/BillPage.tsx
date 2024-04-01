@@ -128,7 +128,7 @@ const BillPage = ({ result }: { result: IBill }) => {
                     </tr>
                     <tr>
                       <td className="mt-4 text-white">
-                        Thanks for your purchase
+                        *
                       </td>
                     </tr>
                   </tbody>

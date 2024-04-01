@@ -68,6 +68,7 @@ export const rolePermissionData = [
             pc.FIND_ONE_LANDFILL,
             pc.UPDATE_LANDFILL,
             pc.DELETE_LANDFILL,
+            pc.GENERATE_BILL_FOR_DUMPING_ENTRY,
 
             pc.FIND_ALL_MANAGER_OF_LANDFILL,
             pc.ADD_MANAGER_TO_LANDFILL,

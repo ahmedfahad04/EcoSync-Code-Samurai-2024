@@ -1,6 +1,8 @@
 import AddSTSModal from "@/components/Modals/STS/AddSTSModal";
 import DepartureEntryTable from "@/components/Table/DepartureEntryTable";
 import STSTable from "@/components/Table/STSTable";
+import { ROLETYPE } from "@/constants/Global";
+import { useAuth } from "@/context/AuthContext";
 import Layout from "@/layout/Layout";
 
 import { Tab } from "@headlessui/react";
@@ -8,6 +10,7 @@ import { useState } from "react";
 
 const STS = () => {
   const [showCreateSTSModal, setShowCreateSTSModal] = useState<boolean>(false);
+  const { user } = useAuth();
 
   return (
     <Layout>
@@ -17,12 +20,14 @@ const STS = () => {
           <p className="font-bold px-2 text-3xl break-words">
             Secondary Transfer Station (STS)
           </p>
-          <button
-            className="h-8 mr-8 text-center flex items-center p-3 text-sm font-normal bg-[#14923EFF] text-white rounded-md hover:bg-[#177737]"
-            onClick={() => setShowCreateSTSModal(!showCreateSTSModal)}
-          >
-            + New STS
-          </button>
+          {user?.role.role_name == ROLETYPE.ROLE1 && (
+            <button
+              className="h-8 mr-8 text-center flex items-center p-3 text-sm font-normal bg-[#14923EFF] text-white rounded-md hover:bg-[#177737]"
+              onClick={() => setShowCreateSTSModal(!showCreateSTSModal)}
+            >
+              + New STS
+            </button>
+          )}
         </div>
 
         {showCreateSTSModal && (
@@ -57,8 +62,6 @@ const STS = () => {
             </Tab.Panel>
           </Tab.Panels>
         </Tab.Group>
-
-        
       </div>
     </Layout>
   );

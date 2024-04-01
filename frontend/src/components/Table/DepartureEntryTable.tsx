@@ -108,7 +108,7 @@ const DepartureEntryTable = () => {
           const onlyDate = dateStr
             ? formattedDate(dateStr)
             : "Not Dumpped yet!"; // Check if dateStr is not null
-          return <p className="font-semibold text-red-500">{onlyDate}</p>;
+          return <p className="font-semibold text-blue-500">{onlyDate}</p>;
         },
       },
     ],

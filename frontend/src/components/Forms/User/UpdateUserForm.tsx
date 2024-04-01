@@ -123,7 +123,7 @@ const UpdateUserForm: React.FC<UpdateUserFormProps> = ({
   };
 
   return (
-    <div className=" w-full mt-5">
+    <div className=" w-full mt-5 z-1010">
       {/* header */}
       <header className="font-bold text-xl flex flex-row gap-2 items-center">
         <InfoIcon

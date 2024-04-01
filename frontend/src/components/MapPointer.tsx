@@ -77,7 +77,7 @@ const MapPointer: React.FC<MapProp> = ({ places }) => {
   };
 
   return (
-    <div style={{ height: "400px", width: "100%" }}>
+    <div style={{ height: "400px", width: "100%", zIndex: 'revert-layer' }}>
       <MapContainer
         style={{ height: "100%", width: "100%", cursor: "pointer" }}
         center={knownLocation}
